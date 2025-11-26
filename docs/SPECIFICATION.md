@@ -170,54 +170,6 @@ All memory files contain 12-bit RGB values (4 bits per channel) stored as hexade
 ### Total SRAM Size Required
 2,800 + 5,400 + 1,200 + 200 + 1,280 + 12,160 + 125 = **23,165 words** (~15 address bits)
 
-## Display Layout
-
-### Selection Screen (640×480)
-```
-┌─────────────────────────────────────────┐
-│         VENDING MACHINE                 │
-├───────────┬───────────┬───────────┐    │
-│  Drink 1  │  Drink 2  │  Drink 3  │    │
-│  $10      │  $5       │  $15      │    │
-│  Qty: 0   │  Qty: 1   │  Qty: 0   │    │
-├───────────┼───────────┼───────────┤    │
-│  Drink 4  │  Drink 5  │  Drink 6  │    │
-│  $8       │  $12      │  $6       │    │
-│  Qty: 0   │  Qty: 0   │  Qty: 2   │    │
-├───────────┼───────────┼───────────┤    │
-│  Drink 7  │  Drink 8  │  Drink 9  │    │
-│  $20      │  $10      │  $15      │    │
-│  Qty: 0   │  Qty: 0   │  Qty: 0   │    │
-└───────────┴───────────┴───────────┘    │
-│                                         │
-│  Total: 3 items  |  Amount: $27        │
-│  [Press BTN3 long to checkout]         │
-└─────────────────────────────────────────┘
-```
-
-### Payment Screen
-```
-┌─────────────────────────────────────────┐
-│  ORDER SUMMARY:                         │
-│  Drink 2 × 1 = $5                       │
-│  Drink 6 × 2 = $12                      │
-│  ─────────────────                      │
-│  TOTAL: $27                             │
-│                                         │
-│  PAYMENT:                               │
-│  Amount Paid: $30                       │
-│  Remaining: $0  (Overpaid: $3)          │
-│                                         │
-│  SELECT COIN:                           │
-│  [ $1 ]  [>$5<]  [ $10 ]                │
-│                                         │
-│  Machine Change Available:              │
-│  $1: 50   $5: 20   $10: 15              │
-│                                         │
-│  [BTN0/1: Select] [BTN3: Insert]        │
-│  [BTN2: Cancel]                         │
-└─────────────────────────────────────────┘
-```
 
 ## Button Debouncing
 
