@@ -9,6 +9,9 @@
 set_property -dict {PACKAGE_PIN E3 IOSTANDARD LVCMOS33} [get_ports clk]
 create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_ports clk]
 
+# Constrain the generated clock for VGA
+create_generated_clock -name vga_clk_gen -source [get_ports clk] -divide_by 2 [get_pins clk_divider0/clk_out_reg/Q]
+
 set_property -dict {PACKAGE_PIN C2 IOSTANDARD LVCMOS33} [get_ports reset_n]
 
 #Switches
