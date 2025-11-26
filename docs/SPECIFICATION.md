@@ -126,49 +126,52 @@ reg [1:0] selected_coin;     // Currently selected coin type (0=1, 1=5, 2=10)
 
 ## Memory Files
 
-All memory files contain 12-bit RGB values (4 bits per channel) stored as hexadecimal.
+All memory files contain 12-bit RGB values (4 bits per channel) stored as hexadecimal (3 hex digits per pixel).
+All files are located in the `backup_mem/` directory.
 
-### 1. background.mem
+### 1. VendingMachineBg.mem
 - Background image for main screen
 - Dimensions: 40 × 70 pixels
 - Size: 2,800 words
+- Format: 3-digit hexadecimal RGB values (e.g., "444" = RGB(4,4,4))
 
-### 2. drinks.mem
-- Drink bottle animation sprites
-- Dimensions: 10 × 10 pixels per frame
+### 2. Drink Animation Sprites
+Each drink type has a separate drop sheet animation:
+- **ColaDropSheet.mem**: Cola bottle animation
+- **TeaDropSheet.mem**: Tea bottle animation
+- **JuiceDropSheet.mem**: Juice bottle animation
+- **WaterDropSheet.mem**: Water bottle animation
+- Dimensions per file: 10 × 10 pixels per frame
 - Frames: 6 frames per drink (falling/dispensing animation)
-- Number of drinks: 9 drink types
-- Total: 10 × 10 × 6 × 9 = 5,400 words
-- Layout: [Drink0_Frame0...Frame5][Drink1_Frame0...Frame5]...[Drink8_Frame0...Frame5]
+- Size per file: 10 × 10 × 6 = 600 words
+- Total for 4 drinks: 2,400 words
 
-### 3. coins.mem
-- Coin images for denominations (1, 5, 10 NTD)
+### 3. Coin Images
+- **Coin1.mem**: $1 coin image
+- **Coin5.mem**: $5 coin image
+- **Coin10.mem**: $10 coin image
 - Dimensions: 20 × 20 pixels per coin
+- Size per file: 400 words
 - Total: 20 × 20 × 3 = 1,200 words
 
-### 4. bills.mem
+### 4. Dollar100.mem
 - Paper money image (100 NTD bill)
 - Dimensions: 20 × 10 pixels
-- Total: 200 words
+- Size: 200 words
 
-### 5. number.mem
-- Digit sprites (0-9) for displaying prices and quantities
-- Dimensions: 8 × 16 pixels per digit
-- Total: 8 × 16 × 10 = 1,280 words
-
-### 6. character.mem
-- Character/text sprites for UI labels
-- Dimensions: 8 × 16 pixels per character
-- Characters: A-Z, a-z, and common punctuation (~95 characters)
-- Total: 8 × 16 × 95 = 12,160 words
-
-### 7. ui_elements.mem
+### 5. SelectBox.mem
 - Selection cursor/highlight indicator
 - Dimensions: 25 × 5 pixels
-- Total: 125 words
+- Size: 125 words
 
-### Total SRAM Size Required
-2,800 + 5,400 + 1,200 + 200 + 1,280 + 12,160 + 125 = **23,165 words** (~15 address bits)
+### Notes on Missing Files
+The specification originally mentioned `number.mem` and `character.mem` for text rendering. These files may need to be:
+- Generated from font data
+- Created as separate sprite sheets
+- Or implemented using Verilog text rendering logic
+
+### Current SRAM Size Required (Available Files)
+2,800 + 2,400 + 1,200 + 200 + 125 = **6,725 words** (~13 address bits minimum)
 
 
 ## Button Debouncing

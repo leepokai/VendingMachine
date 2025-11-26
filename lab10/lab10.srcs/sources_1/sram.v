@@ -20,9 +20,9 @@ integer idx;
 // ------------------------------------
 // SRAM cell initialization
 // ------------------------------------
-// Initialize the sram cells with the values defined in "image.dat."
+// Initialize the sram cells with the values defined in "VendingMachineBg.mem."
 initial begin
-    $readmemh("images.mem", RAM);
+    $readmemh("VendingMachineBg.mem", RAM);
 end
 
 // ------------------------------------

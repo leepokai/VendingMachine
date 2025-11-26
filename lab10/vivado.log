@@ -203,3 +203,11 @@ INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/2025.1/Vivado/data/ip'.
 upgrade_project -migrate_output_products
 update_compile_order -fileset sources_1
 add_files -norecurse {D:/vivado/VendingMachine/backup_mem/VendingMachineBg.mem D:/vivado/VendingMachine/backup_mem/SelectBox.mem D:/vivado/VendingMachine/backup_mem/ColaDropSheet.mem D:/vivado/VendingMachine/backup_mem/Coin5.mem D:/vivado/VendingMachine/backup_mem/TeaDropSheet.mem D:/vivado/VendingMachine/backup_mem/Dollar100.mem D:/vivado/VendingMachine/backup_mem/JuiceDropSheet.mem D:/vivado/VendingMachine/backup_mem/Coin1.mem D:/vivado/VendingMachine/backup_mem/Coin10.mem D:/vivado/VendingMachine/backup_mem/WaterDropSheet.mem}
+add_files -norecurse {D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/display_controller.v}
+update_compile_order -fileset sources_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Wed Nov 26 18:43:30 2025] Launched synth_1...
+Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/runme.log
+[Wed Nov 26 18:43:30 2025] Launched impl_1...
+Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/runme.log
+update_compile_order -fileset sources_1

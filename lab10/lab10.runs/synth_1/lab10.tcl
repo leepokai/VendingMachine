@@ -56,6 +56,7 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 2
 set_param general.usePosixSpawnForFork 1
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7a35ticsg324-1L
@@ -88,10 +89,7 @@ read_mem {
 }
 read_verilog -library xil_defaultlib {
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v
-  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v
-  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/display_controller.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v
-  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v
 }

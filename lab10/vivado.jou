@@ -26,3 +26,8 @@ open_project D:/vivado/VendingMachine/lab10/lab10.xpr
 upgrade_project -migrate_output_products
 update_compile_order -fileset sources_1
 add_files -norecurse {D:/vivado/VendingMachine/backup_mem/VendingMachineBg.mem D:/vivado/VendingMachine/backup_mem/SelectBox.mem D:/vivado/VendingMachine/backup_mem/ColaDropSheet.mem D:/vivado/VendingMachine/backup_mem/Coin5.mem D:/vivado/VendingMachine/backup_mem/TeaDropSheet.mem D:/vivado/VendingMachine/backup_mem/Dollar100.mem D:/vivado/VendingMachine/backup_mem/JuiceDropSheet.mem D:/vivado/VendingMachine/backup_mem/Coin1.mem D:/vivado/VendingMachine/backup_mem/Coin10.mem D:/vivado/VendingMachine/backup_mem/WaterDropSheet.mem}
+add_files -norecurse {D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/display_controller.v}
+update_compile_order -fileset sources_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+update_compile_order -fileset sources_1
