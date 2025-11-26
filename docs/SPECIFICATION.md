@@ -126,34 +126,49 @@ reg [1:0] selected_coin;     // Currently selected coin type (0=1, 1=5, 2=10)
 
 ## Memory Files
 
+All memory files contain 12-bit RGB values (4 bits per channel) stored as hexadecimal.
+
 ### 1. background.mem
-- 320×240 background image for main screen
-- 12-bit RGB values (4 bits per channel)
-- Size: 76,800 words
+- Background image for main screen
+- Dimensions: 40 × 70 pixels
+- Size: 2,800 words
 
 ### 2. drinks.mem
-- 9 drink images, each 48×48 pixels
-- Total: 9 × 48 × 48 = 20,736 words
-- Each drink sprite stored sequentially
+- Drink bottle animation sprites
+- Dimensions: 10 × 10 pixels per frame
+- Frames: 6 frames per drink (falling/dispensing animation)
+- Number of drinks: 9 drink types
+- Total: 10 × 10 × 6 × 9 = 5,400 words
+- Layout: [Drink0_Frame0...Frame5][Drink1_Frame0...Frame5]...[Drink8_Frame0...Frame5]
 
 ### 3. coins.mem
-- Coin images for denominations (1, 5, 10)
-- Each coin: 32×32 pixels
-- Total: 3 × 32 × 32 = 3,072 words
+- Coin images for denominations (1, 5, 10 NTD)
+- Dimensions: 20 × 20 pixels per coin
+- Total: 20 × 20 × 3 = 1,200 words
 
-### 4. numbers.mem
+### 4. bills.mem
+- Paper money image (100 NTD bill)
+- Dimensions: 20 × 10 pixels
+- Total: 200 words
+
+### 5. number.mem
 - Digit sprites (0-9) for displaying prices and quantities
-- Each digit: 16×24 pixels
-- Total: 10 × 16 × 24 = 3,840 words
+- Dimensions: 8 × 16 pixels per digit
+- Total: 8 × 16 × 10 = 1,280 words
 
-### 5. ui_elements.mem
-- Selection cursor/highlight
-- Buttons/icons
-- Status indicators
-- Estimated: 4,096 words
+### 6. character.mem
+- Character/text sprites for UI labels
+- Dimensions: 8 × 16 pixels per character
+- Characters: A-Z, a-z, and common punctuation (~95 characters)
+- Total: 8 × 16 × 95 = 12,160 words
+
+### 7. ui_elements.mem
+- Selection cursor/highlight indicator
+- Dimensions: 25 × 5 pixels
+- Total: 125 words
 
 ### Total SRAM Size Required
-76,800 + 20,736 + 3,072 + 3,840 + 4,096 = **108,544 words** (18 address bits)
+2,800 + 5,400 + 1,200 + 200 + 1,280 + 12,160 + 125 = **23,165 words** (~15 address bits)
 
 ## Display Layout
 
