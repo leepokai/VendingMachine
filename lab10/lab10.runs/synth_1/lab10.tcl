@@ -90,6 +90,7 @@ read_mem {
 }
 read_verilog -library xil_defaultlib {
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v
+  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Thu Nov 27 22:37:49 2025
+| Date         : Thu Nov 27 23:03:35 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file lab10_control_sets_placed.rpt
 | Design       : lab10
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    16 |
-|    Minimum number of control sets                        |    16 |
+| Total control sets                                       |    15 |
+|    Minimum number of control sets                        |    15 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    48 |
+| Unused register locations in slices containing registers |    58 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,13 +39,13 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    16 |
+| Total control sets |    15 |
 | >= 0 to < 4        |     2 |
-| >= 4 to < 6        |     2 |
-| >= 6 to < 8        |     2 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     1 |
 | >= 8 to < 10       |     6 |
 | >= 10 to < 12      |     2 |
-| >= 12 to < 14      |     1 |
+| >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     0 |
 | >= 16              |     1 |
 +--------------------+-------+
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               8 |            5 |
-| No           | No                    | Yes                    |             206 |           75 |
+| No           | No                    | No                     |              10 |            7 |
+| No           | No                    | Yes                    |             234 |           79 |
 | No           | Yes                   | No                     |              38 |           15 |
-| Yes          | No                    | No                     |               4 |            2 |
-| Yes          | No                    | Yes                    |              28 |           10 |
-| Yes          | Yes                   | No                     |              28 |           15 |
+| Yes          | No                    | No                     |              12 |            7 |
+| Yes          | No                    | Yes                    |              28 |           12 |
+| Yes          | Yes                   | No                     |              20 |           10 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -75,20 +75,19 @@ Table of Contents
 +-------------------+----------------------------+------------------------------------+------------------+----------------+--------------+
 |  clk_divider0/CLK |                            |                                    |                1 |              1 |         1.00 |
 |  clk_divider0/CLK |                            | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              2 |         1.00 |
-|  clk_IBUF_BUFG    | coin_sel0/E[0]             | coin_count_disp0/bcd_coin10/AR[0]  |                4 |              4 |         1.00 |
-|  clk_IBUF_BUFG    | vs0/pixel_tick             |                                    |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG    |                            |                                    |                4 |              7 |         1.75 |
-|  clk_IBUF_BUFG    |                            | vs0/v_count_reg_reg[9]_1[0]        |                2 |              7 |         3.50 |
+|  clk_IBUF_BUFG    | coin_sel0/E[0]             | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG    |                            | vs0/v_count_reg_reg[9]_0[0]        |                2 |              7 |         3.50 |
 |  clk_IBUF_BUFG    |                            | clk_divider0/counter[7]_i_1__3_n_0 |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg[0]    | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_0[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_1[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG    | vs0/pixel_tick             | vs0/mod2_reg_reg_0                 |                6 |              8 |         1.33 |
-|  clk_IBUF_BUFG    |                            | vs0/SR[0]                          |                4 |              9 |         2.25 |
+|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_1[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg[0]    | coin_count_disp0/bcd_coin10/AR[0]  |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_0[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG    |                            |                                    |                6 |              9 |         1.50 |
+|  clk_IBUF_BUFG    |                            | vs0/h_count_reg_reg[4]_0[0]        |                4 |              9 |         2.25 |
 |  clk_divider0/CLK | vs0/pixel_tick             | vs0/h_count_reg[9]_i_1_n_0         |                5 |             10 |         2.00 |
-|  clk_divider0/CLK | vs0/v_count_reg[9]_i_2_n_0 | vs0/v_count_reg[9]_i_1_n_0         |                4 |             10 |         2.50 |
-|  clk_IBUF_BUFG    |                            | vs0/h_count_reg_reg[7]_0[0]        |                5 |             12 |         2.40 |
-|  clk_IBUF_BUFG    |                            | coin_count_disp0/bcd_coin10/AR[0]  |               75 |            206 |         2.75 |
+|  clk_divider0/CLK | vs0/v_count_reg[9]_i_2_n_0 | vs0/v_count_reg[9]_i_1_n_0         |                5 |             10 |         2.00 |
+|  clk_IBUF_BUFG    |                            | vs0/SR[0]                          |                5 |             12 |         2.40 |
+|  clk_IBUF_BUFG    | vs0/pixel_tick             |                                    |                7 |             12 |         1.71 |
+|  clk_IBUF_BUFG    |                            | coin_count_disp0/bcd_coin10/AR[0]  |               79 |            234 |         2.96 |
 +-------------------+----------------------------+------------------------------------+------------------+----------------+--------------+
 
 

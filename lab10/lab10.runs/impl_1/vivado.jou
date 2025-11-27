@@ -3,8 +3,8 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Thu Nov 27 22:37:18 2025
-# Process ID         : 1972
+# Start of session at: Thu Nov 27 23:03:00 2025
+# Process ID         : 9288
 # Current directory  : D:/vivado/VendingMachine/lab10/lab10.runs/impl_1
 # Command line       : vivado.exe -log lab10.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source lab10.tcl -notrace
 # Log file           : D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/lab10.vdi
@@ -19,6 +19,6 @@
 # Host memory        : 25441 MB
 # Swap memory        : 13958 MB
 # Total Virtual      : 39400 MB
-# Available Virtual  : 11461 MB
+# Available Virtual  : 11407 MB
 #-----------------------------------------------------------
 source lab10.tcl -notrace

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Thu Nov 27 22:38:14 2025
+| Date         : Thu Nov 27 23:04:03 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lab10_methodology_drc_routed.rpt -pb lab10_methodology_drc_routed.pb -rpx lab10_methodology_drc_routed.rpx
 | Design       : lab10
@@ -66,37 +66,37 @@ Related violations: <none>
 
 TIMING-16#1 Warning
 Large setup violation  
-There is a large setup violation of -1.222 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[8]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.014 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[8]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#2 Warning
 Large setup violation  
-There is a large setup violation of -1.399 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[9]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.171 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[9]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#3 Warning
 Large setup violation  
-There is a large setup violation of -1.522 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[10]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.294 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[10]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#4 Warning
 Large setup violation  
-There is a large setup violation of -1.722 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[11]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.529 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[11]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#5 Warning
 Large setup violation  
-There is a large setup violation of -2.097 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[12]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -1.905 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[12]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#6 Warning
 Large setup violation  
-There is a large setup violation of -2.208 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[13]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -2.069 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[13]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-16#7 Warning
 Large setup violation  
-There is a large setup violation of -2.219 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[14]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+There is a large setup violation of -2.197 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[14]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-18#1 Warning

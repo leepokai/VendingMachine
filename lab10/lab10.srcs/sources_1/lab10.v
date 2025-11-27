@@ -130,6 +130,28 @@ paid_calculator paid_calc0 (
 );
 
 // ------------------------------------------------------------------------
+// Payment Status & Change Calculation
+// ------------------------------------------------------------------------
+reg payment_sufficient;     // Flag: paid_amount >= total_due
+reg [15:0] change_amount;   // Change to return
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        payment_sufficient <= 1'b0;
+        change_amount <= 16'd0;
+    end else begin
+        // Check if payment is sufficient
+        if (paid_amount >= total_due) begin
+            payment_sufficient <= 1'b1;
+            change_amount <= paid_amount - total_due;
+        end else begin
+            payment_sufficient <= 1'b0;
+            change_amount <= 16'd0;
+        end
+    end
+end
+
+// ------------------------------------------------------------------------
 // Stock & Cart Management
 // ------------------------------------------------------------------------
 reg [2:0] stock [0:8];         // Available stock for each item
@@ -302,6 +324,23 @@ paid_text_renderer paid_text_render0 (
   .paid_amount(paid_amount),
   .text_pixel(paid_text_pixel),
   .is_text_area(is_paid_text_area)
+);
+
+// ------------------------------------------------------------------------
+// Change Text Renderer (displays "CHANGE: $XXX" below PAID)
+// Displays in both SELECTION and PAYMENT states
+// ------------------------------------------------------------------------
+wire change_text_pixel;
+wire is_change_text_area;
+
+change_text_renderer change_text_render0 (
+  .clk(clk),
+  .reset(rst),
+  .pixel_x(pixel_x),
+  .pixel_y(pixel_y),
+  .change_amount(change_amount),
+  .text_pixel(change_text_pixel),
+  .is_text_area(is_change_text_area)
 );
 
 // ------------------------------------------------------------------------
@@ -655,6 +694,9 @@ always @(*) begin
     // Priority 2b: PAID text overlay
     end else if (is_paid_text_area && paid_text_pixel) begin
         rgb_next = 12'hFFF;  // White text
+    // Priority 2c: CHANGE text overlay (only if payment sufficient)
+    end else if (is_change_text_area && change_text_pixel) begin
+        rgb_next = 12'h0F0;  // Green text (payment complete!)
 
     // === PAYMENT STATE LAYERS ===
     // Priority 3a: Coin count text (PAYMENT state only)
