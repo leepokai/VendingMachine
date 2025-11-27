@@ -756,3 +756,540 @@ selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sourc
 selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lab10 (lab10.v)]", 1, true, false, false, false, false, true); // E (PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE) - Double Click - Node
 // Elapsed time: 43 seconds
 selectCodeEditor("lab10.v", 258, 201); // ae (lab10.v)
+// Elapsed time: 13 seconds
+selectCodeEditor("lab10.v", 117, 127); // ae (lab10.v)
+selectCodeEditor("lab10.v", 284, 122); // ae (lab10.v)
+selectCodeEditor("lab10.v", 367, 124); // ae (lab10.v)
+selectCodeEditor("lab10.v", 193, 160); // ae (lab10.v)
+selectCodeEditor("lab10.v", 202, 153); // ae (lab10.v)
+selectCodeEditor("lab10.v", 150, 143); // ae (lab10.v)
+selectCodeEditor("lab10.v", 125, 119); // ae (lab10.v)
+selectCodeEditor("lab10.v", 109, 126); // ae (lab10.v)
+selectCodeEditor("lab10.v", 43, 77); // ae (lab10.v)
+selectCodeEditor("lab10.v", 256, 91); // ae (lab10.v)
+selectCodeEditor("lab10.v", 197, 77); // ae (lab10.v)
+selectCodeEditor("lab10.v", 167, 95); // ae (lab10.v)
+selectCodeEditor("lab10.v", 212, 74); // ae (lab10.v)
+typeControlKey((HResource) null, "lab10.v", 'c'); // ae (lab10.v)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 83 MB. Current time: 11/27/25, 5:35:53 PM CST
+// Elapsed time: 380 seconds
+selectCodeEditor("lab10.v", 485, 173); // ae (lab10.v)
+// Elapsed time: 23 seconds
+selectCodeEditor("lab10.v", 83, 78); // ae (lab10.v)
+selectCodeEditor("lab10.v", 238, 102); // ae (lab10.v)
+// Elapsed time: 71 seconds
+selectCodeEditor("lab10.v", 114, 191); // ae (lab10.v)
+selectCodeEditor("lab10.v", 460, 207); // ae (lab10.v)
+selectCodeEditor("lab10.v", 225, 199); // ae (lab10.v)
+selectCodeEditor("lab10.v", 245, 221); // ae (lab10.v)
+selectCodeEditor("lab10.v", 149, 249); // ae (lab10.v)
+selectCodeEditor("lab10.v", 192, 277); // ae (lab10.v)
+selectCodeEditor("lab10.v", 132, 237); // ae (lab10.v)
+selectCodeEditor("lab10.v", 181, 264); // ae (lab10.v)
+// Elapsed time: 22 seconds
+selectCodeEditor("lab10.v", 59, 125); // ae (lab10.v)
+selectCodeEditor("lab10.v", 289, 141); // ae (lab10.v)
+// Elapsed time: 701 seconds
+selectCodeEditor("lab10.v", 510, 173); // ae (lab10.v)
+// Elapsed time: 22 seconds
+selectCodeEditor("lab10.v", 49, 77); // ae (lab10.v)
+selectCodeEditor("lab10.v", 199, 76); // ae (lab10.v)
+// Elapsed time: 12 seconds
+selectCodeEditor("lab10.v", 92, 119); // ae (lab10.v)
+selectCodeEditor("lab10.v", 126, 126); // ae (lab10.v)
+selectCodeEditor("lab10.v", 82, 130); // ae (lab10.v)
+selectCodeEditor("lab10.v", 149, 123); // ae (lab10.v)
+selectCodeEditor("lab10.v", 79, 112); // ae (lab10.v)
+selectCodeEditor("lab10.v", 107, 127); // ae (lab10.v)
+selectCodeEditor("lab10.v", 64, 108); // ae (lab10.v)
+selectCodeEditor("lab10.v", 144, 126); // ae (lab10.v)
+selectCodeEditor("lab10.v", 205, 89); // ae (lab10.v)
+selectCodeEditor("lab10.v", 216, 154); // ae (lab10.v)
+selectCodeEditor("lab10.v", 125, 143); // ae (lab10.v)
+selectCodeEditor("lab10.v", 178, 44); // ae (lab10.v)
+// Elapsed time: 24 seconds
+selectCodeEditor("lab10.v", 74, 95); // ae (lab10.v)
+selectCodeEditor("lab10.v", 259, 106); // ae (lab10.v)
+// Elapsed time: 53 seconds
+selectCodeEditor("lab10.v", 44, 144); // ae (lab10.v)
+selectCodeEditor("lab10.v", 228, 144); // ae (lab10.v)
+selectCodeEditor("lab10.v", 29, 74); // ae (lab10.v)
+selectCodeEditor("lab10.v", 348, 96); // ae (lab10.v)
+selectCodeEditor("lab10.v", 41, 141); // ae (lab10.v)
+selectCodeEditor("lab10.v", 246, 168); // ae (lab10.v)
+selectCodeEditor("lab10.v", 40, 140); // ae (lab10.v)
+selectCodeEditor("lab10.v", 172, 138); // ae (lab10.v)
+// Elapsed time: 31 seconds
+selectCodeEditor("lab10.v", 202, 141); // ae (lab10.v)
+selectCodeEditor("lab10.v", 391, 136); // ae (lab10.v)
+selectCodeEditor("lab10.v", 415, 145); // ae (lab10.v)
+selectCodeEditor("lab10.v", 407, 141); // ae (lab10.v)
+selectCodeEditor("lab10.v", 564, 141); // ae (lab10.v)
+selectCodeEditor("lab10.v", 196, 140); // ae (lab10.v)
+selectCodeEditor("lab10.v", 276, 144); // ae (lab10.v)
+selectCodeEditor("lab10.v", 395, 142); // ae (lab10.v)
+selectCodeEditor("lab10.v", 562, 141); // ae (lab10.v)
+selectCodeEditor("lab10.v", 285, 170); // ae (lab10.v)
+selectCodeEditor("lab10.v", 194, 162); // ae (lab10.v)
+selectCodeEditor("lab10.v", 452, 167); // ae (lab10.v)
+selectCodeEditor("lab10.v", 395, 161); // ae (lab10.v)
+selectCodeEditor("lab10.v", 533, 196); // ae (lab10.v)
+// Elapsed time: 20 seconds
+selectCodeEditor("lab10.v", 206, 40); // ae (lab10.v)
+// Elapsed time: 26 seconds
+selectCodeEditor("lab10.v", 91, 113); // ae (lab10.v)
+selectCodeEditor("lab10.v", 298, 124); // ae (lab10.v)
+selectCodeEditor("lab10.v", 198, 172); // ae (lab10.v)
+// Elapsed time: 33 seconds
+selectCodeEditor("lab10.v", 229, 116); // ae (lab10.v)
+selectCodeEditor("lab10.v", 317, 127); // ae (lab10.v)
+selectCodeEditor("lab10.v", 233, 136); // ae (lab10.v)
+selectCodeEditor("lab10.v", 353, 146); // ae (lab10.v)
+selectCodeEditor("lab10.v", 422, 87); // ae (lab10.v)
+// Elapsed time: 10 seconds
+selectCodeEditor("lab10.v", 186, 204); // ae (lab10.v)
+selectCodeEditor("lab10.v", 437, 201); // ae (lab10.v)
+selectCodeEditor("lab10.v", 585, 185); // ae (lab10.v)
+selectCodeEditor("lab10.v", 277, 211); // ae (lab10.v)
+selectCodeEditor("lab10.v", 34, 206); // ae (lab10.v)
+selectCodeEditor("lab10.v", 194, 200); // ae (lab10.v)
+selectCodeEditor("lab10.v", 198, 200); // ae (lab10.v)
+selectCodeEditor("lab10.v", 388, 195); // ae (lab10.v)
+selectCodeEditor("lab10.v", 368, 200); // ae (lab10.v)
+// Elapsed time: 57 seconds
+selectCodeEditor("lab10.v", 95, 156); // ae (lab10.v)
+selectCodeEditor("lab10.v", 244, 150); // ae (lab10.v)
+selectCodeEditor("lab10.v", 213, 163); // ae (lab10.v)
+selectCodeEditor("lab10.v", 98, 159); // ae (lab10.v)
+selectCodeEditor("lab10.v", 222, 183); // ae (lab10.v)
+selectCodeEditor("lab10.v", 234, 160); // ae (lab10.v)
+selectCodeEditor("lab10.v", 338, 150); // ae (lab10.v)
+selectCodeEditor("lab10.v", 322, 175); // ae (lab10.v)
+selectCodeEditor("lab10.v", 310, 180); // ae (lab10.v)
+selectCodeEditor("lab10.v", 459, 191); // ae (lab10.v)
+selectCodeEditor("lab10.v", 254, 134); // ae (lab10.v)
+selectCodeEditor("lab10.v", 204, 185); // ae (lab10.v)
+// Elapsed time: 25 seconds
+selectCodeEditor("lab10.v", 136, 85); // ae (lab10.v)
+selectCodeEditor("lab10.v", 154, 90); // ae (lab10.v)
+selectCodeEditor("lab10.v", 243, 169); // ae (lab10.v)
+selectCodeEditor("lab10.v", 208, 183); // ae (lab10.v)
+selectCodeEditor("lab10.v", 162, 207); // ae (lab10.v)
+selectCodeEditor("lab10.v", 213, 191); // ae (lab10.v)
+selectCodeEditor("lab10.v", 216, 203); // ae (lab10.v)
+selectCodeEditor("lab10.v", 210, 187); // ae (lab10.v)
+selectCodeEditor("lab10.v", 193, 190); // ae (lab10.v)
+selectCodeEditor("lab10.v", 220, 170); // ae (lab10.v)
+selectCodeEditor("lab10.v", 265, 258); // ae (lab10.v)
+selectCodeEditor("lab10.v", 242, 190); // ae (lab10.v)
+selectCodeEditor("lab10.v", 103, 223); // ae (lab10.v)
+selectCodeEditor("lab10.v", 337, 239); // ae (lab10.v)
+selectCodeEditor("lab10.v", 306, 247); // ae (lab10.v)
+selectCodeEditor("lab10.v", 220, 131); // ae (lab10.v)
+selectCodeEditor("lab10.v", 265, 134); // ae (lab10.v)
+selectCodeEditor("lab10.v", 99, 120); // ae (lab10.v)
+selectCodeEditor("lab10.v", 210, 125); // ae (lab10.v)
+selectCodeEditor("lab10.v", 98, 117); // ae (lab10.v)
+selectCodeEditor("lab10.v", 175, 147); // ae (lab10.v)
+// Elapsed time: 35 seconds
+selectCodeEditor("lab10.v", 179, 192); // ae (lab10.v)
+selectCodeEditor("lab10.v", 427, 190); // ae (lab10.v)
+selectCodeEditor("lab10.v", 104, 180); // ae (lab10.v)
+selectCodeEditor("lab10.v", 327, 198); // ae (lab10.v)
+selectCodeEditor("lab10.v", 96, 199); // ae (lab10.v)
+selectCodeEditor("lab10.v", 251, 205); // ae (lab10.v)
+selectCodeEditor("lab10.v", 91, 202); // ae (lab10.v)
+selectCodeEditor("lab10.v", 235, 208); // ae (lab10.v)
+selectCodeEditor("lab10.v", 240, 205); // ae (lab10.v)
+// Elapsed time: 13 seconds
+selectCodeEditor("lab10.v", 32, 100); // ae (lab10.v)
+selectCodeEditor("lab10.v", 134, 115); // ae (lab10.v)
+selectCodeEditor("lab10.v", 23, 94); // ae (lab10.v)
+selectCodeEditor("lab10.v", 216, 105); // ae (lab10.v)
+selectCodeEditor("lab10.v", 31, 118); // ae (lab10.v)
+selectCodeEditor("lab10.v", 266, 132); // ae (lab10.v)
+// Elapsed time: 14 seconds
+selectCodeEditor("lab10.v", 33, 111); // ae (lab10.v)
+selectCodeEditor("lab10.v", 261, 122); // ae (lab10.v)
+selectCodeEditor("lab10.v", 219, 123); // ae (lab10.v)
+selectCodeEditor("lab10.v", 426, 126); // ae (lab10.v)
+selectCodeEditor("lab10.v", 63, 93); // ae (lab10.v)
+selectCodeEditor("lab10.v", 314, 122); // ae (lab10.v)
+selectCodeEditor("lab10.v", 31, 123); // ae (lab10.v)
+selectCodeEditor("lab10.v", 212, 132); // ae (lab10.v)
+selectCodeEditor("lab10.v", 230, 182); // ae (lab10.v)
+selectCodeEditor("lab10.v", 320, 188); // ae (lab10.v)
+// Elapsed time: 11 seconds
+selectCodeEditor("lab10.v", 315, 223); // ae (lab10.v)
+// Elapsed time: 34 seconds
+selectCodeEditor("lab10.v", 40, 198); // ae (lab10.v)
+selectCodeEditor("lab10.v", 274, 209); // ae (lab10.v)
+selectCodeEditor("lab10.v", 248, 198); // ae (lab10.v)
+// Elapsed time: 82 seconds
+selectCodeEditor("lab10.v", 261, 139); // ae (lab10.v)
+selectCodeEditor("lab10.v", 327, 137); // ae (lab10.v)
+selectCodeEditor("lab10.v", 100, 100); // ae (lab10.v)
+selectCodeEditor("lab10.v", 277, 109); // ae (lab10.v)
+selectCodeEditor("lab10.v", 186, 142); // ae (lab10.v)
+selectCodeEditor("lab10.v", 424, 175); // ae (lab10.v)
+selectCodeEditor("lab10.v", 180, 140); // ae (lab10.v)
+selectCodeEditor("lab10.v", 415, 169); // ae (lab10.v)
+selectCodeEditor("lab10.v", 184, 166); // ae (lab10.v)
+selectCodeEditor("lab10.v", 320, 155); // ae (lab10.v)
+selectCodeEditor("lab10.v", 505, 142); // ae (lab10.v)
+selectCodeEditor("lab10.v", 465, 138); // ae (lab10.v)
+selectCodeEditor("lab10.v", 304, 359); // ae (lab10.v)
+selectCodeEditor("lab10.v", 396, 96); // ae (lab10.v)
+// Elapsed time: 182 seconds
+selectCodeEditor("lab10.v", 65, 55); // ae (lab10.v)
+selectCodeEditor("lab10.v", 265, 66); // ae (lab10.v)
+selectCodeEditor("lab10.v", 59, 55); // ae (lab10.v)
+selectCodeEditor("lab10.v", 243, 66); // ae (lab10.v)
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 83 MB. Current time: 11/27/25, 6:05:53 PM CST
+// Elapsed time: 348 seconds
+selectCodeEditor("lab10.v", 346, 189); // ae (lab10.v)
+// Elapsed time: 40 seconds
+selectCodeEditor("lab10.v", 222, 72); // ae (lab10.v)
+selectCodeEditor("lab10.v", 349, 98); // ae (lab10.v)
+// Elapsed time: 554 seconds
+selectCodeEditor("lab10.v", 814, 92); // ae (lab10.v)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:24s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:26s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:42s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:44s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:54s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:22m:56s
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 84 MB. Current time: 11/27/25, 6:35:55 PM CST
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:49m:23s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:49m:25s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:49m:49s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 24h:49m:51s
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 84 MB. Current time: 11/27/25, 7:05:58 PM CST
+// WARNING: HEventQueue.dispatchEvent() is taking  1415 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 85 MB. Current time: 11/27/25, 7:36:02 PM CST
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 84 MB. Current time: 11/27/25, 8:06:05 PM CST
+// Elapsed time: 6745 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Add Sources]", 2, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+selectButton("NEXT", "Next", "Add Sources"); // JButton (NEXT)
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files", "Add Sources"); // a (PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT)
+// Elapsed time: 21 seconds
+String[] filenames29306 = {"D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v", "D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v", "D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v"};
+setFileChooser(filenames29306);
+selectButton("FINISH", "Finish", "Add Sources"); // JButton (FINISH)
+// 'f' command handler elapsed time: 29 seconds
+dismissDialog("Add Sources"); // c (dialog34)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -norecurse {D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v} 
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:14m:27s
+// TclEventType: DG_GRAPH_GENERATED
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:14m:29s
+// Tcl Message: update_compile_order -fileset sources_1 
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lab10 (lab10.v)]", 1); // E (PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE)
+selectCodeEditor("lab10.v", 150, 176); // ae (lab10.v)
+selectButton(PAResourceAtoD.AbstractFileView_RELOAD, "Reload"); // h (PAResourceAtoD.AbstractFileView_RELOAD)
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 32, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// Tcl Message: reset_run synth_1 
+// Tcl Message: INFO: [Project 1-1160] Copying file D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp to D:/vivado/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1 and adding it to utils fileset 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 86 MB. Current time: 11/27/25, 8:12:49 PM CST
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+dismissDialog("Resetting Runs"); // bk (Resetting Runs Progress)
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// Tcl Message: launch_runs impl_1 -to_step write_bitstream -jobs 8 
+// Tcl Message: [Thu Nov 27 20:12:49 2025] Launched synth_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/runme.log [Thu Nov 27 20:12:49 2025] Launched impl_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/runme.log 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 214 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK", "Bitstream Generation Completed"); // f (RDIResource.BaseDialog_OK)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_HARDWARE_MANAGER
+// Tcl (Dont Echo) Command: 'rdi::info_commands get_hw_probes'
+// TclEventType: HW_SESSION_OPEN
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // x (PAResourceOtoP.PAViews_PROJECT_SUMMARY, PlanAheadTabProject Summary)
+// Tcl Message: open_hw_manager 
+dismissDialog("Open Hardware Manager"); // bk (Open Hardware Manager Progress)
+selectButton(PAResourceOtoP.ProgramDebugTab_OPEN_TARGET, "Open target"); // h (PAResourceOtoP.ProgramDebugTab_OPEN_TARGET)
+selectMenuItem(PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET, "Auto Connect"); // ap (PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET, auto_connect_target_menu)
+// Run Command: PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET
+// Tcl Message: connect_hw_server -allow_non_jtag 
+// Tcl Message: INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121 
+// Tcl Message: INFO: [Labtools 27-2222] Launching hw_server... 
+// Tcl Message: INFO: [Labtools 27-2221] Launch Output:  ****** Xilinx hw_server v2025.1   **** Build date : May  6 2025 at 09:15:36     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   
+// TclEventType: HW_SERVER_UPDATE
+// Tcl Message: INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0 INFO: [Labtools 27-3417] Launching cs_server... 
+// TclEventType: HW_SERVER_UPDATE
+// Tcl Message: INFO: [Labtools 27-2221] Launch Output:   ******** Xilinx cs_server v2025.1.0   ****** Build date   : May 14 2025-03:15:27     **** Build number : 2025.1.1747163727       ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.       ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.    
+// Tcl Message: connect_hw_server: Time (s): cpu = 00:00:01 ; elapsed = 00:00:09 . Memory (MB): peak = 2917.273 ; gain = 0.000 
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// Tcl Message: open_hw_target 
+// Tcl Message: INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B3E516A 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: current_hw_device [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+dismissDialog("Auto Connect"); // bk (Auto Connect Progress)
+selectButton(PAResourceOtoP.ProgramDebugTab_PROGRAM_DEVICE, "Program device"); // h (PAResourceOtoP.ProgramDebugTab_PROGRAM_DEVICE)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program", "Program Device"); // f (PAResourceOtoP.ProgramFpgaDialog_PROGRAM, RDIResource.BaseDialog_OK)
+dismissDialog("Program Device"); // aT (dialog36)
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+dismissDialog("Program Device"); // bk (Program Device Progress)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:24s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:25s
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210319B3E516A 
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:39s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:41s
+// Elapsed time: 318 seconds
+dismissDialog("Close Hardware Target"); // j.a (dialog37)
+selectButton(PAResourceTtoZ.TaskBanner_CLOSE, (String) null); // k (PAResourceTtoZ.TaskBanner_CLOSE)
+closeTask("Program and Debug", "Hardware Manager", "DesignTask.PROGRAM_DEBUG");
+selectButton(RDIResource.BaseDialog_OK, "OK", "Confirm Close"); // f (RDIResource.BaseDialog_OK)
+dismissDialog("Confirm Close"); // x (dialog38)
+// TclEventType: HW_OBJECT_DELETE
+// TclEventType: HW_SERVER_CLOSE
+// TclEventType: HW_SESSION_CLOSE
+// Tcl Message: close_hw_manager 
+dismissDialog("Close Hardware Manager"); // bk (Close Hardware Manager Progress)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:54s
+// TclEventType: DG_GRAPH_GENERATED
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lab10 (lab10.v), text_render0 : text_renderer (text_renderer.v)]", 10, true); // E (PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE) - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lab10 (lab10.v), text_render0 : text_renderer (text_renderer.v), bcd_converter : xil_defaultlib.bin2bcd]", 11, false, false, false, false, false, true); // E (PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE) - Double Click
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:23m:56s
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, lab10 (lab10.v), text_render0 : text_renderer (text_renderer.v), bcd_converter : xil_defaultlib.bin2bcd]", 11, false); // E (PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE)
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:24m:12s
+// TclEventType: DG_GRAPH_GENERATED
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:24m:14s
+// Elapsed time: 19 seconds
+selectCodeEditor("text_renderer.v", 155, 151); // ae (text_renderer.v)
+// Elapsed time: 204 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 32, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// Tcl Message: INFO: [Project 1-1161] Replacing file D:/vivado/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp with file D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 91 MB. Current time: 11/27/25, 8:25:50 PM CST
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+dismissDialog("Resetting Runs"); // bk (Resetting Runs Progress)
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// Tcl Message: launch_runs impl_1 -to_step write_bitstream -jobs 8 
+// Tcl Message: [Thu Nov 27 20:25:50 2025] Launched synth_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/runme.log [Thu Nov 27 20:25:50 2025] Launched impl_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/runme.log 
+// TclEventType: RUN_STATUS_CHANGE
+selectButton(PAResourceQtoS.SyntheticaStateMonitor_CANCEL, "Cancel"); // j (PAResourceQtoS.SyntheticaStateMonitor_CANCEL, Cancel)
+selectButton("OptionPane.button", "Cancel Process", "Cancel Synthesis"); // JButton (OptionPane.button)
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+dismissDialog("Resetting Runs"); // bk (Resetting Runs Progress)
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Add Sources]", 2, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_ADD_SOURCES
+selectButton("NEXT", "Next", "Add Sources"); // JButton (NEXT)
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files", "Add Sources"); // a (PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT)
+setFileChooser("D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v");
+selectButton("BACK", "Back", "Add Sources"); // JButton (BACK)
+selectButton("NEXT", "Next", "Add Sources"); // JButton (NEXT)
+selectButton("FINISH", "Finish", "Add Sources"); // JButton (FINISH)
+// 'f' command handler elapsed time: 11 seconds
+// TclEventType: DG_GRAPH_STALE
+dismissDialog("Add Sources"); // c (dialog39)
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -norecurse D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v 
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:28m:04s
+// TclEventType: DG_GRAPH_GENERATED
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'PAResourceItoN.MsgLongTask_MESSAGE_LONG_TASK/L.f': 26h:28m:06s
+// Tcl Message: update_compile_order -fileset sources_1 
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 32, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_RUN_BITGEN
+// HMemoryUtils.trashcanNow. Engine heap size: 1,990 MB. GUI used memory: 91 MB. Current time: 11/27/25, 8:26:21 PM CST
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+dismissDialog("Resetting Runs"); // bk (Resetting Runs Progress)
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: PAUSE_COMPOSITE_FILE_CHANGE_GUI
+// Tcl Message: launch_runs impl_1 -to_step write_bitstream -jobs 8 
+// Tcl Message: [Thu Nov 27 20:26:21 2025] Launched synth_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/runme.log [Thu Nov 27 20:26:21 2025] Launched impl_1... Run output will be captured here: D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/runme.log 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 137 seconds
+dismissDialog("Bitstream Generation Completed"); // W.a (dialog41)
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "lab10.v", 1); // o (PlanAheadTabBaseWorkspace_JideTabbedPane)
+selectButton(PAResourceAtoD.AbstractFileView_RELOAD, "Reload"); // h (PAResourceAtoD.AbstractFileView_RELOAD)
+selectCodeEditor("lab10.v", 182, 240); // ae (lab10.v)
+selectCodeEditor("lab10.v", 209, 178); // ae (lab10.v)
+selectCodeEditor("lab10.v", 58, 235); // ae (lab10.v)
+selectCodeEditor("lab10.v", 282, 150); // ae (lab10.v)
+selectCodeEditor("lab10.v", 244, 180); // ae (lab10.v)
+// Elapsed time: 54 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Open Hardware Manager, Open Target]", 34, false); // g (PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, Flow Navigator Tree)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_HW_TARGET
+selectMenuItem(PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET, "Auto Connect"); // ap (PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET, auto_connect_target_menu)
+// Run Command: PAResourceCommand.PACommandNames_OPEN_HARDWARE_MANAGER
+// Tcl (Dont Echo) Command: 'rdi::info_commands get_hw_probes'
+// TclEventType: HW_SESSION_OPEN
+// Tcl Message: open_hw_manager 
+closeView(PAResourceOtoP.PAViews_PROJECT_SUMMARY, "Project Summary"); // x (PAResourceOtoP.PAViews_PROJECT_SUMMARY, PlanAheadTabProject Summary)
+// Run Command: PAResourceCommand.PACommandNames_AUTO_CONNECT_TARGET
+dismissDialog("Open Hardware Manager"); // bk (Open Hardware Manager Progress)
+// Tcl Message: connect_hw_server -allow_non_jtag 
+// Tcl Message: INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121 
+// Tcl Message: INFO: [Labtools 27-2222] Launching hw_server... 
+// Tcl Message: INFO: [Labtools 27-2221] Launch Output:  ****** Xilinx hw_server v2025.1   **** Build date : May  6 2025 at 09:15:36     ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.   
+// TclEventType: HW_SERVER_UPDATE
+// Tcl Message: INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0 INFO: [Labtools 27-3417] Launching cs_server... 
+// TclEventType: HW_SERVER_UPDATE
+// Tcl Message: INFO: [Labtools 27-2221] Launch Output:   ******** Xilinx cs_server v2025.1.0   ****** Build date   : May 14 2025-03:15:27     **** Build number : 2025.1.1747163727       ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.       ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.    
+// Tcl Message: connect_hw_server: Time (s): cpu = 00:00:00 ; elapsed = 00:00:08 . Memory (MB): peak = 2917.273 ; gain = 0.000 
+// TclEventType: HW_TARGET_CHANGE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_ADD
+// TclEventType: HW_TARGET_UPDATE
+// Tcl Message: open_hw_target 
+// Tcl Message: INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B3E516A 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: current_hw_device [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+dismissDialog("Auto Connect"); // bk (Auto Connect Progress)
+selectButton(PAResourceOtoP.ProgramDebugTab_PROGRAM_DEVICE, "Program device"); // h (PAResourceOtoP.ProgramDebugTab_PROGRAM_DEVICE)
+// Run Command: PAResourceCommand.PACommandNames_PROGRAM_FPGA
+selectButton(PAResourceOtoP.ProgramFpgaDialog_PROGRAM, "Program", "Program Device"); // f (PAResourceOtoP.ProgramFpgaDialog_PROGRAM, RDIResource.BaseDialog_OK)
+dismissDialog("Program Device"); // aT (dialog42)
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// Tcl Message: set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: set_property PROGRAM.FILE {D:/vivado/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0] 
+// Tcl Message: program_hw_devices [get_hw_devices xc7a35t_0] 
+// TclEventType: HW_DEVICE_CHANGE
+// Tcl Message: INFO: [Labtools 27-3164] End of startup status: HIGH 
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_SYSMON_CHANGE
+// TclEventType: HW_DEVICE_UPDATE
+// TclEventType: HW_DEVICE_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: HW_DEVICE_PROBES_CHANGE
+// Tcl Message: refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0] 
+// Tcl Message: INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it. 
+dismissDialog("Program Device"); // bk (Program Device Progress)
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_TARGET_CLOSE
+// TclEventType: HW_SYSMON_DELETE
+// TclEventType: HW_TARGET_UPDATE
+// TclEventType: DEBUG_PROBE_DELETE
+// Tcl Message: ERROR: [Labtoolstcl 44-513] HW Target shutdown. Closing target: localhost:3121/xilinx_tcf/Digilent/210319B3E516A 
+// TclEventType: HW_TARGET_NEEDS_CLOSE
+// TclEventType: HW_SERVER_UPDATE
+// Elapsed time: 20 seconds
+dismissDialog("Close Hardware Target"); // j.a (dialog43)

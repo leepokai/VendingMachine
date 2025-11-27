@@ -21,6 +21,7 @@ localparam CHAR_WIDTH = 8;
 localparam CHAR_HEIGHT = 16;
 localparam NUM_CHARS = 10;  // "TOTAL: $XX"
 
+
 // Calculate character position
 wire [3:0] char_index;  // Which character (0-9)
 wire [3:0] char_row;    // Which row within character (0-15)

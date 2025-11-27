@@ -61,7 +61,21 @@ reg  [11:0] pixel_addr; // Address for the background SRAM
 wire [11:0] selectbox_data_out;
 reg  [6:0]  selectbox_addr; // Address for the sprite SRAM
 
-// FSM and Selection Logic
+// ------------------------------------------------------------------------
+// Main FSM (SELECTION <-> PAYMENT states)
+// ------------------------------------------------------------------------
+wire current_state;  // 0=SELECTION, 1=PAYMENT
+
+main_fsm main_state_machine (
+    .clk(clk),
+    .reset(rst),
+    .btn_confirm(btn_debounced[3]),
+    .current_state(current_state)
+);
+
+// ------------------------------------------------------------------------
+// Drink Selection FSM (for SELECTION state)
+// ------------------------------------------------------------------------
 wire [3:0] selection_index;
 
 vending_fsm fsm0 (
@@ -70,6 +84,19 @@ vending_fsm fsm0 (
     .btn_left(btn_debounced[1]),
     .btn_right(btn_debounced[0]),
     .selection_index(selection_index)
+);
+
+// ------------------------------------------------------------------------
+// Coin Selection FSM (for PAYMENT state)
+// ------------------------------------------------------------------------
+wire [1:0] coin_index;  // 0=$1, 1=$5, 2=$10
+
+coin_selector coin_sel0 (
+    .clk(clk),
+    .reset(rst),
+    .btn_up(btn_debounced[0]),      // btn0 - move up
+    .btn_down(btn_debounced[1]),    // btn1 - move down
+    .coin_index(coin_index)
 );
 
 // Price Calculation
@@ -97,6 +124,12 @@ reg [2:0] stock [0:8];         // Available stock for each item
 reg [2:0] cart_quantity [0:8]; // Items selected by user (the "shopping cart")
 reg [7:0] drink_price [0:8];   // Price for each drink (in dollars)
 
+// ------------------------------------------------------------------------
+// Coin Tracking (for PAYMENT state)
+// ------------------------------------------------------------------------
+reg [7:0] coins_inserted [0:2]; // Number of each coin type inserted
+                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
+
 integer i;
 initial begin
     // Initialize stock as per user request
@@ -113,17 +146,22 @@ initial begin
     for (i = 0; i < 9; i = i + 1) begin
         cart_quantity[i] = 0;
     end
+
+    // Initialize coins to zero
+    coins_inserted[0] = 0;
+    coins_inserted[1] = 0;
+    coins_inserted[2] = 0;
 end
 
-// Cart update logic
+// Cart update logic (SELECTION state only)
 always @(posedge clk or posedge rst) begin
     if (rst) begin
         // Reset cart on system reset
         cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
         cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
         cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
-    end else if (btn2_posedge) begin
-        // On btn2 press, cycle the cart quantity for the selected item
+    end else if (current_state == 1'b0 && btn2_posedge) begin
+        // SELECTION state: On btn2 press, cycle the cart quantity for the selected item
         if (cart_quantity[selection_index] >= stock[selection_index]) begin
             cart_quantity[selection_index] <= 0;
         end else begin
@@ -131,7 +169,19 @@ always @(posedge clk or posedge rst) begin
         end
     end
 end
-// TODO: Add logic for btn3 to submit the order (all non-zero cart_quantity items)
+
+// Coin insertion logic (PAYMENT state only)
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        // Reset coins on system reset
+        coins_inserted[0] <= 0;
+        coins_inserted[1] <= 0;
+        coins_inserted[2] <= 0;
+    end else if (current_state == 1'b1 && btn2_posedge) begin
+        // PAYMENT state: On btn2 press, insert one of the selected coin
+        coins_inserted[coin_index] <= coins_inserted[coin_index] + 1;
+    end
+end
 
 
 // ------------------------------------------------------------------------
@@ -162,6 +212,27 @@ localparam TRANSPARENT_COLOR = 12'h0F0; // Green screen color
 reg [9:0] sprite_x_start, sprite_y_start;
 reg [5:0] base_x, base_y;
 reg [9:0] on_screen_center_x, on_screen_center_y;
+
+// Coin display parameters (20x20 pixels, displayed in right area)
+localparam COIN_W = 20;
+localparam COIN_H = 20;
+localparam COIN_X_START = 480;   // Right side of screen
+localparam COIN_Y_SPACING = 110; // Vertical spacing between coins (increased for text)
+localparam COIN_Y_BASE = 80;     // Start Y position for first coin
+
+// Coin positions (3 coins vertically arranged with text below)
+// Coin 0 ($1):  X=480, Y=80,  Text: Y=104
+// Coin 1 ($5):  X=480, Y=190, Text: Y=214
+// Coin 2 ($10): X=480, Y=300, Text: Y=324
+wire [9:0] coin0_x_start = COIN_X_START;
+wire [9:0] coin0_y_start = COIN_Y_BASE;
+wire [9:0] coin1_x_start = COIN_X_START;
+wire [9:0] coin1_y_start = COIN_Y_BASE + COIN_Y_SPACING;
+wire [9:0] coin2_x_start = COIN_X_START;
+wire [9:0] coin2_y_start = COIN_Y_BASE + COIN_Y_SPACING * 2;
+
+// Coin selection box position (based on coin_index)
+reg [9:0] coin_selectbox_x, coin_selectbox_y;
 
 
 // ------------------------------------------------------------------------
@@ -206,6 +277,27 @@ text_renderer text_render0 (
 );
 
 // ------------------------------------------------------------------------
+// Coin Count Display (displays count below each coin)
+// ------------------------------------------------------------------------
+wire coin_text_pixel;
+wire is_coin_text_area;
+
+coin_count_display coin_count_disp0 (
+  .clk(clk),
+  .reset(rst),
+  .pixel_x(pixel_x),
+  .pixel_y(pixel_y),
+  .coin0_y_start(coin0_y_start),
+  .coin1_y_start(coin1_y_start),
+  .coin2_y_start(coin2_y_start),
+  .coin1_count(coins_inserted[0]),
+  .coin5_count(coins_inserted[1]),
+  .coin10_count(coins_inserted[2]),
+  .text_pixel(coin_text_pixel),
+  .is_coin_text_area(is_coin_text_area)
+);
+
+// ------------------------------------------------------------------------
 // SRAM Blocks for Background and Sprites
 // ------------------------------------------------------------------------
 
@@ -226,17 +318,68 @@ sram #(
 
 // SRAM for SelectBox sprite
 sram #(
-    .DATA_WIDTH(12), 
+    .DATA_WIDTH(12),
     .ADDR_WIDTH(7), // 2^7 = 128, enough for 25*5=125 pixels
     .RAM_SIZE(125),
     .MEM_INIT_FILE("SelectBox.mem")
 ) ram_selectbox (
-    .clk(clk), 
+    .clk(clk),
     .we(1'b0), // Read-only
     .en(1'b1), // Always enabled
-    .addr(selectbox_addr), 
-    .data_i(12'h000), 
+    .addr(selectbox_addr),
+    .data_i(12'h000),
     .data_o(selectbox_data_out)
+);
+
+// ------------------------------------------------------------------------
+// Coin SRAM modules (20x20 pixels each)
+// ------------------------------------------------------------------------
+wire [11:0] coin1_data_out, coin5_data_out, coin10_data_out;
+reg [8:0] coin_addr;  // 9 bits for 400 pixels (20*20)
+
+// $1 Coin SRAM
+sram #(
+    .DATA_WIDTH(12),
+    .ADDR_WIDTH(9),
+    .RAM_SIZE(400),     // 20 * 20
+    .MEM_INIT_FILE("Coin1.mem")
+) ram_coin1 (
+    .clk(clk),
+    .we(1'b0),
+    .en(1'b1),
+    .addr(coin_addr),
+    .data_i(12'h000),
+    .data_o(coin1_data_out)
+);
+
+// $5 Coin SRAM
+sram #(
+    .DATA_WIDTH(12),
+    .ADDR_WIDTH(9),
+    .RAM_SIZE(400),
+    .MEM_INIT_FILE("Coin5.mem")
+) ram_coin5 (
+    .clk(clk),
+    .we(1'b0),
+    .en(1'b1),
+    .addr(coin_addr),
+    .data_i(12'h000),
+    .data_o(coin5_data_out)
+);
+
+// $10 Coin SRAM
+sram #(
+    .DATA_WIDTH(12),
+    .ADDR_WIDTH(9),
+    .RAM_SIZE(400),
+    .MEM_INIT_FILE("Coin10.mem")
+) ram_coin10 (
+    .clk(clk),
+    .we(1'b0),
+    .en(1'b1),
+    .addr(coin_addr),
+    .data_i(12'h000),
+    .data_o(coin10_data_out)
 );
 
 
@@ -316,6 +459,86 @@ always @ (posedge clk) begin
     else
         selectbox_addr <= 0;
 end
+
+// ------------------------------------------------------------------------
+// Coin AGU and Display Logic (for PAYMENT state)
+// ------------------------------------------------------------------------
+// Check if pixel is on any coin
+wire is_on_coin0 = (pixel_x >= coin0_x_start) && (pixel_x < coin0_x_start + COIN_W) &&
+                   (pixel_y >= coin0_y_start) && (pixel_y < coin0_y_start + COIN_H);
+wire is_on_coin1 = (pixel_x >= coin1_x_start) && (pixel_x < coin1_x_start + COIN_W) &&
+                   (pixel_y >= coin1_y_start) && (pixel_y < coin1_y_start + COIN_H);
+wire is_on_coin2 = (pixel_x >= coin2_x_start) && (pixel_x < coin2_x_start + COIN_W) &&
+                   (pixel_y >= coin2_y_start) && (pixel_y < coin2_y_start + COIN_H);
+
+wire is_on_any_coin = is_on_coin0 || is_on_coin1 || is_on_coin2;
+
+// Calculate coin address (same for all coins since they're all 20x20)
+always @ (posedge clk) begin
+    if (rst)
+        coin_addr <= 0;
+    else if (is_on_coin0)
+        coin_addr <= (pixel_y - coin0_y_start) * COIN_W + (pixel_x - coin0_x_start);
+    else if (is_on_coin1)
+        coin_addr <= (pixel_y - coin1_y_start) * COIN_W + (pixel_x - coin1_x_start);
+    else if (is_on_coin2)
+        coin_addr <= (pixel_y - coin2_y_start) * COIN_W + (pixel_x - coin2_x_start);
+    else
+        coin_addr <= 0;
+end
+
+// Select which coin data to display
+reg [11:0] coin_pixel_data;
+always @(*) begin
+    if (is_on_coin0)
+        coin_pixel_data = coin1_data_out;  // $1 coin
+    else if (is_on_coin1)
+        coin_pixel_data = coin5_data_out;  // $5 coin
+    else if (is_on_coin2)
+        coin_pixel_data = coin10_data_out; // $10 coin
+    else
+        coin_pixel_data = 12'h000;
+end
+
+// Calculate coin selection box position based on coin_index
+always @(*) begin
+    case (coin_index)
+        2'd0: begin
+            coin_selectbox_x = coin0_x_start - 3;  // Center around coin
+            coin_selectbox_y = coin0_y_start - 3;
+        end
+        2'd1: begin
+            coin_selectbox_x = coin1_x_start - 3;
+            coin_selectbox_y = coin1_y_start - 3;
+        end
+        2'd2: begin
+            coin_selectbox_x = coin2_x_start - 3;
+            coin_selectbox_y = coin2_y_start - 3;
+        end
+        default: begin
+            coin_selectbox_x = coin0_x_start - 3;
+            coin_selectbox_y = coin0_y_start - 3;
+        end
+    endcase
+end
+
+// Check if pixel is on coin selection box BORDER (hollow box)
+wire [9:0] coin_selectbox_w = COIN_W + 6;  // Coin width + border
+wire [9:0] coin_selectbox_h = COIN_H + 6;  // Coin height + border
+localparam COIN_BORDER_WIDTH = 2;  // Border thickness in pixels
+
+// Check if on outer box
+wire on_coin_selectbox_outer = (pixel_x >= coin_selectbox_x) && (pixel_x < coin_selectbox_x + coin_selectbox_w) &&
+                                (pixel_y >= coin_selectbox_y) && (pixel_y < coin_selectbox_y + coin_selectbox_h);
+
+// Check if on inner box (hollow area)
+wire on_coin_selectbox_inner = (pixel_x >= coin_selectbox_x + COIN_BORDER_WIDTH) &&
+                                (pixel_x < coin_selectbox_x + coin_selectbox_w - COIN_BORDER_WIDTH) &&
+                                (pixel_y >= coin_selectbox_y + COIN_BORDER_WIDTH) &&
+                                (pixel_y < coin_selectbox_y + coin_selectbox_h - COIN_BORDER_WIDTH);
+
+// Only show border (outer box but not inner box)
+wire is_on_coin_selectbox_border = on_coin_selectbox_outer && ~on_coin_selectbox_inner;
 
 // ------------------------------------------------------------------------
 // Pixel Generation (Layering) Logic
@@ -401,10 +624,23 @@ always @(*) begin
     // Priority 2: Text overlay (highest visible priority)
     end else if (is_text_area && text_pixel) begin
         rgb_next = 12'hFFF;  // White text
-    // Priority 3: Selection Box (moves on top of dots)
-    end else if ( is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR) ) begin
+
+    // === PAYMENT STATE LAYERS ===
+    // Priority 3a: Coin count text (PAYMENT state only)
+    end else if (current_state == 1'b1 && is_coin_text_area && coin_text_pixel) begin
+        rgb_next = 12'hFFF;  // White text for coin counts
+    // Priority 3b: Coin selection box border (PAYMENT state only, hollow)
+    end else if (current_state == 1'b1 && is_on_coin_selectbox_border) begin
+        rgb_next = 12'hFF0;  // Yellow border for coin selection
+    // Priority 3c: Coins (PAYMENT state only)
+    end else if (current_state == 1'b1 && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) begin
+        rgb_next = coin_pixel_data;
+
+    // === SELECTION STATE LAYERS ===
+    // Priority 4: Selection Box for drinks (SELECTION state only, moves on top of dots)
+    end else if (current_state == 1'b0 && is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR)) begin
         rgb_next = selectbox_data_out;
-    // Priority 4: Dots for all 9 items
+    // Priority 5: Dots for all 9 items
     end else if (is_dot_pixel_0) begin
         rgb_next = dot_color_0;
     end else if (is_dot_pixel_1) begin
