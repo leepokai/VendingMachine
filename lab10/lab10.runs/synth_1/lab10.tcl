@@ -95,6 +95,8 @@ read_verilog -library xil_defaultlib {
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v
+  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v
+  D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v
   D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v

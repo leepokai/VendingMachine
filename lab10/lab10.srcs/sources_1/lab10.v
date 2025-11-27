@@ -117,6 +117,18 @@ price_calculator price_calc0 (
     .total_due(total_due)
 );
 
+// Paid Amount Calculation
+wire [15:0] paid_amount;  // Total amount paid via coins
+
+paid_calculator paid_calc0 (
+    .clk(clk),
+    .reset(rst),
+    .coin1_count(coins_inserted[0]),
+    .coin5_count(coins_inserted[1]),
+    .coin10_count(coins_inserted[2]),
+    .paid_amount(paid_amount)
+);
+
 // ------------------------------------------------------------------------
 // Stock & Cart Management
 // ------------------------------------------------------------------------
@@ -274,6 +286,22 @@ text_renderer text_render0 (
   .total_due(total_due),
   .text_pixel(text_pixel),
   .is_text_area(is_text_area)
+);
+
+// ------------------------------------------------------------------------
+// Paid Text Renderer (displays "PAID: $XXX" below TOTAL)
+// ------------------------------------------------------------------------
+wire paid_text_pixel;
+wire is_paid_text_area;
+
+paid_text_renderer paid_text_render0 (
+  .clk(clk),
+  .reset(rst),
+  .pixel_x(pixel_x),
+  .pixel_y(pixel_y),
+  .paid_amount(paid_amount),
+  .text_pixel(paid_text_pixel),
+  .is_text_area(is_paid_text_area)
 );
 
 // ------------------------------------------------------------------------
@@ -621,8 +649,11 @@ always @(*) begin
     // Priority 1: Blanking periods (sync)
     if (~video_on) begin
         rgb_next = 12'h000;
-    // Priority 2: Text overlay (highest visible priority)
+    // Priority 2a: TOTAL text overlay (highest visible priority)
     end else if (is_text_area && text_pixel) begin
+        rgb_next = 12'hFFF;  // White text
+    // Priority 2b: PAID text overlay
+    end else if (is_paid_text_area && paid_text_pixel) begin
         rgb_next = 12'hFFF;  // White text
 
     // === PAYMENT STATE LAYERS ===

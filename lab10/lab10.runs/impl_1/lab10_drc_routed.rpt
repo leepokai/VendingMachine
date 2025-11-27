@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Thu Nov 27 21:53:01 2025
+| Date         : Thu Nov 27 22:38:11 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_drc -file lab10_drc_routed.rpt -pb lab10_drc_routed.pb -rpx lab10_drc_routed.rpx
 | Design       : lab10
@@ -41,42 +41,42 @@ Related violations: <none>
 
 REQP-1840#1 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin1/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: paid_text_render0/char_rom/ADDR[10]) which is driven by a register (paid_text_render0/bcd_converter/bcd_hundreds_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#2 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin1/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: paid_text_render0/char_rom/ADDR[10]) which is driven by a register (paid_text_render0/bcd_converter/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#3 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin10/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: paid_text_render0/char_rom/ADDR[10]) which is driven by a register (paid_text_render0/bcd_converter/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#4 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin10/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[8] (net: paid_text_render0/char_rom/ADDR[8]) which is driven by a register (paid_text_render0/bcd_converter/bcd_hundreds_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#5 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin5/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[8] (net: paid_text_render0/char_rom/ADDR[8]) which is driven by a register (paid_text_render0/bcd_converter/bcd_ones_reg[1]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#6 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: coin_count_disp0/char_rom/ADDR[10]) which is driven by a register (coin_count_disp0/bcd_coin5/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: paid_text_render0/char_rom/ADDR[9]) which is driven by a register (paid_text_render0/bcd_converter/bcd_hundreds_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#7 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: coin_count_disp0/char_rom/ADDR[9]) which is driven by a register (coin_count_disp0/bcd_coin1/bcd_ones_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: paid_text_render0/char_rom/ADDR[9]) which is driven by a register (paid_text_render0/bcd_converter/bcd_ones_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#8 Warning
 RAMB18 async control check  
-The RAMB18E1 coin_count_disp0/char_rom/BRAM_PC_VGA_0 has an input control pin coin_count_disp0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: coin_count_disp0/char_rom/ADDR[9]) which is driven by a register (coin_count_disp0/bcd_coin1/bcd_tens_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 paid_text_render0/char_rom/BRAM_PC_VGA_0 has an input control pin paid_text_render0/char_rom/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: paid_text_render0/char_rom/ADDR[9]) which is driven by a register (paid_text_render0/bcd_converter/bcd_tens_reg[2]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#9 Warning
