@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Thu Nov 27 23:03:35 2025
+| Date         : Fri Nov 28 00:45:45 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file lab10_control_sets_placed.rpt
 | Design       : lab10
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |    15 |
-|    Minimum number of control sets                        |    15 |
+| Total control sets                                       |    22 |
+|    Minimum number of control sets                        |    22 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    58 |
+| Unused register locations in slices containing registers |    67 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |    15 |
+| Total control sets |    22 |
 | >= 0 to < 4        |     2 |
 | >= 4 to < 6        |     1 |
 | >= 6 to < 8        |     1 |
-| >= 8 to < 10       |     6 |
-| >= 10 to < 12      |     2 |
+| >= 8 to < 10       |     8 |
+| >= 10 to < 12      |     3 |
 | >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     1 |
+| >= 16              |     5 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,36 +58,43 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              10 |            7 |
-| No           | No                    | Yes                    |             234 |           79 |
-| No           | Yes                   | No                     |              38 |           15 |
+| No           | No                    | No                     |              12 |            9 |
+| No           | No                    | Yes                    |             291 |          101 |
+| No           | Yes                   | No                     |              38 |           16 |
 | Yes          | No                    | No                     |              12 |            7 |
-| Yes          | No                    | Yes                    |              28 |           12 |
-| Yes          | Yes                   | No                     |              20 |           10 |
+| Yes          | No                    | Yes                    |             168 |           58 |
+| Yes          | Yes                   | No                     |              20 |           14 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+-------------------+----------------------------+------------------------------------+------------------+----------------+--------------+
-|    Clock Signal   |        Enable Signal       |          Set/Reset Signal          | Slice Load Count | Bel Load Count | Bels / Slice |
-+-------------------+----------------------------+------------------------------------+------------------+----------------+--------------+
-|  clk_divider0/CLK |                            |                                    |                1 |              1 |         1.00 |
-|  clk_divider0/CLK |                            | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              2 |         1.00 |
-|  clk_IBUF_BUFG    | coin_sel0/E[0]             | coin_count_disp0/bcd_coin10/AR[0]  |                2 |              4 |         2.00 |
-|  clk_IBUF_BUFG    |                            | vs0/v_count_reg_reg[9]_0[0]        |                2 |              7 |         3.50 |
-|  clk_IBUF_BUFG    |                            | clk_divider0/counter[7]_i_1__3_n_0 |                2 |              8 |         4.00 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_1[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg[0]    | coin_count_disp0/bcd_coin10/AR[0]  |                4 |              8 |         2.00 |
-|  clk_IBUF_BUFG    | coin_sel0/btn2_d_reg_0[0]  | coin_count_disp0/bcd_coin10/AR[0]  |                3 |              8 |         2.67 |
-|  clk_IBUF_BUFG    |                            |                                    |                6 |              9 |         1.50 |
-|  clk_IBUF_BUFG    |                            | vs0/h_count_reg_reg[4]_0[0]        |                4 |              9 |         2.25 |
-|  clk_divider0/CLK | vs0/pixel_tick             | vs0/h_count_reg[9]_i_1_n_0         |                5 |             10 |         2.00 |
-|  clk_divider0/CLK | vs0/v_count_reg[9]_i_2_n_0 | vs0/v_count_reg[9]_i_1_n_0         |                5 |             10 |         2.00 |
-|  clk_IBUF_BUFG    |                            | vs0/SR[0]                          |                5 |             12 |         2.40 |
-|  clk_IBUF_BUFG    | vs0/pixel_tick             |                                    |                7 |             12 |         1.71 |
-|  clk_IBUF_BUFG    |                            | coin_count_disp0/bcd_coin10/AR[0]  |               79 |            234 |         2.96 |
-+-------------------+----------------------------+------------------------------------+------------------+----------------+--------------+
++-------------------+----------------------------------------+------------------------------------+------------------+----------------+--------------+
+|    Clock Signal   |              Enable Signal             |          Set/Reset Signal          | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------+----------------------------------------+------------------------------------+------------------+----------------+--------------+
+|  clk_divider0/CLK |                                        |                                    |                1 |              1 |         1.00 |
+|  clk_divider0/CLK |                                        | change_disp0/AR[0]                 |                2 |              2 |         1.00 |
+|  clk_IBUF_BUFG    | coin_sel0/E[0]                         | change_disp0/AR[0]                 |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG    |                                        | vs0/v_count_reg_reg[9]_2[0]        |                2 |              7 |         3.50 |
+|  clk_IBUF_BUFG    |                                        | clk_divider0/counter[7]_i_1__3_n_0 |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG    | change_disp0/count_10[7]_i_1_n_0       | change_disp0/AR[0]                 |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG    | change_disp0/count_1[7]_i_1_n_0        | change_disp0/AR[0]                 |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG    | change_disp0/count_5[7]_i_1_n_0        | change_disp0/AR[0]                 |                2 |              8 |         4.00 |
+|  clk_IBUF_BUFG    | coin_sel0/coin_index_reg[1]_1[0]       | change_disp0/AR[0]                 |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG    | coin_sel0/coin_index_reg[0]_0[0]       | change_disp0/AR[0]                 |                4 |              8 |         2.00 |
+|  clk_IBUF_BUFG    | coin_sel0/coin_index_reg[1]_0[0]       | change_disp0/AR[0]                 |                3 |              8 |         2.67 |
+|  clk_IBUF_BUFG    |                                        | vs0/SR[0]                          |                4 |              9 |         2.25 |
+|  clk_divider0/CLK | vs0/pixel_tick                         | vs0/h_count_reg[9]_i_1_n_0         |                8 |             10 |         1.25 |
+|  clk_divider0/CLK | vs0/v_count_reg[9]_i_2_n_0             | vs0/v_count_reg[9]_i_1_n_0         |                6 |             10 |         1.67 |
+|  clk_IBUF_BUFG    |                                        |                                    |                8 |             11 |         1.38 |
+|  clk_IBUF_BUFG    |                                        | vs0/h_count_reg_reg[8]_1[0]        |                6 |             12 |         2.00 |
+|  clk_IBUF_BUFG    | vs0/pixel_tick                         |                                    |                7 |             12 |         1.71 |
+|  clk_IBUF_BUFG    | change_disp0/remaining[15]_i_1_n_0     | change_disp0/AR[0]                 |                7 |             16 |         2.29 |
+|  clk_IBUF_BUFG    | change_disp0/dispense_coin1[7]_i_1_n_0 | change_disp0/AR[0]                 |                4 |             24 |         6.00 |
+|  clk_IBUF_BUFG    | change_disp0/current_state_reg         | change_disp0/AR[0]                 |                5 |             25 |         5.00 |
+|  clk_IBUF_BUFG    | change_disp0/E[0]                      | change_disp0/AR[0]                 |               23 |             51 |         2.22 |
+|  clk_IBUF_BUFG    |                                        | change_disp0/AR[0]                 |              101 |            291 |         2.88 |
++-------------------+----------------------------------------+------------------------------------+------------------+----------------+--------------+
 
 

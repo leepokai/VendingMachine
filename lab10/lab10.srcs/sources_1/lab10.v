@@ -65,13 +65,26 @@ reg  [6:0]  selectbox_addr; // Address for the sprite SRAM
 // Main FSM (SELECTION <-> PAYMENT states)
 // ------------------------------------------------------------------------
 wire current_state;  // 0=SELECTION, 1=PAYMENT
+reg prev_state;       // Previous state for transition detection
 
 main_fsm main_state_machine (
     .clk(clk),
     .reset(rst),
     .btn_confirm(btn_debounced[3]),
+    .dispensing(dispensing),
+    .dispense_done(dispense_completed),
     .current_state(current_state)
 );
+
+// State transition detection
+wire transition_to_selection = (prev_state == 1'b1) && (current_state == 1'b0);
+
+always @(posedge clk or posedge rst) begin
+    if (rst)
+        prev_state <= 1'b0;
+    else
+        prev_state <= current_state;
+end
 
 // ------------------------------------------------------------------------
 // Drink Selection FSM (for SELECTION state)
@@ -152,6 +165,116 @@ always @(posedge clk or posedge rst) begin
 end
 
 // ------------------------------------------------------------------------
+// Change Dispenser (calculates coin dispensing using greedy algorithm)
+// ------------------------------------------------------------------------
+reg dispenser_start;                      // Trigger signal for dispenser
+wire [7:0] dispense_coin1_wire;           // $1 coins to dispense
+wire [7:0] dispense_coin5_wire;           // $5 coins to dispense
+wire [7:0] dispense_coin10_wire;          // $10 coins to dispense
+wire dispenser_done;                      // Dispenser calculation complete
+wire dispenser_success;                   // Exact change possible
+
+change_dispenser change_disp0 (
+    .clk(clk),
+    .reset(rst),
+    .start(dispenser_start),
+    .change_amount(change_amount),
+    .avail_coin1(avail_coins[0]),
+    .avail_coin5(avail_coins[1]),
+    .avail_coin10(avail_coins[2]),
+    .dispense_coin1(dispense_coin1_wire),
+    .dispense_coin5(dispense_coin5_wire),
+    .dispense_coin10(dispense_coin10_wire),
+    .done(dispenser_done),
+    .success(dispenser_success)
+);
+
+// Dispensing state management and coin insertion logic
+// NOTE: Merged into one always block to avoid multiple driver errors
+reg dispensing;                           // Currently dispensing change
+reg dispense_completed;                   // Flag: dispensing has completed
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        dispenser_start <= 1'b0;
+        dispensing <= 1'b0;
+        dispense_completed <= 1'b0;
+        dispensed_coins[0] <= 8'd0;
+        dispensed_coins[1] <= 8'd0;
+        dispensed_coins[2] <= 8'd0;
+        coins_inserted[0] <= 8'd0;
+        coins_inserted[1] <= 8'd0;
+        coins_inserted[2] <= 8'd0;
+        // Reset coin inventory to initial values
+        avail_coins[0] <= 8'd10;  // 10 x $1 coins
+        avail_coins[1] <= 8'd10;  // 10 x $5 coins
+        avail_coins[2] <= 8'd10;  // 10 x $10 coins
+        // Reset stock to initial values
+        stock[0] <= 5; stock[1] <= 0; stock[2] <= 0;
+        stock[3] <= 5; stock[4] <= 5; stock[5] <= 0;
+        stock[6] <= 0; stock[7] <= 0; stock[8] <= 5;
+    end else begin
+        // Default: don't start dispenser
+        dispenser_start <= 1'b0;
+
+        // Priority 0: Reset for new round when returning to SELECTION
+        if (transition_to_selection) begin
+            dispense_completed <= 1'b0;
+            dispensed_coins[0] <= 8'd0;
+            dispensed_coins[1] <= 8'd0;
+            dispensed_coins[2] <= 8'd0;
+            coins_inserted[0] <= 8'd0;
+            coins_inserted[1] <= 8'd0;
+            coins_inserted[2] <= 8'd0;
+
+        // Priority 1: When dispensing is done, update inventories and reset coins
+        end else if (dispensing && dispenser_done) begin
+            if (dispenser_success) begin
+                // Update available coins: subtract dispensed, add inserted
+                avail_coins[0] <= avail_coins[0] - dispense_coin1_wire + coins_inserted[0];
+                avail_coins[1] <= avail_coins[1] - dispense_coin5_wire + coins_inserted[1];
+                avail_coins[2] <= avail_coins[2] - dispense_coin10_wire + coins_inserted[2];
+
+                // Update stock: decrease by cart quantities
+                stock[0] <= stock[0] - cart_quantity[0];
+                stock[1] <= stock[1] - cart_quantity[1];
+                stock[2] <= stock[2] - cart_quantity[2];
+                stock[3] <= stock[3] - cart_quantity[3];
+                stock[4] <= stock[4] - cart_quantity[4];
+                stock[5] <= stock[5] - cart_quantity[5];
+                stock[6] <= stock[6] - cart_quantity[6];
+                stock[7] <= stock[7] - cart_quantity[7];
+                stock[8] <= stock[8] - cart_quantity[8];
+
+                // Store dispensed amounts for display
+                dispensed_coins[0] <= dispense_coin1_wire;
+                dispensed_coins[1] <= dispense_coin5_wire;
+                dispensed_coins[2] <= dispense_coin10_wire;
+
+                // Reset inserted coins
+                coins_inserted[0] <= 8'd0;
+                coins_inserted[1] <= 8'd0;
+                coins_inserted[2] <= 8'd0;
+
+                // Mark dispensing as completed
+                dispense_completed <= 1'b1;
+            end
+            dispensing <= 1'b0;
+
+        // Priority 2: Start dispensing when btn3 pressed in PAYMENT with sufficient payment
+        end else if (current_state == 1'b1 && btn3_posedge && payment_sufficient && !dispensing && !dispense_completed) begin
+            dispenser_start <= 1'b1;
+            dispensing <= 1'b1;
+
+        // Priority 3: Coin insertion in PAYMENT state
+        end else if (current_state == 1'b1 && btn2_posedge && !dispensing) begin
+            // Insert one of the selected coin type
+            coins_inserted[coin_index] <= coins_inserted[coin_index] + 8'd1;
+        end
+    end
+end
+
+// ------------------------------------------------------------------------
 // Stock & Cart Management
 // ------------------------------------------------------------------------
 reg [2:0] stock [0:8];         // Available stock for each item
@@ -162,6 +285,12 @@ reg [7:0] drink_price [0:8];   // Price for each drink (in dollars)
 // Coin Tracking (for PAYMENT state)
 // ------------------------------------------------------------------------
 reg [7:0] coins_inserted [0:2]; // Number of each coin type inserted
+                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
+
+reg [7:0] avail_coins [0:2];     // Machine's available coins for change
+                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
+
+reg [7:0] dispensed_coins [0:2]; // Coins to be dispensed as change
                                  // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
 
 integer i;
@@ -181,10 +310,20 @@ initial begin
         cart_quantity[i] = 0;
     end
 
-    // Initialize coins to zero
+    // Initialize coins inserted to zero
     coins_inserted[0] = 0;
     coins_inserted[1] = 0;
     coins_inserted[2] = 0;
+
+    // Initialize machine's coin inventory (AVAIL)
+    avail_coins[0] = 10;  // 10 x $1 coins
+    avail_coins[1] = 10;  // 10 x $5 coins
+    avail_coins[2] = 10;  // 10 x $10 coins
+
+    // Initialize dispensed coins to zero
+    dispensed_coins[0] = 0;
+    dispensed_coins[1] = 0;
+    dispensed_coins[2] = 0;
 end
 
 // Cart update logic (SELECTION state only)
@@ -194,29 +333,24 @@ always @(posedge clk or posedge rst) begin
         cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
         cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
         cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
-    end else if (current_state == 1'b0 && btn2_posedge) begin
-        // SELECTION state: On btn2 press, cycle the cart quantity for the selected item
-        if (cart_quantity[selection_index] >= stock[selection_index]) begin
-            cart_quantity[selection_index] <= 0;
-        end else begin
-            cart_quantity[selection_index] <= cart_quantity[selection_index] + 1;
+    end else begin
+        // Reset cart when returning from PAYMENT to SELECTION (new round)
+        if (transition_to_selection) begin
+            cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
+            cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
+            cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
+        end else if (current_state == 1'b0 && btn2_posedge) begin
+            // SELECTION state: On btn2 press, cycle the cart quantity for the selected item
+            if (cart_quantity[selection_index] >= stock[selection_index]) begin
+                cart_quantity[selection_index] <= 0;
+            end else begin
+                cart_quantity[selection_index] <= cart_quantity[selection_index] + 1;
+            end
         end
     end
 end
 
-// Coin insertion logic (PAYMENT state only)
-always @(posedge clk or posedge rst) begin
-    if (rst) begin
-        // Reset coins on system reset
-        coins_inserted[0] <= 0;
-        coins_inserted[1] <= 0;
-        coins_inserted[2] <= 0;
-    end else if (current_state == 1'b1 && btn2_posedge) begin
-        // PAYMENT state: On btn2 press, insert one of the selected coin
-        coins_inserted[coin_index] <= coins_inserted[coin_index] + 1;
-    end
-end
-
+// NOTE: Coin insertion logic moved to dispensing block above to avoid multiple drivers
 
 // ------------------------------------------------------------------------
 // Display & Image Parameters
@@ -360,8 +494,32 @@ coin_count_display coin_count_disp0 (
   .coin1_count(coins_inserted[0]),
   .coin5_count(coins_inserted[1]),
   .coin10_count(coins_inserted[2]),
+  .avail1_count(avail_coins[0]),
+  .avail5_count(avail_coins[1]),
+  .avail10_count(avail_coins[2]),
   .text_pixel(coin_text_pixel),
   .is_coin_text_area(is_coin_text_area)
+);
+
+// ------------------------------------------------------------------------
+// Dispensed Count Display (shows DISP:XX below AVAIL line)
+// ------------------------------------------------------------------------
+wire disp_text_pixel;
+wire is_disp_text_area;
+
+dispensed_count_display disp_count_disp0 (
+  .clk(clk),
+  .reset(rst),
+  .pixel_x(pixel_x),
+  .pixel_y(pixel_y),
+  .coin0_y_start(coin0_y_start),
+  .coin1_y_start(coin1_y_start),
+  .coin2_y_start(coin2_y_start),
+  .disp1_count(dispensed_coins[0]),
+  .disp5_count(dispensed_coins[1]),
+  .disp10_count(dispensed_coins[2]),
+  .text_pixel(disp_text_pixel),
+  .is_disp_text_area(is_disp_text_area)
 );
 
 // ------------------------------------------------------------------------
@@ -662,11 +820,11 @@ wire [9:0] sprite_y_start_8 = V_START + BASE_Y_8 * SCALE_FACTOR - (BOX_H * SPRIT
     wire is_dot_pixel_``ITEM_INDEX = is_dot1_pixel_``ITEM_INDEX || is_dot2_pixel_``ITEM_INDEX || is_dot3_pixel_``ITEM_INDEX || is_dot4_pixel_``ITEM_INDEX || is_dot5_pixel_``ITEM_INDEX; \
     wire [11:0] dot_color_``ITEM_INDEX; \
     assign dot_color_``ITEM_INDEX = \
-        (is_dot1_pixel_``ITEM_INDEX) ? ((0 + stock[ITEM_INDEX] >= 5) ? ((0 + cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot2_pixel_``ITEM_INDEX) ? ((1 + stock[ITEM_INDEX] >= 5) ? ((1 + cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot3_pixel_``ITEM_INDEX) ? ((2 + stock[ITEM_INDEX] >= 5) ? ((2 + cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot4_pixel_``ITEM_INDEX) ? ((3 + stock[ITEM_INDEX] >= 5) ? ((3 + cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot5_pixel_``ITEM_INDEX) ? ((4 + stock[ITEM_INDEX] >= 5) ? ((4 + cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot1_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 1) ? ((cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot2_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 2) ? ((cart_quantity[ITEM_INDEX] >= 4) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot3_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 3) ? ((cart_quantity[ITEM_INDEX] >= 3) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot4_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 4) ? ((cart_quantity[ITEM_INDEX] >= 2) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot5_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 5) ? ((cart_quantity[ITEM_INDEX] >= 1) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
         12'h000;
 
 `DOT_LOGIC(0, sprite_x_start_0, sprite_y_start_0)
@@ -702,6 +860,9 @@ always @(*) begin
     // Priority 3a: Coin count text (PAYMENT state only)
     end else if (current_state == 1'b1 && is_coin_text_area && coin_text_pixel) begin
         rgb_next = 12'hFFF;  // White text for coin counts
+    // Priority 3a2: Dispensed count text (PAYMENT state only)
+    end else if (current_state == 1'b1 && is_disp_text_area && disp_text_pixel) begin
+        rgb_next = 12'hF80;  // Orange text for dispensed amounts
     // Priority 3b: Coin selection box border (PAYMENT state only, hollow)
     end else if (current_state == 1'b1 && is_on_coin_selectbox_border) begin
         rgb_next = 12'hFF0;  // Yellow border for coin selection

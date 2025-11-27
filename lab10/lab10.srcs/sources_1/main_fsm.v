@@ -10,6 +10,8 @@ module main_fsm (
     input wire clk,
     input wire reset,
     input wire btn_confirm,     // btn3 - transition to next state
+    input wire dispensing,      // Currently dispensing change
+    input wire dispense_done,   // Dispensing completed
     output reg current_state    // 0=SELECTION, 1=PAYMENT
 );
 
@@ -42,9 +44,12 @@ always @(posedge clk or posedge reset) begin
                     current_state <= STATE_PAYMENT;
             end
             STATE_PAYMENT: begin
-                // Stay in PAYMENT state for now
-                // Will add transition to DISPENSING later
-                current_state <= STATE_PAYMENT;
+                // Return to SELECTION if:
+                // - btn3 pressed AND not currently dispensing AND dispensing has completed
+                if (btn_confirm_posedge && !dispensing && dispense_done)
+                    current_state <= STATE_SELECTION;
+                else
+                    current_state <= STATE_PAYMENT;
             end
             default: begin
                 current_state <= STATE_SELECTION;
