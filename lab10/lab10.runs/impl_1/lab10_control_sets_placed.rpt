@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Wed Nov 26 19:08:44 2025
+| Date         : Thu Nov 27 20:27:52 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file lab10_control_sets_placed.rpt
 | Design       : lab10
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |     6 |
-|    Minimum number of control sets                        |     6 |
+| Total control sets                                       |    11 |
+|    Minimum number of control sets                        |    11 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    28 |
+| Unused register locations in slices containing registers |    49 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |     6 |
-| >= 0 to < 4        |     2 |
-| >= 4 to < 6        |     0 |
-| >= 6 to < 8        |     0 |
+| Total control sets |    11 |
+| >= 0 to < 4        |     3 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     1 |
 | >= 8 to < 10       |     1 |
 | >= 10 to < 12      |     2 |
-| >= 12 to < 14      |     1 |
+| >= 12 to < 14      |     2 |
 | >= 14 to < 16      |     0 |
-| >= 16              |     0 |
+| >= 16              |     1 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,27 +58,32 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               1 |            1 |
-| No           | No                    | Yes                    |               0 |            0 |
-| No           | Yes                   | No                     |              23 |            8 |
+| No           | No                    | No                     |               4 |            2 |
+| No           | No                    | Yes                    |             130 |           40 |
+| No           | Yes                   | No                     |              29 |           11 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |              20 |            8 |
+| Yes          | No                    | Yes                    |               4 |            2 |
+| Yes          | Yes                   | No                     |              32 |           15 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+-----------------------------+------------------+---------------------------------+------------------+----------------+--------------+
-|         Clock Signal        |   Enable Signal  |         Set/Reset Signal        | Slice Load Count | Bel Load Count | Bels / Slice |
-+-----------------------------+------------------+---------------------------------+------------------+----------------+--------------+
-|  clk_divider0/clk_out_reg_0 |                  |                                 |                1 |              1 |         1.00 |
-|  clk_divider0/clk_out_reg_0 |                  | vs0/SR[0]                       |                2 |              2 |         1.00 |
-|  clk_IBUF_BUFG              |                  | clk_divider0/counter[7]_i_1_n_0 |                2 |              8 |         4.00 |
-|  clk_divider0/clk_out_reg_0 | vs0/h_count_next | vs0/v_count_reg[9]_i_1_n_0      |                5 |             10 |         2.00 |
-|  clk_divider0/clk_out_reg_0 | vs0/pixel_tick   | vs0/h_count_reg[9]_i_1_n_0      |                3 |             10 |         3.33 |
-|  clk_IBUF_BUFG              |                  | vs0/SR[0]                       |                4 |             13 |         3.25 |
-+-----------------------------+------------------+---------------------------------+------------------+----------------+--------------+
++-------------------+---------------------------------+---------------------------------+------------------+----------------+--------------+
+|    Clock Signal   |          Enable Signal          |         Set/Reset Signal        | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------+---------------------------------+---------------------------------+------------------+----------------+--------------+
+|  clk_divider0/CLK |                                 |                                 |                1 |              1 |         1.00 |
+|  clk_divider0/CLK |                                 | deb2/AR[0]                      |                2 |              2 |         1.00 |
+|  clk_IBUF_BUFG    |                                 |                                 |                1 |              3 |         3.00 |
+|  clk_IBUF_BUFG    | fsm0/selection_index[3]_i_1_n_0 | deb2/AR[0]                      |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG    |                                 | vs0/SR[0]                       |                2 |              7 |         3.50 |
+|  clk_IBUF_BUFG    |                                 | clk_divider0/counter[7]_i_1_n_0 |                2 |              8 |         4.00 |
+|  clk_divider0/CLK | vs0/h_count_next                | vs0/v_count_reg[9]_i_1_n_0      |                3 |             10 |         3.33 |
+|  clk_divider0/CLK | vs0/pixel_tick                  | vs0/h_count_reg[9]_i_1_n_0      |                6 |             10 |         1.67 |
+|  clk_IBUF_BUFG    |                                 | vs0/h_count_reg_reg[9]_2[0]     |                5 |             12 |         2.40 |
+|  clk_IBUF_BUFG    | vs0/pixel_tick                  | vs0/rgb_reg                     |                6 |             12 |         2.00 |
+|  clk_IBUF_BUFG    |                                 | deb2/AR[0]                      |               40 |            130 |         3.25 |
++-------------------+---------------------------------+---------------------------------+------------------+----------------+--------------+
 
 

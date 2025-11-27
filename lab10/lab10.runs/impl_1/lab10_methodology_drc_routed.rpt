@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Wed Nov 26 19:09:05 2025
+| Date         : Thu Nov 27 20:28:17 2025
 | Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lab10_methodology_drc_routed.rpt -pb lab10_methodology_drc_routed.pb -rpx lab10_methodology_drc_routed.rpx
 | Design       : lab10
@@ -23,129 +23,65 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 40
-+-----------+------------------+-------------------------------+--------+
-| Rule      | Severity         | Description                   | Checks |
-+-----------+------------------+-------------------------------+--------+
-| TIMING-17 | Critical Warning | Non-clocked sequential cell   | 23     |
-| TIMING-18 | Warning          | Missing input or output delay | 17     |
-+-----------+------------------+-------------------------------+--------+
+             Checks found: 31
++-----------+----------+--------------------------------------------+--------+
+| Rule      | Severity | Description                                | Checks |
++-----------+----------+--------------------------------------------+--------+
+| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 3      |
+| TIMING-16 | Warning  | Large setup violation                      | 7      |
+| TIMING-18 | Warning  | Missing input or output delay              | 21     |
++-----------+----------+--------------------------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
-TIMING-17#1 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[0]/C is not reached by a timing clock
+SYNTH-6#1 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram0/RAM_reg_0, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
-TIMING-17#2 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[1]/C is not reached by a timing clock
+SYNTH-6#2 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram0/RAM_reg_1, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
-TIMING-17#3 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[2]/C is not reached by a timing clock
+SYNTH-6#3 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_selectbox/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
-TIMING-17#4 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[3]/C is not reached by a timing clock
+TIMING-16#1 Warning
+Large setup violation  
+There is a large setup violation of -1.149 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[8]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#5 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[4]/C is not reached by a timing clock
+TIMING-16#2 Warning
+Large setup violation  
+There is a large setup violation of -1.312 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[9]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#6 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[5]/C is not reached by a timing clock
+TIMING-16#3 Warning
+Large setup violation  
+There is a large setup violation of -1.435 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[10]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#7 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[6]/C is not reached by a timing clock
+TIMING-16#4 Warning
+Large setup violation  
+There is a large setup violation of -1.494 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[11]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#8 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[7]/C is not reached by a timing clock
+TIMING-16#5 Warning
+Large setup violation  
+There is a large setup violation of -1.748 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[12]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#9 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[8]/C is not reached by a timing clock
+TIMING-16#6 Warning
+Large setup violation  
+There is a large setup violation of -1.905 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[13]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
-TIMING-17#10 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_count_reg_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#11 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/h_sync_reg_reg/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#12 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/mod2_reg_reg/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#13 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[0]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#14 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[1]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#15 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[2]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#16 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[3]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#17 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[4]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#18 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[5]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#19 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[6]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#20 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[7]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#21 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[8]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#22 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_count_reg_reg[9]/C is not reached by a timing clock
-Related violations: <none>
-
-TIMING-17#23 Critical Warning
-Non-clocked sequential cell  
-The clock pin vs0/v_sync_reg_reg/C is not reached by a timing clock
+TIMING-16#7 Warning
+Large setup violation  
+There is a large setup violation of -2.033 ns between cart_quantity_reg[8][1]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[14]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
 Related violations: <none>
 
 TIMING-18#1 Warning
@@ -231,6 +167,26 @@ Related violations: <none>
 TIMING-18#17 Warning
 Missing input or output delay  
 An output delay is missing on VGA_RED[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#18 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#19 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#20 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#21 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 

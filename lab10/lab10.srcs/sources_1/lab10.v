@@ -72,11 +72,30 @@ vending_fsm fsm0 (
     .selection_index(selection_index)
 );
 
+// Price Calculation
+wire [15:0] total_due;  // Total amount to pay based on cart
+
+price_calculator price_calc0 (
+    .clk(clk),
+    .reset(rst),
+    // Price inputs
+    .price_0(drink_price[0]), .price_1(drink_price[1]), .price_2(drink_price[2]),
+    .price_3(drink_price[3]), .price_4(drink_price[4]), .price_5(drink_price[5]),
+    .price_6(drink_price[6]), .price_7(drink_price[7]), .price_8(drink_price[8]),
+    // Cart quantity inputs
+    .qty_0(cart_quantity[0]), .qty_1(cart_quantity[1]), .qty_2(cart_quantity[2]),
+    .qty_3(cart_quantity[3]), .qty_4(cart_quantity[4]), .qty_5(cart_quantity[5]),
+    .qty_6(cart_quantity[6]), .qty_7(cart_quantity[7]), .qty_8(cart_quantity[8]),
+    // Output
+    .total_due(total_due)
+);
+
 // ------------------------------------------------------------------------
 // Stock & Cart Management
 // ------------------------------------------------------------------------
 reg [2:0] stock [0:8];         // Available stock for each item
 reg [2:0] cart_quantity [0:8]; // Items selected by user (the "shopping cart")
+reg [7:0] drink_price [0:8];   // Price for each drink (in dollars)
 
 integer i;
 initial begin
@@ -84,6 +103,11 @@ initial begin
     stock[0] = 5; stock[1] = 0; stock[2] = 0;
     stock[3] = 5; stock[4] = 5; stock[5] = 0;
     stock[6] = 0; stock[7] = 0; stock[8] = 5;
+
+    // Initialize prices (as per SPECIFICATION.md example)
+    drink_price[0] = 10; drink_price[1] = 5;  drink_price[2] = 15;
+    drink_price[3] = 8;  drink_price[4] = 12; drink_price[5] = 6;
+    drink_price[6] = 20; drink_price[7] = 10; drink_price[8] = 15;
 
     // Initialize cart to all zeros
     for (i = 0; i < 9; i = i + 1) begin
@@ -166,6 +190,22 @@ clk_divider#(2) clk_divider0(
 );
 
 // ------------------------------------------------------------------------
+// Text Renderer (displays "TOTAL: $XXX" in top-left corner)
+// ------------------------------------------------------------------------
+wire text_pixel;
+wire is_text_area;
+
+text_renderer text_render0 (
+  .clk(clk),
+  .reset(rst),
+  .pixel_x(pixel_x),
+  .pixel_y(pixel_y),
+  .total_due(total_due),
+  .text_pixel(text_pixel),
+  .is_text_area(is_text_area)
+);
+
+// ------------------------------------------------------------------------
 // SRAM Blocks for Background and Sprites
 // ------------------------------------------------------------------------
 
@@ -201,7 +241,11 @@ sram #(
 
 
 // Tie off unused/static signals
-assign usr_led[0] = btn_debounced[0];
+// LED[3:0] displays lower 4 bits of total_due for debugging
+// This allows you to see if price calculation is working
+// Example: cart with 1x $10 drink → total_due = 10 → LED = 4'b1010
+assign usr_led[3:0] = total_due[3:0];
+
 assign sram_we = sram_we_reg; // Connected to an always-zero register to avoid write bug
 assign sram_en = 1;
 assign data_in = 12'h000;
@@ -354,10 +398,13 @@ always @(*) begin
     // Priority 1: Blanking periods (sync)
     if (~video_on) begin
         rgb_next = 12'h000;
-    // Priority 2: Selection Box (moves on top of dots)
+    // Priority 2: Text overlay (highest visible priority)
+    end else if (is_text_area && text_pixel) begin
+        rgb_next = 12'hFFF;  // White text
+    // Priority 3: Selection Box (moves on top of dots)
     end else if ( is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR) ) begin
         rgb_next = selectbox_data_out;
-    // Priority 3: Dots for all 9 items
+    // Priority 4: Dots for all 9 items
     end else if (is_dot_pixel_0) begin
         rgb_next = dot_color_0;
     end else if (is_dot_pixel_1) begin
@@ -376,10 +423,10 @@ always @(*) begin
         rgb_next = dot_color_7;
     end else if (is_dot_pixel_8) begin
         rgb_next = dot_color_8;
-    // Priority 4: Scaled Background Image
+    // Priority 5: Scaled Background Image
     end else if ( on_background ) begin
         rgb_next = data_out;
-    // Priority 5: Screen Borders
+    // Priority 6: Screen Borders
     end else begin
         rgb_next = 12'h000;
     end

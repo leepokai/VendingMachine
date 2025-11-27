@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Vivado FPGA project targeting the Arty A7 development board. The project implements a VGA display system that animates a fish swimming across a seabed background. Despite the repository name "VendingMachine", the current implementation (lab10) is a VGA animation demo.
+This is a Vivado FPGA project targeting the Arty A7 development board. The project implements a Vending Machine controller with VGA display interface. Users can navigate through a 3x3 grid of products, select quantities, and manage a shopping cart using physical buttons on the FPGA board.
 
 ## Project Structure
 
@@ -13,11 +13,14 @@ lab10/
 ├── lab10.xpr                    # Vivado project file
 ├── lab10.srcs/
 │   ├── sources_1/
-│   │   ├── lab10.v              # Top-level module
+│   │   ├── lab10.v              # Top-level module (vending machine controller)
 │   │   ├── vga_sync.v           # VGA sync signal generator (640x480 @ 60Hz)
 │   │   ├── clk_divider.v        # Clock divider module
 │   │   ├── sram.v               # Initialized SRAM block for images
-│   │   └── images.mem           # Image data file (12-bit RGB values)
+│   │   ├── debounce.v           # Button debouncing module
+│   │   ├── vending_fsm.v        # Product selection FSM
+│   │   ├── VendingMachineBg.mem # Background image (40x70 pixels)
+│   │   └── SelectBox.mem        # Selection box sprite (25x5 pixels)
 │   └── constrs_1/
 │       └── lab10.xdc            # Pin constraints for Arty A7 board
 ```
@@ -28,8 +31,10 @@ lab10/
 - **Target Board**: Arty A7 (Artix-7 FPGA)
 - **Input Clock**: 100 MHz system clock
 - **VGA Output**: 640x480 @ 60Hz (requires 25 MHz pixel clock)
-- **Display Buffer**: 320x240 pixels scaled 2x to fill 640x480 screen
-- **Image Storage**: SRAM initialized with background (320x240) and fish sprites (64x32 each)
+- **Display Buffer**: 40x70 pixels scaled 6x to 240x420 (centered on screen)
+- **Image Storage**: SRAM initialized with background and selection box sprite
+- **User Interface**: 3x3 product grid with stock/cart visualization
+- **Button Inputs**: 4 debounced buttons for navigation and selection
 
 ### Key Components
 
@@ -41,19 +46,48 @@ lab10/
 2. **Clock Divider** (clk_divider.v)
    - Parameterized clock divider (divides by 2 for VGA: 100MHz → 50MHz)
 
-3. **SRAM Module** (sram.v)
-   - Inferred Block RAM for image storage
-   - Initialized from images.mem file
+3. **SRAM Modules** (sram.v)
+   - **Background SRAM**: 40×70 pixels (2,800 words) - VendingMachineBg.mem
+   - **Sprite SRAM**: 25×5 pixels (125 words) - SelectBox.mem
    - 12-bit color depth (4 bits per RGB channel)
-   - Size: 320×240 background + 64×32×2 fish sprites = 80,896 words
+   - Transparent color support: 12'h0F0 (green screen)
 
-### Animation Mechanism
+4. **Debounce Module** (debounce.v)
+   - Parameterized debouncing (default: 10ms at 100 MHz)
+   - 2-stage synchronizer for metastability prevention
+   - Counter-based stable input detection
 
-- Fish animation uses a 32-bit counter (fish_clock)
-- Upper 12 bits [31:20] control horizontal position
-- Bit [23] alternates between two fish sprite frames
-- Fish moves right at ~10.49 ms per pixel
-- Automatically wraps when reaching screen edge
+5. **Vending FSM** (vending_fsm.v)
+   - Manages product selection index (0-8)
+   - Edge-triggered navigation (left/right buttons)
+   - Circular wrapping at boundaries
+
+### User Interaction Mechanism
+
+**Button Mapping:**
+- **usr_btn[0]**: Navigate right (increment selection_index)
+- **usr_btn[1]**: Navigate left (decrement selection_index)
+- **usr_btn[2]**: Add to cart / cycle quantity (0 → stock max → 0)
+- **usr_btn[3]**: Submit order (TODO: not yet implemented)
+
+**Product Grid Layout (3x3):**
+```
+Row 1: Index 0, 1, 2 (base_y = 14)
+Row 2: Index 3, 4, 5 (base_y = 26)
+Row 3: Index 6, 7, 8 (base_y = 37)
+```
+
+**Visual Feedback:**
+- **Selection Box**: 25×5 sprite scaled 2x, positioned over selected item
+- **Stock Indicators**: 5 dots per item (8×8 pixels each)
+  - Gray: Out of stock
+  - Blue: In stock
+  - Green: Added to cart
+- **Display Layers** (back to front):
+  1. Black borders
+  2. Background image (40×70, scaled 6x)
+  3. Stock/cart dots
+  4. Selection box sprite (with transparency)
 
 ## Vivado Development Commands
 
@@ -114,22 +148,58 @@ program_hw_devices [get_hw_devices xc7a35t_0]
 
 ## Memory Initialization
 
-The SRAM module reads initial values from `images.mem` using `$readmemh()`. This file must contain:
-- First 76,800 entries: 320×240 background image (12-bit hex values)
-- Next 2,048 entries: First 64×32 fish sprite
-- Next 2,048 entries: Second 64×32 fish sprite
+The SRAM modules read initial values using `$readmemh()`:
 
-Total: 80,896 memory words
+**VendingMachineBg.mem:**
+- 2,800 words (40 × 70 pixels)
+- 12-bit hex RGB values
+- Contains product display background
+
+**SelectBox.mem:**
+- 125 words (25 × 5 pixels)
+- 12-bit hex RGB values
+- Green screen color (12'h0F0) used for transparency
 
 ## Modification Guidelines
 
 When modifying the design:
 
-1. **Changing Image Resolution**: Update VBUF_W and VBUF_H parameters, adjust SRAM size accordingly
-2. **Adding More Sprites**: Extend fish_addr array and update SRAM RAM_SIZE parameter
-3. **Adjusting Animation Speed**: Modify which bits of fish_clock are used for position (currently [31:20])
-4. **Changing VGA Resolution**: Update vga_sync.v parameters and pixel scaling logic in lab10.v
+1. **Changing Background Resolution**: Update VBUF_W and VBUF_H parameters in lab10.v, adjust SCALE_FACTOR for desired screen coverage
+2. **Modifying Product Layout**: Update base coordinates in the case statement (lines 225-239) and corresponding constants (lines 286-294)
+3. **Adding More Products**: Extend grid beyond 3×3 by:
+   - Increasing selection_index width in vending_fsm.v
+   - Adding new case entries for coordinates
+   - Expanding stock and cart_quantity arrays
+   - Adding new `DOT_LOGIC` macro invocations
+4. **Changing Initial Stock**: Modify initial block for stock array (lines 82-92)
+5. **Adjusting Debounce Time**: Change DELAY_TIME parameter in debounce module instantiation
+6. **Implementing Order Submission**: Complete TODO at line 110 for btn3_posedge logic
 
 ## SRAM Synthesis Note
 
-The design includes `assign sram_we = usr_btn[3]` as a workaround for a Vivado synthesis bug. Without connecting sram_we to an input, Vivado fails to infer the RAM as BRAM. The `(* ram_style = "block" *)` attribute in sram.v forces BRAM inference.
+The design uses a registered write enable signal (`sram_we_reg`) that is always kept low. This prevents accidental writes while ensuring proper BRAM inference by Vivado. The `(* ram_style = "block" *)` attribute in sram.v forces Block RAM inference instead of distributed RAM.
+
+## Scaling and Coordinate System
+
+**Background Scaling:**
+- Source: 40×70 pixels
+- Scaled: 6× → 240×420 pixels
+- Position: Centered on 640×480 screen (H_START=200, V_START=30)
+
+**Selection Box Scaling:**
+- Source: 25×5 pixels
+- Scaled: 2× → 50×10 pixels
+- Position: Dynamically calculated based on selection_index
+
+**Coordinate Mapping:**
+- Background coordinates (40×70 grid) → Screen coordinates (640×480)
+- Formula: `screen_pos = H_START/V_START + grid_pos × SCALE_FACTOR`
+
+## Current Stock Configuration
+
+Default stock levels (can be modified in lab10.v lines 82-92):
+```
+Index 0: 5 items    Index 1: 0 items    Index 2: 0 items
+Index 3: 5 items    Index 4: 5 items    Index 5: 0 items
+Index 6: 0 items    Index 7: 0 items    Index 8: 5 items
+```

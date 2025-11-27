@@ -3,3 +3,13 @@
     <Process Command="vivado.bat" Owner="kevin" Host="LAPTOP-SNCUKG72" Pid="25732" HostCore="8" HostMemory="025441964032">
     </Process>
 </ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="kevin" Host="LAPTOP-SNCUKG72" Pid="19920" HostCore="8" HostMemory="025441964032">
+    </Process>
+</ProcessHandle>
+<?xml version="1.0"?>
+<ProcessHandle Version="1" Minor="0">
+    <Process Command="vivado.bat" Owner="kevin" Host="LAPTOP-SNCUKG72" Pid="39240" HostCore="8" HostMemory="025441964032">
+    </Process>
+</ProcessHandle>
