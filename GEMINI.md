@@ -2,65 +2,71 @@
 
 ## Project Overview
 
-This is a hardware design project that implements a graphical vending machine on a Xilinx Artix-7 FPGA (specifically the Digilent Arty A7 board). The project is written in Verilog.
+This is a hardware design project implementing a graphical Vending Machine on a Xilinx Artix-7 FPGA (Digilent Arty A7). The system features a 640x480 VGA interface to display a rich graphical user interface with sprite-based animations.
 
-The system features a 640x480 VGA display to show a 3x3 grid of drink options. Users can select drinks and quantities using the onboard push-buttons. The payment system accepts three coin denominations ($1, $5, $10) and provides change automatically. The core logic is managed by a Finite State Machine (FSM) that transitions between states for selection, payment, dispensing, and errors.
+The vending machine allows users to:
+1.  **Select Drinks**: Navigate a 3x3 grid of beverages (Water, Juice, Tea, Cola, etc.) and adjust quantities ("shopping cart").
+2.  **Make Payments**: Insert coins ($1, $5, $10) to cover the total cost.
+3.  **Receive Change**: An intelligent dispenser algorithm calculates and dispenses the optimal change.
+4.  **View Animations**: Watch visual feedback where purchased items "drop" sequentially into the collection bin.
 
-Key components include:
-- **FSM Controller**: Manages the main application states.
-- **VGA Sync/Controller**: Generates timing and pixel data for the 640x480 display.
-- **Memory Modules**: Utilizes on-chip SRAM to store image assets like background, drink sprites, and coin images, which are loaded from `.mem` files.
-- **Debouncers & Clock Dividers**: Standard hardware utilities for handling button inputs and generating necessary clock frequencies from the 100MHz system clock.
+## Key Features & Architecture
 
-The project is structured within a Vivado project file (`lab10/lab10.xpr`).
+### 1. Finite State Machines (FSMs)
+The system logic is distributed across several specialized FSMs:
+*   **`main_fsm`**: Orchestrates the high-level system state, transitioning between `SELECTION` and `PAYMENT` modes.
+*   **`vending_fsm`**: Handles navigation (Left/Right) and selection index updates within the 3x3 grid during the `SELECTION` phase.
+*   **`coin_selector`**: Manages coin denomination selection ($1, $5, $10) via Up/Down buttons during the `PAYMENT` phase.
+*   **`change_dispenser`**: A greedy algorithm that calculates the minimum number of coins needed for change.
+*   **`animation_controller`**: A complex state machine that manages the **sequential** playback of drop animations. It iterates through the user's cart and plays the specific animation for every single item purchased.
 
-## Building and Running
+### 2. Graphical Rendering Engine
+The VGA controller (`vga_sync`) drives a 640x480 display. The rendering logic in `lab10.v` uses a strict **priority-based layering system** to compose the final image. 
 
-This is a Xilinx Vivado project. The primary workflow involves using the Vivado Design Suite GUI or Tcl scripting.
+**Rendering Layer Order (Highest to Lowest Priority):**
+1.  **UI Text Overlays**: "TOTAL", "PAID", "CHANGE", and Coin Counts.
+2.  **Selection Box**: The highlight frame around the currently selected drink.
+3.  **Stock Indicators (Dots)**: 5 vertical dots indicating current stock/selection level. (Rendered *on top* of the chassis).
+4.  **Vending Machine Chassis**: The main static background image (with a transparent window).
+5.  **Item Drop Animation**: Dynamic sprite animations (Water, Juice, Tea, Cola) that appear "inside" the machine (behind the chassis window).
+6.  **Green Background**: The furthest background layer visible through the machine's window.
 
-**1. Open the Project:**
-   Open the `lab10/lab10.xpr` file in Vivado.
+### 3. Memory & Assets
+On-chip SRAM is used to store graphical assets, loaded from `.mem` files:
+*   **Backgrounds**: `VendingMachineBg.mem`, `VendingMachineGreenBgsBg.mem`.
+*   **UI Elements**: `SelectBox.mem`.
+*   **Coins**: `Coin1.mem`, `Coin5.mem`, `Coin10.mem`.
+*   **Animations**: `WaterDropSheet.mem`, `JuiceDropSheet.mem`, `TeaDropSheet.mem`, `ColaDropSheet.mem`, `EnergyDropSheet.mem` (mapped generically).
 
-**2. Build via Tcl Console:**
-   Within the Vivado Tcl console, run the following commands to synthesize the design, run implementation, and generate the final bitstream file.
+## Input/Output Mapping
 
-   ```tcl
-   # Synthesize
-   reset_run synth_1
-   launch_runs synth_1
-   wait_on_run synth_1
+*   **clk**: 100 MHz system clock.
+*   **reset_n**: Active-low reset.
+*   **usr_btn[3:0]**:
+    *   `btn3`: **Confirm/Switch Mode** (Submit Selection <-> Pay).
+    *   `btn2`: **Action** (Add to Cart / Insert Coin).
+    *   `btn1`: **Navigation** (Left / Coin Down).
+    *   `btn0`: **Navigation** (Right / Coin Up).
+*   **VGA**: Standard RGB444 output with HSYNC/VSYNC.
 
-   # Implement
-   launch_runs impl_1
-   wait_on_run impl_1
+## Current Implementation Status
 
-   # Generate bitstream
-   launch_runs impl_1 -to_step write_bitstream
-   wait_on_run impl_1
-   ```
-   The output will be located at: `lab10/lab10.runs/impl_1/lab10.bit` (or similar).
+### Recent Updates
+*   **Multi-Item Animation**: The `animation_controller` was rewritten to support multi-item purchases. It accepts a flattened cart array (`flat_cart_quantity`) and plays the drop animation $N$ times for $N$ items purchased, ensuring visual feedback matches the exact purchase list.
+*   **Layering Fix**: The rendering logic was updated to ensure "Stock Dots" are drawn *on top* of the Vending Machine Chassis, while animations remain correctly "inside" (behind) the chassis.
 
-**3. Program the FPGA:**
-   Connect the Arty A7 board. In the Vivado Hardware Manager, use the following Tcl commands or the GUI equivalent.
+### Build Instructions
+The project is a standard Vivado project (`lab10.xpr`).
 
-   ```tcl
-   # In Vivado hardware manager
-   open_hw_manager
-   connect_hw_server
-   open_hw_target
-   # Make sure the bitstream path is correct
-   set_property PROGRAM.FILE {/path/to/your/project/lab10/lab10.runs/impl_1/vending_machine_top.bit} [get_hw_devices xc7a35t_0]
-   program_hw_devices [get_hw_devices xc7a35t_0]
-   ```
+1.  **Synthesize & Implement**: Run the standard Vivado build flow.
+2.  **Bitstream**: The target bitstream is generated in `lab10.runs/impl_1/`.
+3.  **Programming**: Use the Hardware Manager to program the Arty A7 (`xc7a35t`).
 
-## Development Conventions
-
-*   **Project Structure**:
-    *   **Vivado Project**: The main project is `lab10/lab10.xpr`.
-    *   **Verilog Source**: Source files (`.v`) are located in `lab10/lab10.srcs/sources_1/`. The top module appears to be `lab10.v`.
-    *   **Constraints**: The physical pin assignments and timing constraints (`.xdc`) are in `lab10/lab10.srcs/constrs_1/`.
-    *   **Memory Files**: Memory initialization files (`.mem`) for images and sprites are stored in `backup_mem/`. These files use a 12-bit RGB hex format.
-
-*   **Coding Style**: The design is modular, with clear separation of concerns as outlined in the documentation (e.g., `vga_sync`, `fsm_controller`, `payment_controller`). Button inputs are consistently debounced.
-
-*   **State Management**: The core system behavior is explicitly defined by a set of states: `IDLE`, `SELECTION`, `PAYMENT`, `DISPENSING`, and `ERROR`. All logic should conform to these states.
+## File Structure
+*   `lab10/lab10.srcs/sources_1/`:
+    *   `lab10.v`: Top-level module and rendering logic.
+    *   `animation_controller.v`: Animation sequencing logic.
+    *   `change_dispenser.v`: Change calculation logic.
+    *   `main_fsm.v`, `vending_fsm.v`: State control.
+    *   `sram.v`: Memory interface.
+*   `backup_mem/`: Source directory for `.mem` initialization files.

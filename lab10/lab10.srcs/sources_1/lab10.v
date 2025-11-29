@@ -89,7 +89,7 @@ end
 wire [3:0] selection_index;
 vending_fsm fsm0 (
     .clk(clk),
-    .reset(rst),
+    .reset(rst || transition_to_selection),
     .btn_left(btn_debounced[1]),
     .btn_right(btn_debounced[0]),
     .selection_index(selection_index)
@@ -243,7 +243,7 @@ always @(posedge clk or posedge rst) begin
             dispenser_start <= 1'b1;
             dispensing <= 1'b1;
         // Priority 3: Coin insertion in PAYMENT state
-        end else if (current_state == 1'b1 && btn2_posedge && !dispensing) begin
+        end else if (current_state == 1'b1 && btn2_posedge && !dispensing && !dispense_completed) begin
             // Insert one of the selected coin type
             coins_inserted[coin_index] <= coins_inserted[coin_index] + 8'd1;
         end
@@ -301,6 +301,11 @@ always @(posedge clk or posedge rst) begin
     end else begin
         // Reset cart when returning from PAYMENT to SELECTION (new round)
         if (transition_to_selection) begin
+            cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
+            cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
+            cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
+        // Also reset cart immediately upon successful purchase to update UI
+        end else if (dispensing && dispenser_done && dispenser_success) begin
             cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
             cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
             cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
@@ -558,53 +563,85 @@ sram #(
     .data_i(12'h000),
     .data_o(coin10_data_out)
 );
+
+// ------------------------------------------------------------------------
+// Animation Controller and SRAMs
+// ------------------------------------------------------------------------
+wire animation_active;
+wire [2:0] anim_frame_index;
+wire [3:0] anim_item_index; // Index of the item currently being animated
+wire [11:0] water_anim_data_out, juice_anim_data_out, tea_anim_data_out, cola_anim_data_out;
+reg [9:0] anim_addr; // 10 bits for 10*10*6 = 600 pixels
+
+// Flatten cart quantity for the animator module
+wire [26:0] flat_cart_quantity;
+assign flat_cart_quantity = {
+    cart_quantity[8], cart_quantity[7], cart_quantity[6],
+    cart_quantity[5], cart_quantity[4], cart_quantity[3],
+    cart_quantity[2], cart_quantity[1], cart_quantity[0]
+};
+
+animation_controller anim_manager0 (
+    .clk(clk),
+    .reset(rst),
+    .start(dispenser_success),
+    .flat_cart_quantity(flat_cart_quantity),
+    .animation_active(animation_active),
+    .frame_index(anim_frame_index),
+    .current_item_index(anim_item_index)
+);
+
+// SRAM for Water Drop Animation
+sram #( .DATA_WIDTH(12), .ADDR_WIDTH(10), .RAM_SIZE(600), .MEM_INIT_FILE("WaterDropSheet.mem") )
+ram_anim_water (.clk(clk), .we(1'b0), .en(1'b1), .addr(anim_addr), .data_i(12'h000), .data_o(water_anim_data_out));
+
+// SRAM for Juice Drop Animation
+sram #( .DATA_WIDTH(12), .ADDR_WIDTH(10), .RAM_SIZE(600), .MEM_INIT_FILE("JuiceDropSheet.mem") )
+ram_anim_juice (.clk(clk), .we(1'b0), .en(1'b1), .addr(anim_addr), .data_i(12'h000), .data_o(juice_anim_data_out));
+
+// SRAM for Tea Drop Animation
+sram #( .DATA_WIDTH(12), .ADDR_WIDTH(10), .RAM_SIZE(600), .MEM_INIT_FILE("TeaDropSheet.mem") )
+ram_anim_tea (.clk(clk), .we(1'b0), .en(1'b1), .addr(anim_addr), .data_i(12'h000), .data_o(tea_anim_data_out));
+
+// SRAM for Cola Drop Animation
+sram #( .DATA_WIDTH(12), .ADDR_WIDTH(10), .RAM_SIZE(600), .MEM_INIT_FILE("ColaDropSheet.mem") )
+ram_anim_cola (.clk(clk), .we(1'b0), .en(1'b1), .addr(anim_addr), .data_i(12'h000), .data_o(cola_anim_data_out));
+
 // Tie off unused/static signals
-// LED[3:0] displays lower 4 bits of total_due for debugging
-// This allows you to see if price calculation is working
-// Example: cart with 1x $10 drink → total_due = 10 → LED = 4'b1010
 assign usr_led[3:0] = total_due[3:0];
-assign sram_we = sram_we_reg; // Connected to an always-zero register to avoid write bug
+assign sram_we = sram_we_reg;
 assign sram_en = 1;
 assign data_in = 12'h000;
 always @(posedge clk or posedge rst) begin
-    if (rst) begin
-        sram_we_reg <= 1'b0;
-    end else begin
-        sram_we_reg <= 1'b0; // Always keep write enable low for background SRAM
-    end
+    if (rst) sram_we_reg <= 1'b0;
+    else sram_we_reg <= 1'b0;
 end
+
 // ------------------------------------------------------------------------
 // Sprite and AGU (Address Generation Unit) Logic
 // ------------------------------------------------------------------------
 localparam SPRITE_SCALE_FACTOR = 2;
-// Logic to calculate the sprite coordinates based on a center point
 always @(*)
 begin
-    // Define the CENTER point of the selection box on the 40x70 background grid
     case (selection_index)
-        // Row 1
-        0: begin base_x = 10; base_y = 14; end // Y-start adjusted
+        0: begin base_x = 10; base_y = 14; end
         1: begin base_x = 20; base_y = 14; end
         2: begin base_x = 30; base_y = 14; end
-        // Row 2
-        3: begin base_x = 10; base_y = 26; end // Y-spacing adjusted to 12
+        3: begin base_x = 10; base_y = 26; end
         4: begin base_x = 20; base_y = 26; end
         5: begin base_x = 30; base_y = 26; end
-        // Row 3
-        6: begin base_x = 10; base_y = 37; end // Y-spacing adjusted to 11
+        6: begin base_x = 10; base_y = 37; end
         7: begin base_x = 20; base_y = 37; end
         8: begin base_x = 30; base_y = 37; end
         default: begin base_x = 10; base_y = 14; end
     endcase
-    // Calculate the on-screen center point by scaling the base coordinates
     on_screen_center_x = H_START + base_x * SCALE_FACTOR;
     on_screen_center_y = V_START + base_y * SCALE_FACTOR;
-    // Calculate the top-left corner for the SCALED sprite
     sprite_x_start = on_screen_center_x - (BOX_W * SPRITE_SCALE_FACTOR / 2);
     sprite_y_start = on_screen_center_y - (BOX_H * SPRITE_SCALE_FACTOR / 2);
 end
+
 // AGU for the background image (3-stage pipeline to fix timing)
-// Stage 1: Perform the first multiplication for scaling factor
 always @(posedge clk) begin
     on_background_reg1 <= (pixel_x >= H_START && pixel_x <= H_END) && (pixel_y >= V_START && pixel_y <= V_END);
     if ((pixel_x >= H_START && pixel_x <= H_END) && (pixel_y >= V_START && pixel_y <= V_END)) begin
@@ -612,196 +649,123 @@ always @(posedge clk) begin
         scaled_y_stage1 <= (pixel_y - V_START) * 171;
     end
 end
-
-// Stage 2: Perform the scaling shift and the second multiplication (by VBUF_W)
 always @(posedge clk) begin
     on_background_reg2 <= on_background_reg1;
-    on_background_reg3 <= on_background_reg2; // Pass through for 3rd stage
+    on_background_reg3 <= on_background_reg2;
     if (on_background_reg1) begin
         scaled_x_stage2 <= scaled_x_stage1 >> 10;
         scaled_y_stage2 <= scaled_y_stage1 >> 10;
         y_mult_40_stage2 <= (scaled_y_stage1 >> 10) * VBUF_W;
     end
 end
-
-// Stage 3: Final addition, registered output.
 always @(posedge clk) begin
-    if (rst)
-        pixel_addr <= 0;
-    else if (on_background_reg2)
-        pixel_addr <= y_mult_40_stage2 + scaled_x_stage2;
-    else
-        pixel_addr <= 0; // Default address when not on background
+    if (rst) pixel_addr <= 0;
+    else if (on_background_reg2) pixel_addr <= y_mult_40_stage2 + scaled_x_stage2;
+    else pixel_addr <= 0;
 end
+
 // AGU for the SelectBox sprite (scaled 2x)
 wire [9:0] scaled_sprite_w = BOX_W * SPRITE_SCALE_FACTOR;
 wire [9:0] scaled_sprite_h = BOX_H * SPRITE_SCALE_FACTOR;
 wire is_on_sprite = (pixel_x >= sprite_x_start) && (pixel_x < sprite_x_start + scaled_sprite_w) &&
                     (pixel_y >= sprite_y_start) && (pixel_y < sprite_y_start + scaled_sprite_h);
 always @ (posedge clk) begin
-    if (rst)
-        selectbox_addr <= 0;
-    else if (is_on_sprite)
-        selectbox_addr <= ((pixel_y - sprite_y_start) / SPRITE_SCALE_FACTOR) * BOX_W + ((pixel_x - sprite_x_start) / SPRITE_SCALE_FACTOR);
-    else
-        selectbox_addr <= 0;
+    if (rst) selectbox_addr <= 0;
+    else if (is_on_sprite) selectbox_addr <= ((pixel_y - sprite_y_start) / SPRITE_SCALE_FACTOR) * BOX_W + ((pixel_x - sprite_x_start) / SPRITE_SCALE_FACTOR);
+    else selectbox_addr <= 0;
 end
-// AGU for the Green Background sprite
+// AGU for the Green Background sprite (pipelined)
 localparam GREEN_BG_X_START = 9;
 localparam GREEN_BG_Y_START = 56;
-wire on_background = (pixel_x >= H_START && pixel_x <= H_END) &&
-                     (pixel_y >= V_START && pixel_y <= V_END);
+wire on_background = (pixel_x >= H_START && pixel_x <= H_END) && (pixel_y >= V_START && pixel_y <= V_END);
 reg is_on_green_bg_reg;
 reg is_on_green_bg_reg_s3;
-
-// AGU for the Green Background sprite (pipelined)
-
 always @(posedge clk) begin
-
     if (rst) begin
-
         green_bg_addr <= 0;
-
         is_on_green_bg_reg <= 1'b0;
         is_on_green_bg_reg_s3 <= 1'b0;
-
     end else begin
         is_on_green_bg_reg_s3 <= is_on_green_bg_reg;
-        // Check if the pipelined coordinates fall within the green bg sprite area
-
-        if (on_background_reg2 && // Use the appropriate delayed signal
-
-            (scaled_x_stage2 >= GREEN_BG_X_START) && (scaled_x_stage2 < GREEN_BG_X_START + GREEN_BG_W) &&
-
-            (scaled_y_stage2 >= GREEN_BG_Y_START) && (scaled_y_stage2 < GREEN_BG_Y_START + GREEN_BG_H))
-
+        if (on_background_reg2 && (scaled_x_stage2 >= GREEN_BG_X_START) && (scaled_x_stage2 < GREEN_BG_X_START + GREEN_BG_W) && (scaled_y_stage2 >= GREEN_BG_Y_START) && (scaled_y_stage2 < GREEN_BG_Y_START + GREEN_BG_H))
         begin
-
             is_on_green_bg_reg <= 1'b1;
-
             green_bg_addr <= (scaled_y_stage2 - GREEN_BG_Y_START) * GREEN_BG_W + (scaled_x_stage2 - GREEN_BG_X_START);
-
         end else begin
-
             is_on_green_bg_reg <= 1'b0;
-
             green_bg_addr <= 0;
-
         end
-
     end
-
 end
-// ------------------------------------------------------------------------
-// Coin AGU and Display Logic (for PAYMENT state)
-// ------------------------------------------------------------------------
-// Check if pixel is on any coin
-wire is_on_coin0 = (pixel_x >= coin0_x_start) && (pixel_x < coin0_x_start + COIN_W) &&
-                   (pixel_y >= coin0_y_start) && (pixel_y < coin0_y_start + COIN_H);
-wire is_on_coin1 = (pixel_x >= coin1_x_start) && (pixel_x < coin1_x_start + COIN_W) &&
-                   (pixel_y >= coin1_y_start) && (pixel_y < coin1_y_start + COIN_H);
-wire is_on_coin2 = (pixel_x >= coin2_x_start) && (pixel_x < coin2_x_start + COIN_W) &&
-                   (pixel_y >= coin2_y_start) && (pixel_y < coin2_y_start + COIN_H);
+// AGU and MUX for Animation
+localparam ANIM_W = 10;
+localparam ANIM_H = 10;
+localparam ANIM_SCALE = 6;
+localparam SCALED_ANIM_W = ANIM_W * ANIM_SCALE;
+localparam SCALED_ANIM_H = ANIM_H * ANIM_SCALE;
+localparam ANIM_X_START = (VGA_W - SCALED_ANIM_W) / 2;
+localparam ANIM_Y_START = V_START + (GREEN_BG_Y_START + GREEN_BG_H) * SCALE_FACTOR - SCALED_ANIM_H;
+wire is_on_animation = (pixel_x >= ANIM_X_START) && (pixel_x < ANIM_X_START + SCALED_ANIM_W) && (pixel_y >= ANIM_Y_START) && (pixel_y < ANIM_Y_START + SCALED_ANIM_H);
+wire [3:0] unscaled_x = (pixel_x - ANIM_X_START) / ANIM_SCALE;
+wire [3:0] unscaled_y = (pixel_y - ANIM_Y_START) / ANIM_SCALE;
+always @(posedge clk) begin
+    if (rst) begin
+        anim_addr <= 0;
+    end else if (is_on_animation) begin
+        // Corrected AGU for a 10x60 vertical sprite sheet
+        anim_addr <= (anim_frame_index * ANIM_H + unscaled_y) * ANIM_W + unscaled_x;
+    end else begin
+        anim_addr <= 0;
+    end
+end
+reg [11:0] anim_pixel_data;
+always @(*) begin
+    case (anim_item_index)
+        4'd0: anim_pixel_data = water_anim_data_out;
+        4'd3: anim_pixel_data = juice_anim_data_out;
+        4'd4: anim_pixel_data = tea_anim_data_out;
+        4'd8: anim_pixel_data = cola_anim_data_out;
+        default: anim_pixel_data = 12'h000;
+    endcase
+end
+// AGU and Display Logic for Coins
+wire is_on_coin0 = (pixel_x >= coin0_x_start) && (pixel_x < coin0_x_start + COIN_W) && (pixel_y >= coin0_y_start) && (pixel_y < coin0_y_start + COIN_H);
+wire is_on_coin1 = (pixel_x >= coin1_x_start) && (pixel_x < coin1_x_start + COIN_W) && (pixel_y >= coin1_y_start) && (pixel_y < coin1_y_start + COIN_H);
+wire is_on_coin2 = (pixel_x >= coin2_x_start) && (pixel_x < coin2_x_start + COIN_W) && (pixel_y >= coin2_y_start) && (pixel_y < coin2_y_start + COIN_H);
 wire is_on_any_coin = is_on_coin0 || is_on_coin1 || is_on_coin2;
-// Calculate coin address (same for all coins since they're all 20x20)
 always @ (posedge clk) begin
-    if (rst)
-        coin_addr <= 0;
-    else if (is_on_coin0)
-        coin_addr <= (pixel_y - coin0_y_start) * COIN_W + (pixel_x - coin0_x_start);
-    else if (is_on_coin1)
-        coin_addr <= (pixel_y - coin1_y_start) * COIN_W + (pixel_x - coin1_x_start);
-    else if (is_on_coin2)
-        coin_addr <= (pixel_y - coin2_y_start) * COIN_W + (pixel_x - coin2_x_start);
-    else
-        coin_addr <= 0;
+    if (rst) coin_addr <= 0;
+    else if (is_on_coin0) coin_addr <= (pixel_y - coin0_y_start) * COIN_W + (pixel_x - coin0_x_start);
+    else if (is_on_coin1) coin_addr <= (pixel_y - coin1_y_start) * COIN_W + (pixel_x - coin1_x_start);
+    else if (is_on_coin2) coin_addr <= (pixel_y - coin2_y_start) * COIN_W + (pixel_x - coin2_x_start);
+    else coin_addr <= 0;
 end
-// Select which coin data to display
 reg [11:0] coin_pixel_data;
 always @(*)
 begin
-    if (is_on_coin0)
-        coin_pixel_data = coin1_data_out;  // $1 coin
-    else if (is_on_coin1)
-        coin_pixel_data = coin5_data_out;  // $5 coin
-    else if (is_on_coin2)
-        coin_pixel_data = coin10_data_out; // $10 coin
-    else
-        coin_pixel_data = 12'h000;
+    if (is_on_coin0) coin_pixel_data = coin1_data_out;
+    else if (is_on_coin1) coin_pixel_data = coin5_data_out;
+    else if (is_on_coin2) coin_pixel_data = coin10_data_out;
+    else coin_pixel_data = 12'h000;
 end
-// Calculate coin selection box position based on coin_index
 always @(*)
 begin
     case (coin_index)
-        2'd0: begin
-            coin_selectbox_x = coin0_x_start - 3;  // Center around coin
-            coin_selectbox_y = coin0_y_start - 3;
-        end
-        2'd1: begin
-            coin_selectbox_x = coin1_x_start - 3;
-            coin_selectbox_y = coin1_y_start - 3;
-        end
-        2'd2: begin
-            coin_selectbox_x = coin2_x_start - 3;
-            coin_selectbox_y = coin2_y_start - 3;
-        end
-        default: begin
-            coin_selectbox_x = coin0_x_start - 3;
-            coin_selectbox_y = coin0_y_start - 3;
-        end
+        2'd0: begin coin_selectbox_x = coin0_x_start - 3; coin_selectbox_y = coin0_y_start - 3; end
+        2'd1: begin coin_selectbox_x = coin1_x_start - 3; coin_selectbox_y = coin1_y_start - 3; end
+        2'd2: begin coin_selectbox_x = coin2_x_start - 3; coin_selectbox_y = coin2_y_start - 3; end
+        default: begin coin_selectbox_x = coin0_x_start - 3; coin_selectbox_y = coin0_y_start - 3; end
     endcase
 end
-// Check if pixel is on coin selection box BORDER (hollow box)
-wire [9:0] coin_selectbox_w = COIN_W + 6;  // Coin width + border
-wire [9:0] coin_selectbox_h = COIN_H + 6;  // Coin height + border
-localparam COIN_BORDER_WIDTH = 2;  // Border thickness in pixels
-// Check if on outer box
-wire on_coin_selectbox_outer = (pixel_x >= coin_selectbox_x) && (pixel_x < coin_selectbox_x + coin_selectbox_w) &&
-                                (pixel_y >= coin_selectbox_y) && (pixel_y < coin_selectbox_y + coin_selectbox_h);
-// Check if on inner box (hollow area)
-wire on_coin_selectbox_inner = (pixel_x >= coin_selectbox_x + COIN_BORDER_WIDTH) &&
-                                (pixel_x < coin_selectbox_x + coin_selectbox_w - COIN_BORDER_WIDTH) &&
-                                (pixel_y >= coin_selectbox_y + COIN_BORDER_WIDTH) &&
-                                (pixel_y < coin_selectbox_y + coin_selectbox_h - COIN_BORDER_WIDTH);
-// Only show border (outer box but not inner box)
+wire [9:0] coin_selectbox_w = COIN_W + 6;
+wire [9:0] coin_selectbox_h = COIN_H + 6;
+localparam COIN_BORDER_WIDTH = 2;
+wire on_coin_selectbox_outer = (pixel_x >= coin_selectbox_x) && (pixel_x < coin_selectbox_x + coin_selectbox_w) && (pixel_y >= coin_selectbox_y) && (pixel_y < coin_selectbox_y + coin_selectbox_h);
+wire on_coin_selectbox_inner = (pixel_x >= coin_selectbox_x + COIN_BORDER_WIDTH) && (pixel_x < coin_selectbox_x + coin_selectbox_w - COIN_BORDER_WIDTH) && (pixel_y >= coin_selectbox_y + COIN_BORDER_WIDTH) && (pixel_y < coin_selectbox_y + coin_selectbox_h - COIN_BORDER_WIDTH);
 wire is_on_coin_selectbox_border = on_coin_selectbox_outer && ~on_coin_selectbox_inner;
 // ------------------------------------------------------------------------
 // Pixel Generation (Layering) Logic
 // ------------------------------------------------------------------------
-// --- Dot Drawing Logic for ALL 9 items ---
-// Constant base coordinates for each item
-localparam BASE_X_0=10, BASE_Y_0=14;
-localparam BASE_X_1=20, BASE_Y_1=14;
-localparam BASE_X_2=30, BASE_Y_2=14;
-localparam BASE_X_3=10, BASE_Y_3=26;
-localparam BASE_X_4=20, BASE_Y_4=26;
-localparam BASE_X_5=30, BASE_Y_5=26;
-localparam BASE_X_6=10, BASE_Y_6=37;
-localparam BASE_X_7=20, BASE_Y_7=37;
-localparam BASE_X_8=30, BASE_Y_8=37;
-// Dot Color Definitions
-localparam COLOR_GRAY = 12'h888;
-localparam COLOR_BLUE = 12'h00F;
-localparam COLOR_GREEN = 12'h0A0; // Non-transparent green
-// On-screen sprite start coordinates for each item slot
-wire [9:0] sprite_x_start_0 = H_START + BASE_X_0 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_0 = V_START + BASE_Y_0 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_1 = H_START + BASE_X_1 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_1 = V_START + BASE_Y_1 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_2 = H_START + BASE_X_2 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_2 = V_START + BASE_Y_2 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_3 = H_START + BASE_X_3 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_3 = V_START + BASE_Y_3 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_4 = H_START + BASE_X_4 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_4 = V_START + BASE_Y_4 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_5 = H_START + BASE_X_5 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_5 = V_START + BASE_Y_5 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_6 = H_START + BASE_X_6 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_6 = V_START + BASE_Y_6 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_7 = H_START + BASE_X_7 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_7 = V_START + BASE_Y_7 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_x_start_8 = H_START + BASE_X_8 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2);
-wire [9:0] sprite_y_start_8 = V_START + BASE_Y_8 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
 `define DOT_LOGIC(ITEM_INDEX, SPRITE_X, SPRITE_Y) \
     wire is_in_dot_v_range_``ITEM_INDEX = (pixel_y >= SPRITE_Y + 1) && (pixel_y < SPRITE_Y + 9); \
     wire is_dot1_pixel_``ITEM_INDEX = is_in_dot_v_range_``ITEM_INDEX && (pixel_x >= SPRITE_X + 3)  && (pixel_x < SPRITE_X + 11); \
@@ -812,83 +776,62 @@ wire [9:0] sprite_y_start_8 = V_START + BASE_Y_8 * SCALE_FACTOR - (BOX_H * SPRIT
     wire is_dot_pixel_``ITEM_INDEX = is_dot1_pixel_``ITEM_INDEX || is_dot2_pixel_``ITEM_INDEX || is_dot3_pixel_``ITEM_INDEX || is_dot4_pixel_``ITEM_INDEX || is_dot5_pixel_``ITEM_INDEX; \
     wire [11:0] dot_color_``ITEM_INDEX; \
     assign dot_color_``ITEM_INDEX = \
-        (is_dot1_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 1) ? ((cart_quantity[ITEM_INDEX] >= 5) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot2_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 2) ? ((cart_quantity[ITEM_INDEX] >= 4) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot3_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 3) ? ((cart_quantity[ITEM_INDEX] >= 3) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot4_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 4) ? ((cart_quantity[ITEM_INDEX] >= 2) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
-        (is_dot5_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] >= 5) ? ((cart_quantity[ITEM_INDEX] >= 1) ? COLOR_GREEN : COLOR_BLUE) : COLOR_GRAY) : \
+        (is_dot1_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] < 1) ? COLOR_GRAY : ((stock[ITEM_INDEX] - cart_quantity[ITEM_INDEX] < 1) ? COLOR_GREEN : COLOR_BLUE)) : \
+        (is_dot2_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] < 2) ? COLOR_GRAY : ((stock[ITEM_INDEX] - cart_quantity[ITEM_INDEX] < 2) ? COLOR_GREEN : COLOR_BLUE)) : \
+        (is_dot3_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] < 3) ? COLOR_GRAY : ((stock[ITEM_INDEX] - cart_quantity[ITEM_INDEX] < 3) ? COLOR_GREEN : COLOR_BLUE)) : \
+        (is_dot4_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] < 4) ? COLOR_GRAY : ((stock[ITEM_INDEX] - cart_quantity[ITEM_INDEX] < 4) ? COLOR_GREEN : COLOR_BLUE)) : \
+        (is_dot5_pixel_``ITEM_INDEX) ? ((stock[ITEM_INDEX] < 5) ? COLOR_GRAY : ((stock[ITEM_INDEX] - cart_quantity[ITEM_INDEX] < 5) ? COLOR_GREEN : COLOR_BLUE)) : \
         12'h000;
-`DOT_LOGIC(0, sprite_x_start_0, sprite_y_start_0)
-`DOT_LOGIC(1, sprite_x_start_1, sprite_y_start_1)
-`DOT_LOGIC(2, sprite_x_start_2, sprite_y_start_2)
-`DOT_LOGIC(3, sprite_x_start_3, sprite_y_start_3)
-`DOT_LOGIC(4, sprite_x_start_4, sprite_y_start_4)
-`DOT_LOGIC(5, sprite_x_start_5, sprite_y_start_5)
-`DOT_LOGIC(6, sprite_x_start_6, sprite_y_start_6)
-`DOT_LOGIC(7, sprite_x_start_7, sprite_y_start_7)
-`DOT_LOGIC(8, sprite_x_start_8, sprite_y_start_8)
+localparam BASE_X_0=10, BASE_Y_0=14; localparam BASE_X_1=20, BASE_Y_1=14; localparam BASE_X_2=30, BASE_Y_2=14;
+localparam BASE_X_3=10, BASE_Y_3=26; localparam BASE_X_4=20, BASE_Y_4=26; localparam BASE_X_5=30, BASE_Y_5=26;
+localparam BASE_X_6=10, BASE_Y_6=37; localparam BASE_X_7=20, BASE_Y_7=37; localparam BASE_X_8=30, BASE_Y_8=37;
+localparam COLOR_GRAY = 12'h888; localparam COLOR_BLUE = 12'h00F; localparam COLOR_GREEN = 12'h0A0;
+wire [9:0] sprite_x_start_0 = H_START + BASE_X_0 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_0 = V_START + BASE_Y_0 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_1 = H_START + BASE_X_1 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_1 = V_START + BASE_Y_1 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_2 = H_START + BASE_X_2 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_2 = V_START + BASE_Y_2 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_3 = H_START + BASE_X_3 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_3 = V_START + BASE_Y_3 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_4 = H_START + BASE_X_4 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_4 = V_START + BASE_Y_4 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_5 = H_START + BASE_X_5 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_5 = V_START + BASE_Y_5 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_6 = H_START + BASE_X_6 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_6 = V_START + BASE_Y_6 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_7 = H_START + BASE_X_7 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_7 = V_START + BASE_Y_7 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+wire [9:0] sprite_x_start_8 = H_START + BASE_X_8 * SCALE_FACTOR - (BOX_W * SPRITE_SCALE_FACTOR / 2); wire [9:0] sprite_y_start_8 = V_START + BASE_Y_8 * SCALE_FACTOR - (BOX_H * SPRITE_SCALE_FACTOR / 2);
+`DOT_LOGIC(0, sprite_x_start_0, sprite_y_start_0) `DOT_LOGIC(1, sprite_x_start_1, sprite_y_start_1) `DOT_LOGIC(2, sprite_x_start_2, sprite_y_start_2)
+`DOT_LOGIC(3, sprite_x_start_3, sprite_y_start_3) `DOT_LOGIC(4, sprite_x_start_4, sprite_y_start_4) `DOT_LOGIC(5, sprite_x_start_5, sprite_y_start_5)
+`DOT_LOGIC(6, sprite_x_start_6, sprite_y_start_6) `DOT_LOGIC(7, sprite_x_start_7, sprite_y_start_7) `DOT_LOGIC(8, sprite_x_start_8, sprite_y_start_8)
 always @(posedge clk) begin
   if (pixel_tick) rgb_reg <= rgb_next;
 end
 always @(*)
 begin
-    // Priority 1: Blanking periods (sync)
-    if (~video_on) begin
-        rgb_next = 12'h000;
-    // Priority 2a: TOTAL text overlay (highest visible priority)
-    end else if (is_text_area && text_pixel) begin
-        rgb_next = 12'hFFF;  // White text
-    // Priority 2b: PAID text overlay
-    end else if (is_paid_text_area && paid_text_pixel) begin
-        rgb_next = 12'hFFF;  // White text
-    // Priority 2c: CHANGE text overlay (only if payment sufficient)
-    end else if (is_change_text_area && change_text_pixel) begin
-        rgb_next = 12'h0F0;  // Green text (payment complete!)
-    // === PAYMENT STATE LAYERS ===
-    // Priority 3a: Coin count text (PAYMENT state only)
-    end else if (current_state == 1'b1 && is_coin_text_area && coin_text_pixel) begin
-        rgb_next = 12'hFFF;  // White text for coin counts
-    // Priority 3a2: Dispensed count text (PAYMENT state only)
-    end else if (current_state == 1'b1 && is_disp_text_area && disp_text_pixel) begin
-        rgb_next = 12'hF80;  // Orange text for dispensed amounts
-    // Priority 3b: Coin selection box border (PAYMENT state only, hollow)
-    end else if (current_state == 1'b1 && is_on_coin_selectbox_border) begin
-        rgb_next = 12'hFF0;  // Yellow border for coin selection
-    // Priority 3c: Coins (PAYMENT state only)
-    end else if (current_state == 1'b1 && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) begin
-        rgb_next = coin_pixel_data;
-    // === SELECTION STATE LAYERS ===
-    // Priority 4: Selection Box for drinks (SELECTION state only, moves on top of dots)
-    end else if (current_state == 1'b0 && is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR)) begin
-        rgb_next = selectbox_data_out;
-    // Priority 5: Dots for all 9 items
-    end else if (is_dot_pixel_0) begin
-        rgb_next = dot_color_0;
-    end else if (is_dot_pixel_1) begin
-        rgb_next = dot_color_1;
-    end else if (is_dot_pixel_2) begin
-        rgb_next = dot_color_2;
-    end else if (is_dot_pixel_3) begin
-        rgb_next = dot_color_3;
-    end else if (is_dot_pixel_4) begin
-        rgb_next = dot_color_4;
-    end else if (is_dot_pixel_5) begin
-        rgb_next = dot_color_5;
-    end else if (is_dot_pixel_6) begin
-        rgb_next = dot_color_6;
-    end else if (is_dot_pixel_7) begin
-        rgb_next = dot_color_7;
-    end else if (is_dot_pixel_8) begin
-        rgb_next = dot_color_8;
-    // Priority 5: Scaled Background Image
-    end else if (is_on_green_bg_reg_s3 && (green_bg_data_out != TRANSPARENT_COLOR)) begin
-        rgb_next = green_bg_data_out;
-    end else if ( on_background_reg3 ) begin
-        rgb_next = data_out;
-    // Priority 6: Screen Borders
-    end else begin
-        rgb_next = 12'h000;
-    end
+    if (~video_on) rgb_next = 12'h000;
+    // --- Highest Priority: UI Text Overlays ---
+    else if (is_text_area && text_pixel) rgb_next = 12'hFFF;
+    else if (is_paid_text_area && paid_text_pixel) rgb_next = 12'hFFF;
+    else if (is_change_text_area && change_text_pixel) rgb_next = 12'h0F0;
+    // --- PAYMENT STATE UI ---
+    else if (current_state == 1'b1 && is_coin_text_area && coin_text_pixel) rgb_next = 12'hFFF;
+    else if (current_state == 1'b1 && is_disp_text_area && disp_text_pixel) rgb_next = 12'hF80;
+    else if (current_state == 1'b1 && is_on_coin_selectbox_border) rgb_next = 12'hFF0;
+    else if (current_state == 1'b1 && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) rgb_next = coin_pixel_data;
+    // --- SELECTION STATE UI ---
+    else if (current_state == 1'b0 && is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR)) rgb_next = selectbox_data_out;
+    // --- Stock Indicators (Dots) - Prioritized over Chassis ---
+    else if (is_dot_pixel_0) rgb_next = dot_color_0;
+    else if (is_dot_pixel_1) rgb_next = dot_color_1;
+    else if (is_dot_pixel_2) rgb_next = dot_color_2;
+    else if (is_dot_pixel_3) rgb_next = dot_color_3;
+    else if (is_dot_pixel_4) rgb_next = dot_color_4;
+    else if (is_dot_pixel_5) rgb_next = dot_color_5;
+    else if (is_dot_pixel_6) rgb_next = dot_color_6;
+    else if (is_dot_pixel_7) rgb_next = dot_color_7;
+    else if (is_dot_pixel_8) rgb_next = dot_color_8;
+    // --- Vending Machine Chassis (with transparency) ---
+    else if ( on_background_reg3 && (data_out != TRANSPARENT_COLOR) ) rgb_next = data_out;
+    // --- Behind the Chassis Window ---
+    else if (animation_active && is_on_animation && (anim_pixel_data != TRANSPARENT_COLOR)) rgb_next = anim_pixel_data;
+    else if (is_on_green_bg_reg_s3 && (green_bg_data_out != TRANSPARENT_COLOR)) rgb_next = green_bg_data_out;
+    // --- Fallback/Border Color ---
+    else rgb_next = 12'h000;
 end
 assign VGA_RED   = rgb_reg[11:8];
 assign VGA_GREEN = rgb_reg[7:4];
