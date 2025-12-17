@@ -38,13 +38,13 @@ always @(posedge clk or posedge reset) begin
         coin_index <= 2'd0;  // Start with $1 coin
     end else begin
         if (btn_down_posedge) begin
-            if (coin_index == 2'd2)
+            if (coin_index == 2'd3)
                 coin_index <= 2'd0;  // Wrap to top
             else
                 coin_index <= coin_index + 1;
         end else if (btn_up_posedge) begin
             if (coin_index == 2'd0)
-                coin_index <= 2'd2;  // Wrap to bottom
+                coin_index <= 2'd3;  // Wrap to bottom
             else
                 coin_index <= coin_index - 1;
         end

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="synth_1" LaunchPart="xc7a35ticsg324-1L" LaunchTime="1764445603" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/lab10.dcp">
+<GenRun Id="synth_1" LaunchPart="xc7a35ticsg324-1L" LaunchTime="1765957995" LaunchIncrCheckpoint="$PSRCDIR/utils_1/imports/synth_1/lab10.dcp">
+  <File Type="PA-TCL" Name="lab10.tcl"/>
   <File Type="REPORTS-TCL" Name="lab10_reports.tcl"/>
+  <File Type="RDS-RDS" Name="lab10.vds"/>
+  <File Type="RDS-PROPCONSTRS" Name="lab10_drc_synth.rpt"/>
   <File Type="RDS-UTIL" Name="lab10_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="lab10_utilization_synth.pb"/>
-  <File Type="PA-TCL" Name="lab10.tcl"/>
-  <File Type="RDS-RDS" Name="lab10.vds"/>
   <File Type="RDS-DCP" Name="lab10.dcp"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="lab10_timing_summary_synth.rpt"/>
+  <File Type="VDS-TIMING-PB" Name="lab10_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/animation_controller.v">

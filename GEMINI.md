@@ -1,72 +1,94 @@
-# Gemini Context: Verilog Vending Machine
+# Vending Machine FPGA Project
 
-## Project Overview
+## 1. Project Overview
+This project implements a fully functional Vending Machine controller on a Digilent Arty A7 FPGA board. It features a graphical user interface (GUI) displayed via VGA, allowing users to select drinks, adjust quantities, insert coins, and receive change.
 
-This is a hardware design project implementing a graphical Vending Machine on a Xilinx Artix-7 FPGA (Digilent Arty A7). The system features a 640x480 VGA interface to display a rich graphical user interface with sprite-based animations.
+### Key Features
+- **VGA Display:** 640x480 resolution @ 60Hz.
+- **Interactive UI:** Graphical selection of 9 different drinks with animations.
+- **Payment System:** Accepts $1, $5, and $10 coins with change calculation.
+- **State Machine Control:** Robust FSM managing Selection, Payment, and Dispensing states.
+- **Hardware Integration:** Utilizes onboard buttons for input and LEDs for status.
 
-The vending machine allows users to:
-1.  **Select Drinks**: Navigate a 3x3 grid of beverages (Water, Juice, Tea, Cola, etc.) and adjust quantities ("shopping cart").
-2.  **Make Payments**: Insert coins ($1, $5, $10) to cover the total cost.
-3.  **Receive Change**: An intelligent dispenser algorithm calculates and dispenses the optimal change.
-4.  **View Animations**: Watch visual feedback where purchased items "drop" sequentially into the collection bin.
+## 2. Technical Stack
+- **Language:** Verilog HDL
+- **Toolchain:** Xilinx Vivado (Design Suite)
+- **Target Hardware:** Digilent Arty A7 (Artix-7 FPGA)
+- **Project File:** `lab10/lab10.xpr`
+- **Top-Level Module:** `lab10` (in `lab10/lab10.srcs/sources_1/lab10.v`)
+- **Constraints File:** `lab10/lab10.srcs/constrs_1/lab10.xdc`
 
-## Key Features & Architecture
+## 3. Architecture
 
-### 1. Finite State Machines (FSMs)
-The system logic is distributed across several specialized FSMs:
-*   **`main_fsm`**: Orchestrates the high-level system state, transitioning between `SELECTION` and `PAYMENT` modes.
-*   **`vending_fsm`**: Handles navigation (Left/Right) and selection index updates within the 3x3 grid during the `SELECTION` phase.
-*   **`coin_selector`**: Manages coin denomination selection ($1, $5, $10) via Up/Down buttons during the `PAYMENT` phase.
-*   **`change_dispenser`**: A greedy algorithm that calculates the minimum number of coins needed for change.
-*   **`animation_controller`**: A complex state machine that manages the **sequential** playback of drop animations. It iterates through the user's cart and plays the specific animation for every single item purchased.
+### Module Hierarchy
+The design is hierarchical with `lab10` as the top-level module, interconnecting various controllers and drivers:
 
-### 2. Graphical Rendering Engine
-The VGA controller (`vga_sync`) drives a 640x480 display. The rendering logic in `lab10.v` uses a strict **priority-based layering system** to compose the final image. 
+*   **`lab10` (Top):** Instantiates all submodules and handles global I/O (buttons, LEDs, VGA signals).
+    *   **Control Logic:**
+        *   `debounce`: Cleans button inputs.
+        *   `main_fsm`: Manages the high-level state (Selection vs. Payment).
+        *   `vending_fsm`: Handles drink selection navigation.
+        *   `coin_selector`: Manages coin selection in the payment screen.
+        *   `price_calculator` & `paid_calculator`: Computes totals and balances.
+        *   `change_dispenser`: Greedy algorithm for calculating change.
+    *   **Display Logic:**
+        *   `vga_sync`: Generates VGA HSYNC/VSYNC timing signals.
+        *   `sram`: Block RAM interfaces for sprites (Background, Drinks, Coins).
+        *   `text_renderer` & `paid_text_renderer`: Generates text overlays for prices/totals.
+        *   `animation_controller`: Manages dispensing animations (falling bottles).
 
-**Rendering Layer Order (Highest to Lowest Priority):**
-1.  **UI Text Overlays**: "TOTAL", "PAID", "CHANGE", and Coin Counts.
-2.  **Selection Box**: The highlight frame around the currently selected drink.
-3.  **Stock Indicators (Dots)**: 5 vertical dots indicating current stock/selection level. (Rendered *on top* of the chassis).
-4.  **Vending Machine Chassis**: The main static background image (with a transparent window).
-5.  **Item Drop Animation**: Dynamic sprite animations (Water, Juice, Tea, Cola) that appear "inside" the machine (behind the chassis window).
-6.  **Green Background**: The furthest background layer visible through the machine's window.
+### Memory Organization (SRAM)
+The project heavily relies on `.mem` files (located in `backup_mem/`) to initialize Block RAMs for graphics:
+- `VendingMachineBg.mem`: Main background.
+- `Coin*.mem`: Coin sprites.
+- `*DropSheet.mem`: Animation frames for drinks.
 
-### 3. Memory & Assets
-On-chip SRAM is used to store graphical assets, loaded from `.mem` files:
-*   **Backgrounds**: `VendingMachineBg.mem`, `VendingMachineGreenBgsBg.mem`.
-*   **UI Elements**: `SelectBox.mem`.
-*   **Coins**: `Coin1.mem`, `Coin5.mem`, `Coin10.mem`.
-*   **Animations**: `WaterDropSheet.mem`, `JuiceDropSheet.mem`, `TeaDropSheet.mem`, `ColaDropSheet.mem`, `EnergyDropSheet.mem` (mapped generically).
+## 4. Building and Running
 
-## Input/Output Mapping
+### Prerequisites
+- Xilinx Vivado installed.
+- Arty A7 Board files installed in Vivado.
 
-*   **clk**: 100 MHz system clock.
-*   **reset_n**: Active-low reset.
-*   **usr_btn[3:0]**:
-    *   `btn3`: **Confirm/Switch Mode** (Submit Selection <-> Pay).
-    *   `btn2`: **Action** (Add to Cart / Insert Coin).
-    *   `btn1`: **Navigation** (Left / Coin Down).
-    *   `btn0`: **Navigation** (Right / Coin Up).
-*   **VGA**: Standard RGB444 output with HSYNC/VSYNC.
+### Build Process (Tcl Console)
+1.  **Synthesize:**
+    ```tcl
+    reset_run synth_1
+    launch_runs synth_1
+    wait_on_run synth_1
+    ```
+2.  **Implement:**
+    ```tcl
+    launch_runs impl_1
+    wait_on_run impl_1
+    ```
+3.  **Generate Bitstream:**
+    ```tcl
+    launch_runs impl_1 -to_step write_bitstream
+    wait_on_run impl_1
+    ```
 
-## Current Implementation Status
+### Programming the FPGA
+1.  Connect the Arty A7 board via USB.
+2.  Open **Hardware Manager** in Vivado.
+3.  Execute the following Tcl commands:
+    ```tcl
+    open_hw_manager
+    connect_hw_server
+    open_hw_target
+    set_property PROGRAM.FILE {lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+    program_hw_devices [get_hw_devices xc7a35t_0]
+    ```
 
-### Recent Updates
-*   **Multi-Item Animation**: The `animation_controller` was rewritten to support multi-item purchases. It accepts a flattened cart array (`flat_cart_quantity`) and plays the drop animation $N$ times for $N$ items purchased, ensuring visual feedback matches the exact purchase list.
-*   **Layering Fix**: The rendering logic was updated to ensure "Stock Dots" are drawn *on top* of the Vending Machine Chassis, while animations remain correctly "inside" (behind) the chassis.
+## 5. Development Conventions
 
-### Build Instructions
-The project is a standard Vivado project (`lab10.xpr`).
-
-1.  **Synthesize & Implement**: Run the standard Vivado build flow.
-2.  **Bitstream**: The target bitstream is generated in `lab10.runs/impl_1/`.
-3.  **Programming**: Use the Hardware Manager to program the Arty A7 (`xc7a35t`).
-
-## File Structure
-*   `lab10/lab10.srcs/sources_1/`:
-    *   `lab10.v`: Top-level module and rendering logic.
-    *   `animation_controller.v`: Animation sequencing logic.
-    *   `change_dispenser.v`: Change calculation logic.
-    *   `main_fsm.v`, `vending_fsm.v`: State control.
-    *   `sram.v`: Memory interface.
-*   `backup_mem/`: Source directory for `.mem` initialization files.
+- **Clocking:** 100MHz system clock (`clk`), divided to 25MHz (`vga_clk`) for VGA timing.
+- **Reset:** Active low reset (`reset_n` / `rst`).
+- **Input Processing:** All button inputs are debounced before use.
+- **Naming:**
+    - Modules: `snake_case` (e.g., `main_fsm`).
+    - Signals: `snake_case` (e.g., `pixel_x`, `total_due`).
+    - Constants: `UPPER_CASE` (e.g., `VGA_W`, `STATE_SELECTION`).
+- **Files:**
+    - Source code in `lab10/lab10.srcs/sources_1/`.
+    - Constraints in `lab10/lab10.srcs/constrs_1/`.
+    - Memory initialization files in `backup_mem/` (referenced by `sram` modules).

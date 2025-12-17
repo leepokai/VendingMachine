@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.tcl"
+  variable script "C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.runs/synth_1/lab10.tcl"
   variable category "vivado_synth"
 }
 
@@ -56,7 +56,7 @@ if {$::dispatch::connected} {
 }
 
 OPTRACE "synth_1" START { ROLLUP_AUTO }
-set_param chipscope.maxJobs 2
+set_param chipscope.maxJobs 7
 set_param general.usePosixSpawnForFork 1
 set_param xicom.use_bs_reader 1
 OPTRACE "Creating in-memory project" START { }
@@ -65,49 +65,49 @@ create_project -in_memory -part xc7a35ticsg324-1L
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.cache/wt [current_project]
-set_property parent.project_path C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.xpr [current_project]
+set_property webtalk.parent_dir C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.cache/wt [current_project]
+set_property parent.project_path C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property board_part_repo_paths {C:/Users/88696/AppData/Roaming/Xilinx/Vivado/2025.1/xhub/board_store/xilinx_board_store} [current_project]
+set_property board_part_repo_paths {C:/Users/ThisPC/AppData/Roaming/Xilinx/Vivado/2025.1/xhub/board_store/xilinx_board_store} [current_project]
 set_property board_part digilentinc.com:arty:part0:1.1 [current_project]
-set_property ip_output_repo c:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.cache/ip [current_project]
+set_property ip_output_repo c:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_mem {
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/images.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/VendingMachineBg.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/SelectBox.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/ColaDropSheet.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/Coin5.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/TeaDropSheet.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/Dollar100.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/JuiceDropSheet.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/Coin1.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/Coin10.mem
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/backup_mem/WaterDropSheet.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/images.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/VendingMachineBg.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/SelectBox.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/ColaDropSheet.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/Coin5.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/TeaDropSheet.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/Dollar100.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/JuiceDropSheet.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/Coin1.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/Coin10.mem
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/backup_mem/WaterDropSheet.mem
 }
 read_verilog -library xil_defaultlib {
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v
-  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/sram.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v
 }
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
@@ -118,12 +118,12 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc
-set_property used_in_implementation false [get_files C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
+read_xdc C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc
+set_property used_in_implementation false [get_files C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 
-read_checkpoint -auto_incremental -incremental C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp
+read_checkpoint -auto_incremental -incremental C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }

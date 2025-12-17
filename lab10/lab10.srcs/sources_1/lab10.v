@@ -129,6 +129,7 @@ paid_calculator paid_calc0 (
     .coin1_count(coins_inserted[0]),
     .coin5_count(coins_inserted[1]),
     .coin10_count(coins_inserted[2]),
+    .coin100_count(coins_inserted[3]),
     .paid_amount(paid_amount)
 );
 // ------------------------------------------------------------------------
@@ -158,6 +159,7 @@ reg dispenser_start;                      // Trigger signal for dispenser
 wire [7:0] dispense_coin1_wire;           // $1 coins to dispense
 wire [7:0] dispense_coin5_wire;           // $5 coins to dispense
 wire [7:0] dispense_coin10_wire;          // $10 coins to dispense
+wire [7:0] dispense_coin100_wire;         // $100 coins to dispense
 wire dispenser_done;                      // Dispenser calculation complete
 wire dispenser_success;                   // Exact change possible
 change_dispenser change_disp0 (
@@ -168,9 +170,11 @@ change_dispenser change_disp0 (
     .avail_coin1(avail_coins[0]),
     .avail_coin5(avail_coins[1]),
     .avail_coin10(avail_coins[2]),
+    .avail_coin100(avail_coins[3]),
     .dispense_coin1(dispense_coin1_wire),
     .dispense_coin5(dispense_coin5_wire),
     .dispense_coin10(dispense_coin10_wire),
+    .dispense_coin100(dispense_coin100_wire),
     .done(dispenser_done),
     .success(dispenser_success)
 );
@@ -186,13 +190,16 @@ always @(posedge clk or posedge rst) begin
         dispensed_coins[0] <= 8'd0;
         dispensed_coins[1] <= 8'd0;
         dispensed_coins[2] <= 8'd0;
+        dispensed_coins[3] <= 8'd0;
         coins_inserted[0] <= 8'd0;
         coins_inserted[1] <= 8'd0;
         coins_inserted[2] <= 8'd0;
+        coins_inserted[3] <= 8'd0;
         // Reset coin inventory to initial values
         avail_coins[0] <= 8'd10;  // 10 x $1 coins
         avail_coins[1] <= 8'd10;  // 10 x $5 coins
         avail_coins[2] <= 8'd10;  // 10 x $10 coins
+        avail_coins[3] <= 8'd5;   // 5 x $100 bills (example)
         // Reset stock to initial values
         stock[0] <= 5; stock[1] <= 0; stock[2] <= 0;
         stock[3] <= 5; stock[4] <= 5; stock[5] <= 0;
@@ -206,9 +213,11 @@ always @(posedge clk or posedge rst) begin
             dispensed_coins[0] <= 8'd0;
             dispensed_coins[1] <= 8'd0;
             dispensed_coins[2] <= 8'd0;
+            dispensed_coins[3] <= 8'd0;
             coins_inserted[0] <= 8'd0;
             coins_inserted[1] <= 8'd0;
             coins_inserted[2] <= 8'd0;
+            coins_inserted[3] <= 8'd0;
         // Priority 1: When dispensing is done, update inventories and reset coins
         end else if (dispensing && dispenser_done) begin
             if (dispenser_success) begin
@@ -216,6 +225,7 @@ always @(posedge clk or posedge rst) begin
                 avail_coins[0] <= avail_coins[0] - dispense_coin1_wire + coins_inserted[0];
                 avail_coins[1] <= avail_coins[1] - dispense_coin5_wire + coins_inserted[1];
                 avail_coins[2] <= avail_coins[2] - dispense_coin10_wire + coins_inserted[2];
+                avail_coins[3] <= avail_coins[3] - dispense_coin100_wire + coins_inserted[3];
                 // Update stock: decrease by cart quantities
                 stock[0] <= stock[0] - cart_quantity[0];
                 stock[1] <= stock[1] - cart_quantity[1];
@@ -230,10 +240,12 @@ always @(posedge clk or posedge rst) begin
                 dispensed_coins[0] <= dispense_coin1_wire;
                 dispensed_coins[1] <= dispense_coin5_wire;
                 dispensed_coins[2] <= dispense_coin10_wire;
+                dispensed_coins[3] <= dispense_coin100_wire;
                 // Reset inserted coins
                 coins_inserted[0] <= 8'd0;
                 coins_inserted[1] <= 8'd0;
                 coins_inserted[2] <= 8'd0;
+                coins_inserted[3] <= 8'd0;
                 // Mark dispensing as completed
                 dispense_completed <= 1'b1;
             end
@@ -258,12 +270,12 @@ reg [7:0] drink_price [0:8];   // Price for each drink (in dollars)
 // ------------------------------------------------------------------------
 // Coin Tracking (for PAYMENT state)
 // ------------------------------------------------------------------------
-reg [7:0] coins_inserted [0:2]; // Number of each coin type inserted
-                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
-reg [7:0] avail_coins [0:2];     // Machine's available coins for change
-                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
-reg [7:0] dispensed_coins [0:2]; // Coins to be dispensed as change
-                                 // [0] = $1 coins, [1] = $5 coins, [2] = $10 coins
+reg [7:0] coins_inserted [0:3]; // Number of each coin type inserted
+                                 // [0]=$1, [1]=$5, [2]=$10, [3]=$100
+reg [7:0] avail_coins [0:3];     // Machine's available coins for change
+                                 // [0]=$1, [1]=$5, [2]=$10, [3]=$100
+reg [7:0] dispensed_coins [0:3]; // Coins to be dispensed as change
+                                 // [0]=$1, [1]=$5, [2]=$10, [3]=$100
 integer i;
 initial begin
     // Initialize stock as per user request
@@ -282,14 +294,17 @@ initial begin
     coins_inserted[0] = 0;
     coins_inserted[1] = 0;
     coins_inserted[2] = 0;
+    coins_inserted[3] = 0;
     // Initialize machine's coin inventory (AVAIL)
     avail_coins[0] = 10;  // 10 x $1 coins
     avail_coins[1] = 10;  // 10 x $5 coins
     avail_coins[2] = 10;  // 10 x $10 coins
+    avail_coins[3] = 5;   // 5 x $100 bills
     // Initialize dispensed coins to zero
     dispensed_coins[0] = 0;
     dispensed_coins[1] = 0;
     dispensed_coins[2] = 0;
+    dispensed_coins[3] = 0;
 end
 // Cart update logic (SELECTION state only)
 always @(posedge clk or posedge rst) begin
@@ -344,22 +359,25 @@ localparam TRANSPARENT_COLOR = 12'h0F0; // Green screen color
 reg [9:0] sprite_x_start, sprite_y_start;
 reg [5:0] base_x, base_y;
 reg [9:0] on_screen_center_x, on_screen_center_y;
-// Coin display parameters (20x20 pixels, displayed in right area)
-localparam COIN_W = 20;
-localparam COIN_H = 20;
+// Coin display parameters (20x20 pixels source, scaled to 30x30)
+localparam COIN_W = 30;
+localparam COIN_H = 30;
 localparam COIN_X_START = 480;   // Right side of screen
-localparam COIN_Y_SPACING = 110; // Vertical spacing between coins (increased for text)
-localparam COIN_Y_BASE = 80;     // Start Y position for first coin
-// Coin positions (3 coins vertically arranged with text below)
-// Coin 0 ($1):  X=480, Y=80,  Text: Y=104
-// Coin 1 ($5):  X=480, Y=190, Text: Y=214
-// Coin 2 ($10): X=480, Y=300, Text: Y=324
+localparam COIN_Y_SPACING = 95;  // Vertical spacing between coins
+localparam COIN_Y_BASE = 60;     // Start Y position for first coin
+// Coin positions (3 coins + 1 bill vertically arranged with text below)
+// Coin 0 ($1):  X=480, Y=60
+// Coin 1 ($5):  X=480, Y=155
+// Coin 2 ($10): X=480, Y=250
+// Coin 3 ($100): X=480, Y=345
 wire [9:0] coin0_x_start = COIN_X_START;
 wire [9:0] coin0_y_start = COIN_Y_BASE;
 wire [9:0] coin1_x_start = COIN_X_START;
 wire [9:0] coin1_y_start = COIN_Y_BASE + COIN_Y_SPACING;
 wire [9:0] coin2_x_start = COIN_X_START;
 wire [9:0] coin2_y_start = COIN_Y_BASE + COIN_Y_SPACING * 2;
+wire [9:0] coin3_x_start = COIN_X_START;
+wire [9:0] coin3_y_start = COIN_Y_BASE + COIN_Y_SPACING * 3;
 // Coin selection box position (based on coin_index)
 reg [9:0] coin_selectbox_x, coin_selectbox_y;
 // ------------------------------------------------------------------------
@@ -439,12 +457,15 @@ coin_count_display coin_count_disp0 (
   .coin0_y_start(coin0_y_start),
   .coin1_y_start(coin1_y_start),
   .coin2_y_start(coin2_y_start),
+  .coin3_y_start(coin3_y_start),
   .coin1_count(coins_inserted[0]),
   .coin5_count(coins_inserted[1]),
   .coin10_count(coins_inserted[2]),
+  .coin100_count(coins_inserted[3]),
   .avail1_count(avail_coins[0]),
   .avail5_count(avail_coins[1]),
   .avail10_count(avail_coins[2]),
+  .avail100_count(avail_coins[3]),
   .text_pixel(coin_text_pixel),
   .is_coin_text_area(is_coin_text_area)
 );
@@ -461,9 +482,11 @@ dispensed_count_display disp_count_disp0 (
   .coin0_y_start(coin0_y_start),
   .coin1_y_start(coin1_y_start),
   .coin2_y_start(coin2_y_start),
+  .coin3_y_start(coin3_y_start),
   .disp1_count(dispensed_coins[0]),
   .disp5_count(dispensed_coins[1]),
   .disp10_count(dispensed_coins[2]),
+  .disp100_count(dispensed_coins[3]),
   .text_pixel(disp_text_pixel),
   .is_disp_text_area(is_disp_text_area)
 );
@@ -517,10 +540,10 @@ sram #(
     .data_o(green_bg_data_out)
 );
 // ------------------------------------------------------------------------
-// Coin SRAM modules (20x20 pixels each)
+// Coin SRAM modules (20x20 pixels each, except 100 which is 20x10)
 // ------------------------------------------------------------------------
-wire [11:0] coin1_data_out, coin5_data_out, coin10_data_out;
-reg [8:0] coin_addr;  // 9 bits for 400 pixels (20*20)
+wire [11:0] coin1_data_out, coin5_data_out, coin10_data_out, coin100_data_out;
+reg [8:0] coin_addr;  // 9 bits for 400 pixels (20x20) - fits 20x10 (200) too
 // $1 Coin SRAM
 sram #(
     .DATA_WIDTH(12),
@@ -562,6 +585,20 @@ sram #(
     .addr(coin_addr),
     .data_i(12'h000),
     .data_o(coin10_data_out)
+);
+// $100 Bill SRAM (20x10)
+sram #(
+    .DATA_WIDTH(12),
+    .ADDR_WIDTH(9),
+    .RAM_SIZE(200),
+    .MEM_INIT_FILE("Dollar100.mem")
+) ram_coin100 (
+    .clk(clk),
+    .we(1'b0),
+    .en(1'b1),
+    .addr(coin_addr),
+    .data_i(12'h000),
+    .data_o(coin100_data_out)
 );
 
 // ------------------------------------------------------------------------
@@ -729,15 +766,44 @@ always @(*) begin
     endcase
 end
 // AGU and Display Logic for Coins
+// Function for 1.5x scaling (mapping 0..29 -> 0..19) to fix timing
+function [4:0] scale_2_3;
+    input [4:0] val;
+    begin
+        case (val)
+            5'd0: scale_2_3 = 5'd0; 5'd1: scale_2_3 = 5'd0; 5'd2: scale_2_3 = 5'd1; 5'd3: scale_2_3 = 5'd2;
+            5'd4: scale_2_3 = 5'd2; 5'd5: scale_2_3 = 5'd3; 5'd6: scale_2_3 = 5'd4; 5'd7: scale_2_3 = 5'd4;
+            5'd8: scale_2_3 = 5'd5; 5'd9: scale_2_3 = 5'd6; 5'd10: scale_2_3 = 5'd6; 5'd11: scale_2_3 = 5'd7;
+            5'd12: scale_2_3 = 5'd8; 5'd13: scale_2_3 = 5'd8; 5'd14: scale_2_3 = 5'd9; 5'd15: scale_2_3 = 5'd10;
+            5'd16: scale_2_3 = 5'd10; 5'd17: scale_2_3 = 5'd11; 5'd18: scale_2_3 = 5'd12; 5'd19: scale_2_3 = 5'd12;
+            5'd20: scale_2_3 = 5'd13; 5'd21: scale_2_3 = 5'd14; 5'd22: scale_2_3 = 5'd14; 5'd23: scale_2_3 = 5'd15;
+            5'd24: scale_2_3 = 5'd16; 5'd25: scale_2_3 = 5'd16; 5'd26: scale_2_3 = 5'd17; 5'd27: scale_2_3 = 5'd18;
+            5'd28: scale_2_3 = 5'd18; 5'd29: scale_2_3 = 5'd19; default: scale_2_3 = 5'd0;
+        endcase
+    end
+endfunction
+
 wire is_on_coin0 = (pixel_x >= coin0_x_start) && (pixel_x < coin0_x_start + COIN_W) && (pixel_y >= coin0_y_start) && (pixel_y < coin0_y_start + COIN_H);
 wire is_on_coin1 = (pixel_x >= coin1_x_start) && (pixel_x < coin1_x_start + COIN_W) && (pixel_y >= coin1_y_start) && (pixel_y < coin1_y_start + COIN_H);
 wire is_on_coin2 = (pixel_x >= coin2_x_start) && (pixel_x < coin2_x_start + COIN_W) && (pixel_y >= coin2_y_start) && (pixel_y < coin2_y_start + COIN_H);
-wire is_on_any_coin = is_on_coin0 || is_on_coin1 || is_on_coin2;
+
+// $100 bill is 20x10 source, scaled 2x to 40x20
+localparam BILL_W = 40;
+localparam BILL_H = 20;
+wire is_on_coin3 = (pixel_x >= coin3_x_start) && (pixel_x < coin3_x_start + BILL_W) && (pixel_y >= coin3_y_start) && (pixel_y < coin3_y_start + BILL_H);
+
+wire is_on_any_coin = is_on_coin0 || is_on_coin1 || is_on_coin2 || is_on_coin3;
+
 always @ (posedge clk) begin
     if (rst) coin_addr <= 0;
-    else if (is_on_coin0) coin_addr <= (pixel_y - coin0_y_start) * COIN_W + (pixel_x - coin0_x_start);
-    else if (is_on_coin1) coin_addr <= (pixel_y - coin1_y_start) * COIN_W + (pixel_x - coin1_x_start);
-    else if (is_on_coin2) coin_addr <= (pixel_y - coin2_y_start) * COIN_W + (pixel_x - coin2_x_start);
+    else if (is_on_coin0)
+        coin_addr <= scale_2_3(pixel_y - coin0_y_start) * 20 + scale_2_3(pixel_x - coin0_x_start);
+    else if (is_on_coin1)
+        coin_addr <= scale_2_3(pixel_y - coin1_y_start) * 20 + scale_2_3(pixel_x - coin1_x_start);
+    else if (is_on_coin2)
+        coin_addr <= scale_2_3(pixel_y - coin2_y_start) * 20 + scale_2_3(pixel_x - coin2_x_start);
+    else if (is_on_coin3)
+        coin_addr <= ((pixel_y - coin3_y_start) >> 1) * 20 + ((pixel_x - coin3_x_start) >> 1);
     else coin_addr <= 0;
 end
 reg [11:0] coin_pixel_data;
@@ -746,6 +812,7 @@ begin
     if (is_on_coin0) coin_pixel_data = coin1_data_out;
     else if (is_on_coin1) coin_pixel_data = coin5_data_out;
     else if (is_on_coin2) coin_pixel_data = coin10_data_out;
+    else if (is_on_coin3) coin_pixel_data = coin100_data_out;
     else coin_pixel_data = 12'h000;
 end
 always @(*)
@@ -754,11 +821,14 @@ begin
         2'd0: begin coin_selectbox_x = coin0_x_start - 3; coin_selectbox_y = coin0_y_start - 3; end
         2'd1: begin coin_selectbox_x = coin1_x_start - 3; coin_selectbox_y = coin1_y_start - 3; end
         2'd2: begin coin_selectbox_x = coin2_x_start - 3; coin_selectbox_y = coin2_y_start - 3; end
+        2'd3: begin coin_selectbox_x = coin3_x_start - 3; coin_selectbox_y = coin3_y_start - 3; end
         default: begin coin_selectbox_x = coin0_x_start - 3; coin_selectbox_y = coin0_y_start - 3; end
     endcase
 end
-wire [9:0] coin_selectbox_w = COIN_W + 6;
-wire [9:0] coin_selectbox_h = COIN_H + 6;
+wire [9:0] coin_selectbox_w = (coin_index == 2'd3) ? (BILL_W + 6) : (COIN_W + 6);
+// Height depends on item type
+wire [9:0] coin_selectbox_h = (coin_index == 2'd3) ? (BILL_H + 6) : (COIN_H + 6);
+
 localparam COIN_BORDER_WIDTH = 2;
 wire on_coin_selectbox_outer = (pixel_x >= coin_selectbox_x) && (pixel_x < coin_selectbox_x + coin_selectbox_w) && (pixel_y >= coin_selectbox_y) && (pixel_y < coin_selectbox_y + coin_selectbox_h);
 wire on_coin_selectbox_inner = (pixel_x >= coin_selectbox_x + COIN_BORDER_WIDTH) && (pixel_x < coin_selectbox_x + coin_selectbox_w - COIN_BORDER_WIDTH) && (pixel_y >= coin_selectbox_y + COIN_BORDER_WIDTH) && (pixel_y < coin_selectbox_y + coin_selectbox_h - COIN_BORDER_WIDTH);

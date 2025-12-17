@@ -25,7 +25,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1'
+HD_PWD='C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.runs/synth_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log

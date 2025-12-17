@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Sun Nov 30 03:49:50 2025
-| Host         : DESKTOP-2CVGOV3 running 64-bit major release  (build 9200)
+| Date         : Wed Dec 17 15:54:54 2025
+| Host         : MSI running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lab10_methodology_drc_routed.rpt -pb lab10_methodology_drc_routed.pb -rpx lab10_methodology_drc_routed.rpx
 | Design       : lab10
 | Device       : xc7a35ticsg324-1L
@@ -23,12 +23,12 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 50
+             Checks found: 51
 +-----------+----------+--------------------------------------------+--------+
 | Rule      | Severity | Description                                | Checks |
 +-----------+----------+--------------------------------------------+--------+
 | LUTAR-1   | Warning  | LUT drives async reset alert               | 1      |
-| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 11     |
+| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 12     |
 | SYNTH-9   | Warning  | Small multiplier                           | 17     |
 | TIMING-18 | Warning  | Missing input or output delay              | 21     |
 +-----------+----------+--------------------------------------------+--------+
@@ -84,15 +84,20 @@ Related violations: <none>
 
 SYNTH-6#9 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_coin100/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#10 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_green_bg/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#11 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_green_bg/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#12 Warning
 Timing of a RAM block might be sub-optimal  
 The timing for the instance ram_selectbox/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>

@@ -1,4 +1,0 @@
-ERROR: Exception caught trying to open file C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.runs\impl_1/runme.log
-	Exception name: Error
-	Exception error code: 70
-	Exception message: 沒有使用權限
