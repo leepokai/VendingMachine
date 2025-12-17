@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Fri Nov 28 00:46:16 2025
-| Host         : LAPTOP-SNCUKG72 running 64-bit major release  (build 9200)
+| Date         : Sun Nov 30 03:49:50 2025
+| Host         : DESKTOP-2CVGOV3 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lab10_methodology_drc_routed.rpt -pb lab10_methodology_drc_routed.pb -rpx lab10_methodology_drc_routed.rpx
 | Design       : lab10
 | Device       : xc7a35ticsg324-1L
@@ -23,17 +23,25 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 33
+             Checks found: 50
 +-----------+----------+--------------------------------------------+--------+
 | Rule      | Severity | Description                                | Checks |
 +-----------+----------+--------------------------------------------+--------+
-| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 6      |
-| TIMING-16 | Warning  | Large setup violation                      | 6      |
+| LUTAR-1   | Warning  | LUT drives async reset alert               | 1      |
+| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 11     |
+| SYNTH-9   | Warning  | Small multiplier                           | 17     |
 | TIMING-18 | Warning  | Missing input or output delay              | 21     |
 +-----------+----------+--------------------------------------------+--------+
 
 2. REPORT DETAILS
 -----------------
+LUTAR-1#1 Warning
+LUT drives async reset alert  
+LUT cell main_state_machine/btn_right_d_i_1, with 2 or more inputs, drives asynchronous preset/clear pin(s) fsm0/btn_left_d_reg/CLR, fsm0/btn_right_d_reg/CLR,
+fsm0/selection_index_reg[0]/CLR, fsm0/selection_index_reg[1]/CLR,
+fsm0/selection_index_reg[2]/CLR, fsm0/selection_index_reg[3]/CLR. The LUT may glitch and trigger an unexpected reset, even if it is a properly timed path.
+Related violations: <none>
+
 SYNTH-6#1 Warning
 Timing of a RAM block might be sub-optimal  
 The timing for the instance ram0/RAM_reg_0, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
@@ -46,52 +54,132 @@ Related violations: <none>
 
 SYNTH-6#3 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin1/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_cola/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#4 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin10/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_juice/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#5 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_tea/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#6 Warning
 Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_anim_water/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#7 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin1/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#8 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin10/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#9 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#10 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_green_bg/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#11 Warning
+Timing of a RAM block might be sub-optimal  
 The timing for the instance ram_selectbox/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
-TIMING-16#1 Warning
-Large setup violation  
-There is a large setup violation of -1.086 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[9]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#1 Warning
+Small multiplier  
+Detected multiplier at price_calc0/p_0_out_inferred__1/i_ of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-TIMING-16#2 Warning
-Large setup violation  
-There is a large setup violation of -1.203 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[10]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#2 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[0][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-TIMING-16#3 Warning
-Large setup violation  
-There is a large setup violation of -1.397 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[11]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#3 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[0][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-TIMING-16#4 Warning
-Large setup violation  
-There is a large setup violation of -1.751 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[12]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#4 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[1][4]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-TIMING-16#5 Warning
-Large setup violation  
-There is a large setup violation of -1.926 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[13]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#5 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[2][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-TIMING-16#6 Warning
-Large setup violation  
-There is a large setup violation of -2.052 ns between cart_quantity_reg[8][0]/C (clocked by sys_clk_pin) and price_calc0/total_due_reg[14]/D (clocked by sys_clk_pin). Large setup violations at the end of those stages might be difficult to fix during the post-placement implementation flow and could be the result of non-optimal XDC constraints or non-optimal design architecture
+SYNTH-9#6 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[2][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#7 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[4][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#8 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[5][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#9 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[5][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#10 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[6][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#11 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[6][7]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#12 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[7][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#13 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[7][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#14 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[8][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#15 Warning
+Small multiplier  
+Detected multiplier at price_calc0/product_regs_reg[8][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#16 Warning
+Small multiplier  
+Detected multiplier at y_mult_40_stage2_reg[11]_i_1 of size 7x6, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Related violations: <none>
+
+SYNTH-9#17 Warning
+Small multiplier  
+Detected multiplier at y_mult_40_stage2_reg[7]_i_1 of size 7x6, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
 TIMING-18#1 Warning

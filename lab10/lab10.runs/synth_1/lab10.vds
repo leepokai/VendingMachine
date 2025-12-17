@@ -3,28 +3,28 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Fri Nov 28 00:43:44 2025
-# Process ID         : 23676
-# Current directory  : D:/vivado/VendingMachine/lab10/lab10.runs/synth_1
+# Start of session at: Sun Nov 30 03:46:44 2025
+# Process ID         : 9864
+# Current directory  : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1
 # Command line       : vivado.exe -log lab10.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source lab10.tcl
-# Log file           : D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/lab10.vds
-# Journal file       : D:/vivado/VendingMachine/lab10/lab10.runs/synth_1\vivado.jou
-# Running On         : LAPTOP-SNCUKG72
+# Log file           : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.vds
+# Journal file       : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1\vivado.jou
+# Running On         : DESKTOP-2CVGOV3
 # Platform           : Windows Server 2016 or Windows 10
-# Operating System   : 26100
-# Processor Detail   : 11th Gen Intel(R) Core(TM) i7-11370H @ 3.30GHz
-# CPU Frequency      : 3302 MHz
+# Operating System   : 22631
+# Processor Detail   : 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz
+# CPU Frequency      : 2419 MHz
 # CPU Physical cores : 4
 # CPU Logical cores  : 8
-# Host memory        : 25441 MB
-# Swap memory        : 13958 MB
-# Total Virtual      : 39400 MB
-# Available Virtual  : 11544 MB
+# Host memory        : 8273 MB
+# Swap memory        : 17446 MB
+# Total Virtual      : 25720 MB
+# Available Virtual  : 8476 MB
 #-----------------------------------------------------------
 source lab10.tcl -notrace
-create_project: Time (s): cpu = 00:00:08 ; elapsed = 00:00:06 . Memory (MB): peak = 494.598 ; gain = 212.035
-Command: read_checkpoint -auto_incremental -incremental D:/vivado/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp
-INFO: [Vivado 12-5825] Read reference checkpoint from D:/vivado/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp for incremental synthesis
+create_project: Time (s): cpu = 00:00:03 ; elapsed = 00:00:05 . Memory (MB): peak = 499.211 ; gain = 213.090
+Command: read_checkpoint -auto_incremental -incremental C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp for incremental synthesis
 INFO: [Vivado 12-7989] Please ensure there are no constraint changes
 Command: synth_design -top lab10 -part xc7a35ticsg324-1L
 Starting synth_design
@@ -35,109 +35,109 @@ INFO: [Designutils 20-5440] No compile time benefit to using incremental synthes
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 41592
+INFO: [Synth 8-7075] Helper process launched with PID 27348
 ---------------------------------------------------------------------------------
-Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 1184.672 ; gain = 494.711
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:06 . Memory (MB): peak = 1188.660 ; gain = 494.438
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-11241] undeclared symbol 'dispensing', assumed default net type 'wire' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:74]
-INFO: [Synth 8-11241] undeclared symbol 'dispense_completed', assumed default net type 'wire' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:75]
-WARNING: [Synth 8-8895] 'dispensing' is already implicitly declared on line 74 [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:194]
-WARNING: [Synth 8-8895] 'dispense_completed' is already implicitly declared on line 75 [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:195]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:202]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:203]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:204]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:205]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:206]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:207]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:209]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:210]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:211]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:213]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:213]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:213]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:214]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:214]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:214]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:215]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:215]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:215]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:223]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:224]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:225]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:226]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:227]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:228]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:234]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:234]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:234]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:235]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:235]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:235]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:236]
-WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:236]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:236]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:239]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:239]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:239]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:240]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:240]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:240]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:241]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:241]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:241]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:242]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:242]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:242]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:243]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:243]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:243]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:244]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:244]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:244]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:245]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:245]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:245]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:246]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:246]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:246]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:247]
-WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:247]
-WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:247]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:250]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:251]
-WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:252]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:255]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:256]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:257]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:272]
-WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:272]
-INFO: [Synth 8-6157] synthesizing module 'lab10' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:11]
-INFO: [Synth 8-6157] synthesizing module 'debounce' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v:2]
-INFO: [Synth 8-6155] done synthesizing module 'debounce' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v:2]
-INFO: [Synth 8-6157] synthesizing module 'main_fsm' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:9]
-INFO: [Synth 8-226] default block is never used [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:41]
-INFO: [Synth 8-6155] done synthesizing module 'main_fsm' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:9]
-INFO: [Synth 8-6157] synthesizing module 'vending_fsm' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v:2]
-INFO: [Synth 8-6155] done synthesizing module 'vending_fsm' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v:2]
-INFO: [Synth 8-6157] synthesizing module 'coin_selector' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v:10]
-INFO: [Synth 8-6155] done synthesizing module 'coin_selector' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v:10]
-INFO: [Synth 8-6157] synthesizing module 'price_calculator' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'price_calculator' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v:7]
-INFO: [Synth 8-6157] synthesizing module 'paid_calculator' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'paid_calculator' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v:7]
-INFO: [Synth 8-6157] synthesizing module 'change_dispenser' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:6]
-INFO: [Synth 8-155] case statement is not full and has no default [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:96]
-INFO: [Synth 8-6155] done synthesizing module 'change_dispenser' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:6]
-INFO: [Synth 8-6157] synthesizing module 'vga_sync' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v:19]
-INFO: [Synth 8-6155] done synthesizing module 'vga_sync' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v:19]
-INFO: [Synth 8-6157] synthesizing module 'clk_divider' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v:21]
+INFO: [Synth 8-11241] undeclared symbol 'dispensing', assumed default net type 'wire' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:74]
+INFO: [Synth 8-11241] undeclared symbol 'dispense_completed', assumed default net type 'wire' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:75]
+WARNING: [Synth 8-8895] 'dispensing' is already implicitly declared on line 74 [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:179]
+WARNING: [Synth 8-8895] 'dispense_completed' is already implicitly declared on line 75 [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:180]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:186]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:187]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:188]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:189]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:190]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:191]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:193]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:194]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:195]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:197]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:197]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:197]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:198]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:198]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:198]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:199]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:199]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:199]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:206]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:207]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:208]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:209]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:210]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:211]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:216]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:216]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:216]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:217]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:217]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:217]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:218]
+WARNING: [Synth 8-6901] identifier 'avail_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:218]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:218]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:220]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:220]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:220]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:221]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:221]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:221]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:222]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:222]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:222]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:223]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:223]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:223]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:224]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:224]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:224]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:225]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:225]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:225]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:226]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:226]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:226]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:227]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:227]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:227]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:228]
+WARNING: [Synth 8-6901] identifier 'stock' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:228]
+WARNING: [Synth 8-6901] identifier 'cart_quantity' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:228]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:230]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:231]
+WARNING: [Synth 8-6901] identifier 'dispensed_coins' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:232]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:234]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:235]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:236]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:248]
+WARNING: [Synth 8-6901] identifier 'coins_inserted' is used before its declaration [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:248]
+INFO: [Synth 8-6157] synthesizing module 'lab10' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:10]
+INFO: [Synth 8-6157] synthesizing module 'debounce' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'debounce' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v:2]
+INFO: [Synth 8-6157] synthesizing module 'main_fsm' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:9]
+INFO: [Synth 8-226] default block is never used [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:41]
+INFO: [Synth 8-6155] done synthesizing module 'main_fsm' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v:9]
+INFO: [Synth 8-6157] synthesizing module 'vending_fsm' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'vending_fsm' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v:2]
+INFO: [Synth 8-6157] synthesizing module 'coin_selector' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v:10]
+INFO: [Synth 8-6155] done synthesizing module 'coin_selector' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v:10]
+INFO: [Synth 8-6157] synthesizing module 'price_calculator' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v:8]
+INFO: [Synth 8-6155] done synthesizing module 'price_calculator' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v:8]
+INFO: [Synth 8-6157] synthesizing module 'paid_calculator' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'paid_calculator' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v:7]
+INFO: [Synth 8-6157] synthesizing module 'change_dispenser' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:6]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:96]
+INFO: [Synth 8-6155] done synthesizing module 'change_dispenser' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v:6]
+INFO: [Synth 8-6157] synthesizing module 'vga_sync' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v:19]
+INFO: [Synth 8-6155] done synthesizing module 'vga_sync' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vga_sync.v:19]
+INFO: [Synth 8-6157] synthesizing module 'clk_divider' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v:21]
 	Parameter divider bound to: 2 - type: integer 
-INFO: [Synth 8-6155] done synthesizing module 'clk_divider' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v:21]
-INFO: [Synth 8-6157] synthesizing module 'text_renderer' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v:7]
-INFO: [Synth 8-6157] synthesizing module 'bin2bcd' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:16]
-INFO: [Synth 8-6155] done synthesizing module 'bin2bcd' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:16]
-INFO: [Synth 8-6157] synthesizing module 'pc_vga_8x16_00_7F' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v:2]
-INFO: [Synth 8-6157] synthesizing module 'RAMB16_S1' [D:/2025.1/Vivado/scripts/rt/data/unisim_comp.v:149228]
+INFO: [Synth 8-6155] done synthesizing module 'clk_divider' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v:21]
+INFO: [Synth 8-6157] synthesizing module 'text_renderer' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v:7]
+INFO: [Synth 8-6157] synthesizing module 'bin2bcd' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:16]
+INFO: [Synth 8-6155] done synthesizing module 'bin2bcd' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:16]
+INFO: [Synth 8-6157] synthesizing module 'pc_vga_8x16_00_7F' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v:2]
+INFO: [Synth 8-6157] synthesizing module 'RAMB16_S1' [C:/Xilinx/2025.1/Vivado/scripts/rt/data/unisim_comp.v:149228]
 	Parameter INIT_00 bound to: 256'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111101000000110000001100110011011110110000001100000011010010110000001011111100000000000000000 
 	Parameter INIT_01 bound to: 256'b0000000000000000000000000000000001111110111111111111111111100111110000111111111111111111110110111111111101111110000000000000000000000000000000000000000000000000000100000011100001111100111111101111111011111110111111100110110000000000000000000000000000000000 
 	Parameter INIT_02 bound to: 256'b0000000000000000000000000000000000000000000100000011100001111100111111100111110000111000000100000000000000000000000000000000000000000000000000000000000000000000001111000001100000011000111001111110011111100111001111000011110000011000000000000000000000000000 
@@ -202,104 +202,143 @@ INFO: [Synth 8-6157] synthesizing module 'RAMB16_S1' [D:/2025.1/Vivado/scripts/r
 	Parameter INIT_3D bound to: 256'b0000000000000000000000000000000011111110110001100110000000110000000110001100110011111110000000000000000000000000000000000000000000000000000000000000000000000000000011100001100000011000000110000001100001110000000110000001100000011000000011100000000000000000 
 	Parameter INIT_3E bound to: 256'b0000000000000000000000000000000000011000000110000001100000011000000110000000000000011000000110000001100000011000000000000000000000000000000000000000000000000000011100000001100000011000000110000001100000001110000110000001100000011000011100000000000000000000 
 	Parameter INIT_3F bound to: 256'b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001101110001110110000000000000000000000000000000000000000000000000000000001111111011000110110001101100011001101100001110000001000000000000000000000000000000000000 
-INFO: [Synth 8-6155] done synthesizing module 'RAMB16_S1' (0#1) [D:/2025.1/Vivado/scripts/rt/data/unisim_comp.v:149228]
-INFO: [Synth 8-6155] done synthesizing module 'pc_vga_8x16_00_7F' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v:2]
-INFO: [Synth 8-6155] done synthesizing module 'text_renderer' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v:7]
-INFO: [Synth 8-6157] synthesizing module 'paid_text_renderer' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'paid_text_renderer' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v:7]
-INFO: [Synth 8-6157] synthesizing module 'change_text_renderer' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'change_text_renderer' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v:7]
-INFO: [Synth 8-6157] synthesizing module 'coin_count_display' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v:8]
-INFO: [Synth 8-6155] done synthesizing module 'coin_count_display' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v:8]
-INFO: [Synth 8-6157] synthesizing module 'dispensed_count_display' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'dispensed_count_display' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v:6]
-INFO: [Synth 8-6157] synthesizing module 'sram' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'RAMB16_S1' (0#1) [C:/Xilinx/2025.1/Vivado/scripts/rt/data/unisim_comp.v:149228]
+INFO: [Synth 8-6155] done synthesizing module 'pc_vga_8x16_00_7F' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v:2]
+INFO: [Synth 8-6155] done synthesizing module 'text_renderer' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v:7]
+INFO: [Synth 8-6157] synthesizing module 'paid_text_renderer' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'paid_text_renderer' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v:7]
+INFO: [Synth 8-6157] synthesizing module 'change_text_renderer' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'change_text_renderer' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v:7]
+INFO: [Synth 8-6157] synthesizing module 'coin_count_display' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v:8]
+INFO: [Synth 8-6155] done synthesizing module 'coin_count_display' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v:8]
+INFO: [Synth 8-6157] synthesizing module 'dispensed_count_display' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'dispensed_count_display' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v:6]
+INFO: [Synth 8-6157] synthesizing module 'sram' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
 	Parameter DATA_WIDTH bound to: 12 - type: integer 
 	Parameter ADDR_WIDTH bound to: 12 - type: integer 
 	Parameter RAM_SIZE bound to: 2800 - type: integer 
 	Parameter MEM_INIT_FILE bound to: VendingMachineBg.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'VendingMachineBg.mem' is read successfully [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'sram' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
-INFO: [Synth 8-6157] synthesizing module 'sram__parameterized0' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-3876] $readmem data file 'VendingMachineBg.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized0' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
 	Parameter DATA_WIDTH bound to: 12 - type: integer 
 	Parameter ADDR_WIDTH bound to: 7 - type: integer 
 	Parameter RAM_SIZE bound to: 125 - type: integer 
 	Parameter MEM_INIT_FILE bound to: SelectBox.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'SelectBox.mem' is read successfully [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized0' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
-INFO: [Synth 8-6157] synthesizing module 'sram__parameterized1' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-3876] $readmem data file 'SelectBox.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized0' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized1' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+	Parameter DATA_WIDTH bound to: 12 - type: integer 
+	Parameter ADDR_WIDTH bound to: 7 - type: integer 
+	Parameter RAM_SIZE bound to: 110 - type: integer 
+	Parameter MEM_INIT_FILE bound to: VendingMachineGreenBgsBg.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'VendingMachineGreenBgsBg.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized1' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized2' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
 	Parameter DATA_WIDTH bound to: 12 - type: integer 
 	Parameter ADDR_WIDTH bound to: 9 - type: integer 
 	Parameter RAM_SIZE bound to: 400 - type: integer 
 	Parameter MEM_INIT_FILE bound to: Coin1.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'Coin1.mem' is read successfully [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized1' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
-INFO: [Synth 8-6157] synthesizing module 'sram__parameterized2' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-3876] $readmem data file 'Coin1.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized2' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized3' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
 	Parameter DATA_WIDTH bound to: 12 - type: integer 
 	Parameter ADDR_WIDTH bound to: 9 - type: integer 
 	Parameter RAM_SIZE bound to: 400 - type: integer 
 	Parameter MEM_INIT_FILE bound to: Coin5.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'Coin5.mem' is read successfully [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized2' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
-INFO: [Synth 8-6157] synthesizing module 'sram__parameterized3' [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-3876] $readmem data file 'Coin5.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized3' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized4' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
 	Parameter DATA_WIDTH bound to: 12 - type: integer 
 	Parameter ADDR_WIDTH bound to: 9 - type: integer 
 	Parameter RAM_SIZE bound to: 400 - type: integer 
 	Parameter MEM_INIT_FILE bound to: Coin10.mem - type: string 
-INFO: [Synth 8-3876] $readmem data file 'Coin10.mem' is read successfully [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
-INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized3' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
-INFO: [Synth 8-6155] done synthesizing module 'lab10' (0#1) [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:11]
-WARNING: [Synth 8-6014] Unused sequential element shift_reg_reg was removed.  [D:/vivado/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:39]
+INFO: [Synth 8-3876] $readmem data file 'Coin10.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized4' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'animation_controller' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v:9]
+INFO: [Synth 8-6155] done synthesizing module 'animation_controller' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v:9]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized5' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+	Parameter DATA_WIDTH bound to: 12 - type: integer 
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter RAM_SIZE bound to: 600 - type: integer 
+	Parameter MEM_INIT_FILE bound to: WaterDropSheet.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'WaterDropSheet.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized5' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized6' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+	Parameter DATA_WIDTH bound to: 12 - type: integer 
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter RAM_SIZE bound to: 600 - type: integer 
+	Parameter MEM_INIT_FILE bound to: JuiceDropSheet.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'JuiceDropSheet.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized6' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized7' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+	Parameter DATA_WIDTH bound to: 12 - type: integer 
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter RAM_SIZE bound to: 600 - type: integer 
+	Parameter MEM_INIT_FILE bound to: TeaDropSheet.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'TeaDropSheet.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized7' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6157] synthesizing module 'sram__parameterized8' [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+	Parameter DATA_WIDTH bound to: 12 - type: integer 
+	Parameter ADDR_WIDTH bound to: 10 - type: integer 
+	Parameter RAM_SIZE bound to: 600 - type: integer 
+	Parameter MEM_INIT_FILE bound to: ColaDropSheet.mem - type: string 
+INFO: [Synth 8-3876] $readmem data file 'ColaDropSheet.mem' is read successfully [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:20]
+INFO: [Synth 8-6155] done synthesizing module 'sram__parameterized8' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'lab10' (0#1) [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:10]
+WARNING: [Synth 8-6014] Unused sequential element shift_reg_reg was removed.  [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v:39]
 ---------------------------------------------------------------------------------
-Finished RTL Elaboration : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1319.473 ; gain = 629.512
+Finished RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1327.531 ; gain = 633.309
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1319.473 ; gain = 629.512
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1327.531 ; gain = 633.309
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 1319.473 ; gain = 629.512
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:04 ; elapsed = 00:00:08 . Memory (MB): peak = 1327.531 ; gain = 633.309
 ---------------------------------------------------------------------------------
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.051 . Memory (MB): peak = 1319.473 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.099 . Memory (MB): peak = 1327.531 ; gain = 0.000
 INFO: [Netlist 29-17] Analyzing 5 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 
 Processing XDC Constraints
 Initializing timing engine
-Parsing XDC File [D:/vivado/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
-Finished Parsing XDC File [D:/vivado/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
-INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/vivado/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/lab10_propImpl.xdc].
+Parsing XDC File [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
+Finished Parsing XDC File [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/constrs_1/lab10.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/lab10_propImpl.xdc].
 Resolution: To avoid this warning, move constraints listed in [.Xil/lab10_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
 Completed Processing XDC Constraints
 
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1382.102 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1388.648 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 5 instances were transformed.
   RAMB16_S1 => RAMB18E1: 5 instances
 
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.018 . Memory (MB): peak = 1382.102 ; gain = 0.000
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.025 . Memory (MB): peak = 1388.648 ; gain = 0.000
 INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
 INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1382.102 ; gain = 692.141
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:18 . Memory (MB): peak = 1388.648 ; gain = 694.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xc7a35ticsg324-1L
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1382.102 ; gain = 692.141
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:18 . Memory (MB): peak = 1388.648 ; gain = 694.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:14 ; elapsed = 00:00:16 . Memory (MB): peak = 1382.102 ; gain = 692.141
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:18 . Memory (MB): peak = 1388.648 ; gain = 694.426
 ---------------------------------------------------------------------------------
 INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'change_dispenser'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'animation_controller'
+WARNING: [Synth 8-3936] Found unconnected internal register 'y_mult_40_stage2_reg' and it is trimmed from '17' to '12' bits. [C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/lab10.v:658]
 ---------------------------------------------------------------------------------------------------
                    State |                     New Encoding |                Previous Encoding 
 ---------------------------------------------------------------------------------------------------
@@ -310,8 +349,17 @@ INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'chang
                     DONE |                              100 |                              100
 ---------------------------------------------------------------------------------------------------
 INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'change_dispenser'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    IDLE |                               00 |                              000
+         CHECK_NEXT_ITEM |                               01 |                              001
+              START_ANIM |                               10 |                              010
+               ANIMATING |                               11 |                              011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'animation_controller'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 1382.102 ; gain = 692.141
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:09 ; elapsed = 00:00:19 . Memory (MB): peak = 1388.648 ; gain = 694.426
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
@@ -319,40 +367,49 @@ Start RTL Component Statistics
 Detailed RTL Component Info : 
 +---Adders : 
 	   3 Input   32 Bit       Adders := 2     
+	   2 Input   24 Bit       Adders := 1     
 	   2 Input   20 Bit       Adders := 4     
 	   2 Input   16 Bit       Adders := 3     
+	   9 Input   15 Bit       Adders := 1     
 	   3 Input   12 Bit       Adders := 9     
 	   3 Input   11 Bit       Adders := 3     
 	   2 Input   10 Bit       Adders := 12    
-	   2 Input    9 Bit       Adders := 3     
-	   2 Input    8 Bit       Adders := 6     
+	   2 Input    9 Bit       Adders := 4     
+	   2 Input    8 Bit       Adders := 5     
 	   4 Input    8 Bit       Adders := 3     
 	   2 Input    7 Bit       Adders := 5     
-	   2 Input    4 Bit       Adders := 512   
-	   3 Input    4 Bit       Adders := 2     
+	   2 Input    6 Bit       Adders := 3     
+	   2 Input    4 Bit       Adders := 513   
+	   3 Input    4 Bit       Adders := 11    
+	   2 Input    3 Bit       Adders := 3     
 	   3 Input    3 Bit       Adders := 9     
-	   2 Input    3 Bit       Adders := 1     
 	   2 Input    2 Bit       Adders := 2     
 +---Registers : 
+	               27 Bit    Registers := 2     
 	               20 Bit    Registers := 4     
 	               16 Bit    Registers := 4     
-	               12 Bit    Registers := 7     
-	               10 Bit    Registers := 2     
+	               12 Bit    Registers := 11    
+	               11 Bit    Registers := 13    
+	               10 Bit    Registers := 3     
 	                9 Bit    Registers := 1     
 	                8 Bit    Registers := 16    
 	                7 Bit    Registers := 1     
-	                4 Bit    Registers := 49    
-	                3 Bit    Registers := 18    
+	                4 Bit    Registers := 51    
+	                3 Bit    Registers := 20    
 	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 42    
+	                1 Bit    Registers := 48    
 +---RAMs : 
 	              32K Bit	(2800 X 12 bit)          RAMs := 1     
+	               7K Bit	(600 X 12 bit)          RAMs := 4     
 	               4K Bit	(400 X 12 bit)          RAMs := 3     
 	               1K Bit	(125 X 12 bit)          RAMs := 1     
+	               1K Bit	(110 X 12 bit)          RAMs := 1     
 +---Muxes : 
+	   4 Input   27 Bit        Muxes := 1     
+	   2 Input   24 Bit        Muxes := 1     
 	   2 Input   20 Bit        Muxes := 8     
 	   5 Input   16 Bit        Muxes := 1     
-	   2 Input   12 Bit        Muxes := 96    
+	   2 Input   12 Bit        Muxes := 98    
 	   4 Input    9 Bit        Muxes := 1     
 	   2 Input    9 Bit        Muxes := 2     
 	   5 Input    8 Bit        Muxes := 6     
@@ -366,11 +423,15 @@ Detailed RTL Component Info :
 	  10 Input    6 Bit        Muxes := 1     
 	  10 Input    5 Bit        Muxes := 1     
 	   2 Input    4 Bit        Muxes := 415   
+	   4 Input    4 Bit        Muxes := 1     
 	   5 Input    3 Bit        Muxes := 1     
-	   2 Input    3 Bit        Muxes := 5     
-	   2 Input    2 Bit        Muxes := 3     
-	   2 Input    1 Bit        Muxes := 39    
+	   2 Input    3 Bit        Muxes := 6     
+	   4 Input    3 Bit        Muxes := 2     
+	   2 Input    2 Bit        Muxes := 4     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 51    
 	   5 Input    1 Bit        Muxes := 8     
+	   4 Input    1 Bit        Muxes := 7     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -388,7 +449,7 @@ Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
 WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:39 ; elapsed = 00:00:41 . Memory (MB): peak = 1597.492 ; gain = 907.531
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:25 ; elapsed = 00:00:48 . Memory (MB): peak = 1610.340 ; gain = 916.117
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -400,9 +461,14 @@ Block RAM: Preliminary Mapping Report (see note below)
 +----------------------+--------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |lab10                 | ram0/RAM_reg | 2 K x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 1      | 
 |sram__parameterized0: | RAM_reg      | 125 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
-|sram__parameterized1: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized1: | RAM_reg      | 110 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 |sram__parameterized2: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 |sram__parameterized3: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized4: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized5: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized6: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized7: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized8: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 +----------------------+--------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 Note: The table above is a preliminary report that shows the Block RAMs at the current stage of the synthesis flow. Some Block RAMs may be reimplemented as non Block RAM primitives later in the synthesis flow. Multiple instantiated Block RAMs are reported only once. 
@@ -413,13 +479,13 @@ Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 Start Applying XDC Timing Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:45 ; elapsed = 00:00:47 . Memory (MB): peak = 1597.492 ; gain = 907.531
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:28 ; elapsed = 00:00:54 . Memory (MB): peak = 1610.340 ; gain = 916.117
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:53 ; elapsed = 00:00:55 . Memory (MB): peak = 1650.879 ; gain = 960.918
+Finished Timing Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:56 . Memory (MB): peak = 1616.645 ; gain = 922.422
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
@@ -431,9 +497,14 @@ Block RAM: Final Mapping Report
 +----------------------+--------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 |lab10                 | ram0/RAM_reg | 2 K x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 1      | 
 |sram__parameterized0: | RAM_reg      | 125 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
-|sram__parameterized1: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized1: | RAM_reg      | 110 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 |sram__parameterized2: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 |sram__parameterized3: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized4: | RAM_reg      | 400 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized5: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized6: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized7: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
+|sram__parameterized8: | RAM_reg      | 600 x 12(WRITE_FIRST)  | W | R |                        |   |   | Port A           | 1      | 0      | 
 +----------------------+--------------+------------------------+---+---+------------------------+---+---+------------------+--------+--------+
 
 ---------------------------------------------------------------------------------
@@ -445,11 +516,16 @@ Start Technology Mapping
 INFO: [Synth 8-7052] The timing for the instance ram0/RAM_reg_0 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance ram0/RAM_reg_1 (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance ram_selectbox/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance ram_green_bg/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance ram_coin1/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance ram_coin5/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 INFO: [Synth 8-7052] The timing for the instance ram_coin10/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance ram_anim_water/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance ram_anim_juice/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance ram_anim_tea/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
+INFO: [Synth 8-7052] The timing for the instance ram_anim_cola/RAM_reg (implemented as a Block RAM) might be sub-optimal as no optional output register could be merged into the ram block. Providing additional output register may help in improving timing.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:54 ; elapsed = 00:00:57 . Memory (MB): peak = 1681.309 ; gain = 991.348
+Finished Technology Mapping : Time (s): cpu = 00:00:29 ; elapsed = 00:00:58 . Memory (MB): peak = 1646.941 ; gain = 952.719
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -467,37 +543,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:58 ; elapsed = 00:01:00 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished IO Insertion : Time (s): cpu = 00:00:33 ; elapsed = 00:01:06 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:58 ; elapsed = 00:01:00 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:33 ; elapsed = 00:01:07 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:58 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:33 ; elapsed = 00:01:08 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:58 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:33 ; elapsed = 00:01:08 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:58 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:33 ; elapsed = 00:01:08 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:58 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:33 ; elapsed = 00:01:09 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -514,46 +590,46 @@ Report Cell Usage:
 |      |Cell      |Count |
 +------+----------+------+
 |1     |BUFG      |     1|
-|2     |CARRY4    |   175|
-|3     |LUT1      |   111|
-|4     |LUT2      |   314|
-|5     |LUT3      |   196|
-|6     |LUT4      |   328|
-|7     |LUT5      |   233|
-|8     |LUT6      |   612|
+|2     |CARRY4    |   212|
+|3     |LUT1      |   126|
+|4     |LUT2      |   395|
+|5     |LUT3      |   254|
+|6     |LUT4      |   364|
+|7     |LUT5      |   269|
+|8     |LUT6      |   710|
 |9     |MUXF7     |     4|
 |10    |RAMB16_S1 |     5|
-|11    |RAMB18E1  |     5|
-|16    |RAMB36E1  |     1|
-|17    |FDCE      |   441|
-|18    |FDPE      |    14|
-|19    |FDRE      |    82|
-|20    |IBUF      |     6|
-|21    |OBUF      |    18|
+|11    |RAMB18E1  |    10|
+|21    |RAMB36E1  |     1|
+|22    |FDCE      |   558|
+|23    |FDPE      |    14|
+|24    |FDRE      |   140|
+|25    |IBUF      |     6|
+|26    |OBUF      |    18|
 +------+----------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:58 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:33 ; elapsed = 00:01:09 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:50 ; elapsed = 00:00:59 . Memory (MB): peak = 1813.762 ; gain = 1061.172
-Synthesis Optimization Complete : Time (s): cpu = 00:00:59 ; elapsed = 00:01:01 . Memory (MB): peak = 1813.762 ; gain = 1123.801
+Synthesis finished with 0 errors, 0 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:29 ; elapsed = 00:01:06 . Memory (MB): peak = 1788.121 ; gain = 1032.781
+Synthesis Optimization Complete : Time (s): cpu = 00:00:34 ; elapsed = 00:01:09 . Memory (MB): peak = 1788.121 ; gain = 1093.898
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.018 . Memory (MB): peak = 1813.762 ; gain = 0.000
-INFO: [Netlist 29-17] Analyzing 190 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.059 . Memory (MB): peak = 1788.121 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 232 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1826.586 ; gain = 0.000
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.003 . Memory (MB): peak = 1800.969 ; gain = 0.000
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 5 instances were transformed.
   RAMB16_S1 => RAMB18E1: 5 instances
 
-Synth Design complete | Checksum: d0aaff51
+Synth Design complete | Checksum: 44b806b1
 INFO: [Common 17-83] Releasing license: Synthesis
-86 Infos, 72 Warnings, 0 Critical Warnings and 0 Errors encountered.
+110 Infos, 73 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:02 ; elapsed = 00:01:06 . Memory (MB): peak = 1826.586 ; gain = 1324.344
-Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.006 . Memory (MB): peak = 1826.586 ; gain = 0.000
-INFO: [Common 17-1381] The checkpoint 'D:/vivado/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp' has been generated.
+synth_design: Time (s): cpu = 00:00:37 ; elapsed = 00:01:17 . Memory (MB): peak = 1800.969 ; gain = 1295.414
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.039 . Memory (MB): peak = 1800.969 ; gain = 0.000
+INFO: [Common 17-1381] The checkpoint 'C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp' has been generated.
 INFO: [Vivado 12-24828] Executing command : report_utilization -file lab10_utilization_synth.rpt -pb lab10_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Fri Nov 28 00:45:00 2025...
+INFO: [Common 17-206] Exiting Vivado at Sun Nov 30 03:48:12 2025...
