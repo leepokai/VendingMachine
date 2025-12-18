@@ -10,8 +10,8 @@
 module coin_selector (
     input wire clk,
     input wire reset,
-    input wire btn_up,      // btn0 - move selection up
-    input wire btn_down,    // btn1 - move selection down
+    input wire btn_up,      // btn1 - move selection up (now connected to btn_debounced[1])
+    input wire btn_down,    // btn0 - move selection down (now connected to btn_debounced[0])
     output reg [1:0] coin_index  // 0, 1, or 2
 );
 

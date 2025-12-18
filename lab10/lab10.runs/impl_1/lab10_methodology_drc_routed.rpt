@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Wed Dec 17 15:54:54 2025
+| Date         : Thu Dec 18 11:56:24 2025
 | Host         : MSI running 64-bit major release  (build 9200)
 | Command      : report_methodology -file lab10_methodology_drc_routed.rpt -pb lab10_methodology_drc_routed.pb -rpx lab10_methodology_drc_routed.rpx
 | Design       : lab10
@@ -23,14 +23,14 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max checks: <unlimited>
-             Checks found: 51
+             Checks found: 50
 +-----------+----------+--------------------------------------------+--------+
 | Rule      | Severity | Description                                | Checks |
 +-----------+----------+--------------------------------------------+--------+
 | LUTAR-1   | Warning  | LUT drives async reset alert               | 1      |
-| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 12     |
-| SYNTH-9   | Warning  | Small multiplier                           | 17     |
-| TIMING-18 | Warning  | Missing input or output delay              | 21     |
+| SYNTH-6   | Warning  | Timing of a RAM block might be sub-optimal | 16     |
+| SYNTH-9   | Warning  | Small multiplier                           | 8      |
+| TIMING-18 | Warning  | Missing input or output delay              | 25     |
 +-----------+----------+--------------------------------------------+--------+
 
 2. REPORT DETAILS
@@ -44,60 +44,80 @@ Related violations: <none>
 
 SYNTH-6#1 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram0/RAM_reg_0, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance avail_disp0/ram1/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#2 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram0/RAM_reg_1, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance avail_disp0/ram10/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#3 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_anim_cola/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance avail_disp0/ram100/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#4 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_anim_juice/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance avail_disp0/ram5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#5 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_anim_tea/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram0/RAM_reg_0, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#6 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_anim_water/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram0/RAM_reg_1, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#7 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin1/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_cola/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#8 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin10/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_juice/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#9 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin100/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_tea/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#10 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_anim_water/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#11 Warning
 Timing of a RAM block might be sub-optimal  
-The timing for the instance ram_green_bg/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+The timing for the instance ram_coin1/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
 
 SYNTH-6#12 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin10/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#13 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin100/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#14 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_coin5/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#15 Warning
+Timing of a RAM block might be sub-optimal  
+The timing for the instance ram_green_bg/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
+Related violations: <none>
+
+SYNTH-6#16 Warning
 Timing of a RAM block might be sub-optimal  
 The timing for the instance ram_selectbox/RAM_reg, implemented as a RAM block, might be sub-optimal as no output register was merged into the block.
 Related violations: <none>
@@ -119,70 +139,25 @@ Related violations: <none>
 
 SYNTH-9#4 Warning
 Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[1][4]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Detected multiplier at price_calc0/product_regs_reg[4][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
 SYNTH-9#5 Warning
 Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[2][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Detected multiplier at price_calc0/product_regs_reg[8][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
 SYNTH-9#6 Warning
 Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[2][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
+Detected multiplier at price_calc0/product_regs_reg[8][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
 SYNTH-9#7 Warning
 Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[4][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#8 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[5][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#9 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[5][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#10 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[6][5]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#11 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[6][7]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#12 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[7][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#13 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[7][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#14 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[8][3]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#15 Warning
-Small multiplier  
-Detected multiplier at price_calc0/product_regs_reg[8][6]_i_1 of size 8x3, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
-Related violations: <none>
-
-SYNTH-9#16 Warning
-Small multiplier  
 Detected multiplier at y_mult_40_stage2_reg[11]_i_1 of size 7x6, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
 
-SYNTH-9#17 Warning
+SYNTH-9#8 Warning
 Small multiplier  
 Detected multiplier at y_mult_40_stage2_reg[7]_i_1 of size 7x6, it is implemented as LUTs due to its small size. To force the multiplier onto a DSP block, use the USE_DSP48 attribute.
 Related violations: <none>
@@ -194,100 +169,120 @@ Related violations: <none>
 
 TIMING-18#2 Warning
 Missing input or output delay  
-An input delay is missing on usr_btn[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on sw[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#3 Warning
 Missing input or output delay  
-An input delay is missing on usr_btn[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on sw[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#4 Warning
 Missing input or output delay  
-An input delay is missing on usr_btn[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on sw[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#5 Warning
 Missing input or output delay  
-An input delay is missing on usr_btn[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on sw[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#6 Warning
 Missing input or output delay  
-An output delay is missing on VGA_BLUE[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on usr_btn[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#7 Warning
 Missing input or output delay  
-An output delay is missing on VGA_BLUE[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on usr_btn[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#8 Warning
 Missing input or output delay  
-An output delay is missing on VGA_BLUE[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on usr_btn[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#9 Warning
 Missing input or output delay  
-An output delay is missing on VGA_BLUE[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An input delay is missing on usr_btn[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#10 Warning
 Missing input or output delay  
-An output delay is missing on VGA_GREEN[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_BLUE[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#11 Warning
 Missing input or output delay  
-An output delay is missing on VGA_GREEN[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_BLUE[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#12 Warning
 Missing input or output delay  
-An output delay is missing on VGA_GREEN[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_BLUE[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#13 Warning
 Missing input or output delay  
-An output delay is missing on VGA_GREEN[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_BLUE[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#14 Warning
 Missing input or output delay  
-An output delay is missing on VGA_RED[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_GREEN[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#15 Warning
 Missing input or output delay  
-An output delay is missing on VGA_RED[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_GREEN[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#16 Warning
 Missing input or output delay  
-An output delay is missing on VGA_RED[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_GREEN[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#17 Warning
 Missing input or output delay  
-An output delay is missing on VGA_RED[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_GREEN[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#18 Warning
 Missing input or output delay  
-An output delay is missing on usr_led[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_RED[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#19 Warning
 Missing input or output delay  
-An output delay is missing on usr_led[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_RED[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#20 Warning
 Missing input or output delay  
-An output delay is missing on usr_led[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+An output delay is missing on VGA_RED[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>
 
 TIMING-18#21 Warning
+Missing input or output delay  
+An output delay is missing on VGA_RED[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#22 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[0] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#23 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[1] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#24 Warning
+Missing input or output delay  
+An output delay is missing on usr_led[2] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
+Related violations: <none>
+
+TIMING-18#25 Warning
 Missing input or output delay  
 An output delay is missing on usr_led[3] relative to the rising and/or falling clock edge(s) of sys_clk_pin.
 Related violations: <none>

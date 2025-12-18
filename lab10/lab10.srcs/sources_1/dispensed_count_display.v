@@ -25,6 +25,18 @@ module dispensed_count_display (
     output reg is_disp_text_area     // Output: 1 if current position is in text area
 );
 
+    // --- PIPELINE REGISTERS FOR TIMING FIX ---
+    reg [9:0] pixel_x_reg, pixel_y_reg;
+    always @(posedge clk) begin
+        if (reset) begin
+            pixel_x_reg <= 0;
+            pixel_y_reg <= 0;
+        end else begin
+            pixel_x_reg <= pixel_x;
+            pixel_y_reg <= pixel_y;
+        end
+    end
+
 // Text display parameters
 localparam TEXT_X_START = 464;  // X position for text
 localparam CHAR_WIDTH = 8;
@@ -41,25 +53,25 @@ wire [9:0] text3_disp_y = coin3_y_start + TEXT_OFFSET_Y + DISP_LINE_OFFSET;
 
 // Text area detection for dispensed count
 // All use 7 chars "DISP:XX"
-wire in_text0_disp = (pixel_y >= text0_disp_y) && (pixel_y < text0_disp_y + CHAR_HEIGHT) &&
-                     (pixel_x >= TEXT_X_START) && (pixel_x < TEXT_X_START + 7 * CHAR_WIDTH);
-wire in_text1_disp = (pixel_y >= text1_disp_y) && (pixel_y < text1_disp_y + CHAR_HEIGHT) &&
-                     (pixel_x >= TEXT_X_START) && (pixel_x < TEXT_X_START + 7 * CHAR_WIDTH);
-wire in_text2_disp = (pixel_y >= text2_disp_y) && (pixel_y < text2_disp_y + CHAR_HEIGHT) &&
-                     (pixel_x >= TEXT_X_START) && (pixel_x < TEXT_X_START + 7 * CHAR_WIDTH);
-wire in_text3_disp = (pixel_y >= text3_disp_y) && (pixel_y < text3_disp_y + CHAR_HEIGHT) &&
-                     (pixel_x >= TEXT_X_START) && (pixel_x < TEXT_X_START + 7 * CHAR_WIDTH);
+wire in_text0_disp = (pixel_y_reg >= text0_disp_y) && (pixel_y_reg < text0_disp_y + CHAR_HEIGHT) &&
+                     (pixel_x_reg >= TEXT_X_START) && (pixel_x_reg < TEXT_X_START + 7 * CHAR_WIDTH);
+wire in_text1_disp = (pixel_y_reg >= text1_disp_y) && (pixel_y_reg < text1_disp_y + CHAR_HEIGHT) &&
+                     (pixel_x_reg >= TEXT_X_START) && (pixel_x_reg < TEXT_X_START + 7 * CHAR_WIDTH);
+wire in_text2_disp = (pixel_y_reg >= text2_disp_y) && (pixel_y_reg < text2_disp_y + CHAR_HEIGHT) &&
+                     (pixel_x_reg >= TEXT_X_START) && (pixel_x_reg < TEXT_X_START + 7 * CHAR_WIDTH);
+wire in_text3_disp = (pixel_y_reg >= text3_disp_y) && (pixel_y_reg < text3_disp_y + CHAR_HEIGHT) &&
+                     (pixel_x_reg >= TEXT_X_START) && (pixel_x_reg < TEXT_X_START + 7 * CHAR_WIDTH);
 
 wire in_any_text_area = in_text0_disp || in_text1_disp || in_text2_disp || in_text3_disp;
 
 // Calculate character position within text
 wire [9:0] text_offset_y;
-assign text_offset_y = in_text0_disp ? (pixel_y - text0_disp_y) :
-                       in_text1_disp ? (pixel_y - text1_disp_y) :
-                       in_text2_disp ? (pixel_y - text2_disp_y) :
-                                       (pixel_y - text3_disp_y);
+assign text_offset_y = in_text0_disp ? (pixel_y_reg - text0_disp_y) :
+                       in_text1_disp ? (pixel_y_reg - text1_disp_y) :
+                       in_text2_disp ? (pixel_y_reg - text2_disp_y) :
+                                       (pixel_y_reg - text3_disp_y);
 
-wire [9:0] pixel_offset_x = pixel_x - TEXT_X_START;
+wire [9:0] pixel_offset_x = pixel_x_reg - TEXT_X_START;
 wire [3:0] char_index = pixel_offset_x[6:3];  // Divide by 8
 wire [2:0] char_col = pixel_offset_x[2:0];    // Modulo 8
 wire [3:0] char_row = text_offset_y[3:0];

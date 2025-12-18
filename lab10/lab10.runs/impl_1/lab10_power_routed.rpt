@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date             : Wed Dec 17 15:54:55 2025
+| Date             : Thu Dec 18 11:56:25 2025
 | Host             : MSI running 64-bit major release  (build 9200)
 | Command          : report_power -file lab10_power_routed.rpt -pb lab10_power_summary_routed.pb -rpx lab10_power_routed.rpx
 | Design           : lab10
@@ -30,14 +30,14 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.109        |
+| Total On-Chip Power (W)  | 0.127        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.047        |
+| Dynamic (W)              | 0.065        |
 | Device Static (W)        | 0.062        |
 | Effective TJA (C/W)      | 4.8          |
-| Max Ambient (C)          | 99.5         |
-| Junction Temperature (C) | 25.5         |
+| Max Ambient (C)          | 99.4         |
+| Junction Temperature (C) | 25.6         |
 | Confidence Level         | Low          |
 | Setting File             | ---          |
 | Simulation Activity File | ---          |
@@ -52,18 +52,17 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Clocks         |     0.005 |        4 |       --- |             --- |
-| Slice Logic    |     0.009 |     3480 |       --- |             --- |
-|   LUT as Logic |     0.009 |     1883 |     20800 |            9.05 |
-|   CARRY4       |    <0.001 |      237 |      8150 |            2.91 |
-|   Register     |    <0.001 |      783 |     41600 |            1.88 |
-|   F7/F8 Muxes  |    <0.001 |        4 |     32600 |            0.01 |
-|   Others       |     0.000 |       94 |       --- |             --- |
-| Signals        |     0.008 |     2638 |       --- |             --- |
-| Block RAM      |     0.014 |        9 |        50 |           18.00 |
-| I/O            |     0.011 |       24 |       210 |           11.43 |
+| Clocks         |     0.006 |        4 |       --- |             --- |
+| Slice Logic    |     0.010 |     4087 |       --- |             --- |
+|   LUT as Logic |     0.010 |     2219 |     20800 |           10.67 |
+|   CARRY4       |    <0.001 |      247 |      8150 |            3.03 |
+|   Register     |    <0.001 |      849 |     41600 |            2.04 |
+|   Others       |     0.000 |      118 |       --- |             --- |
+| Signals        |     0.009 |     3240 |       --- |             --- |
+| Block RAM      |     0.025 |     12.5 |        50 |           25.00 |
+| I/O            |     0.015 |       26 |       210 |           12.38 |
 | Static Power   |     0.062 |          |           |                 |
-| Total          |     0.109 |          |           |                 |
+| Total          |     0.127 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -73,16 +72,16 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       0.950 |     0.043 |       0.037 |      0.006 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.012 |       0.000 |      0.011 |       NA    | Unspecified | NA         |
-| Vcco33    |       3.300 |     0.004 |       0.003 |      0.001 |       NA    | Unspecified | NA         |
+| Vccint    |       0.950 |     0.057 |       0.051 |      0.006 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.012 |       0.001 |      0.011 |       NA    | Unspecified | NA         |
+| Vcco33    |       3.300 |     0.005 |       0.004 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco18    |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vccaux_io |       1.800 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vccbram   |       0.950 |     0.001 |       0.001 |      0.000 |       NA    | Unspecified | NA         |
+| Vccbram   |       0.950 |     0.002 |       0.002 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVcc   |       1.000 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | MGTAVtt   |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vccadc    |       1.800 |     0.018 |       0.000 |      0.018 |       NA    | Unspecified | NA         |
@@ -143,17 +142,30 @@ Table of Contents
 +-----------------------+-----------+
 | Name                  | Power (W) |
 +-----------------------+-----------+
-| lab10                 |     0.047 |
+| lab10                 |     0.065 |
+|   anim_manager0       |     0.001 |
+|   avail_disp0         |     0.008 |
+|     font_rom          |     0.001 |
+|     ram1              |     0.002 |
+|     ram10             |     0.002 |
+|     ram100            |     0.002 |
+|     ram5              |     0.002 |
 |   change_disp0        |     0.001 |
 |   change_text_render0 |     0.006 |
 |     bcd_converter     |     0.005 |
-|   coin_count_disp0    |     0.001 |
-|   disp_count_disp0    |     0.001 |
-|   paid_calc0          |     0.004 |
+|     char_rom          |     0.001 |
+|   coin_count_disp0    |     0.002 |
+|     char_rom          |     0.001 |
+|   disp_change_disp0   |     0.001 |
+|   fsm0                |     0.001 |
+|   help_disp0          |     0.001 |
+|   paid_calc0          |     0.006 |
 |   paid_text_render0   |     0.001 |
-|   price_calc0         |     0.003 |
+|   price_calc0         |     0.002 |
+|   price_disp0         |     0.001 |
+|   ram0                |     0.003 |
+|   ram_selectbox       |     0.001 |
 |   text_render0        |     0.001 |
-|   vs0                 |     0.002 |
 +-----------------------+-----------+
 
 

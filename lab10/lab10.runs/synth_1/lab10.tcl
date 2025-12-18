@@ -90,6 +90,7 @@ read_mem {
 }
 read_verilog -library xil_defaultlib {
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/available_change_display.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v
@@ -97,7 +98,9 @@ read_verilog -library xil_defaultlib {
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/coin_count_display.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/coin_selector.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/debounce.v
-  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_count_display.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/dispensed_change_display.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/help_display.v
+  C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/item_price_display.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/main_fsm.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/paid_calculator.v
   C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v
