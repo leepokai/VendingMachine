@@ -204,15 +204,19 @@ change_dispenser change_disp0 (
     .done(dispenser_done),
     .success(dispenser_success)
 );
+wire anim_sequence_done;
+
 // Dispensing state management and coin insertion logic
 // NOTE: Merged into one always block to avoid multiple driver errors
 reg dispensing;                           // Currently dispensing change
 reg dispense_completed;                   // Flag: dispensing has completed
+reg waiting_for_animation;                // Flag: waiting for drop/fly animation
 always @(posedge clk or posedge rst) begin
     if (rst) begin
         dispenser_start <= 1'b0;
         dispensing <= 1'b0;
         dispense_completed <= 1'b0;
+        waiting_for_animation <= 1'b0;
         refund_mode <= 1'b0;
         refund_reason <= 1'b0;
         refund_msg_timer <= 0; // Initialize timer
@@ -243,6 +247,7 @@ always @(posedge clk or posedge rst) begin
         // Priority 0: Reset for new round when returning to SELECTION
         if (transition_to_selection) begin
             dispense_completed <= 1'b0;
+            waiting_for_animation <= 1'b0;
             refund_mode <= 1'b0; // Reset refund mode
             dispensed_coins[0] <= 8'd0;
             dispensed_coins[1] <= 8'd0;
@@ -282,8 +287,12 @@ always @(posedge clk or posedge rst) begin
                 
                 // Reset inserted coins (Moved to transition_to_selection block)
                 
-                // Mark dispensing as completed
-                dispense_completed <= 1'b1;
+                if (!refund_mode) begin
+                    waiting_for_animation <= 1'b1;
+                end else begin
+                    dispense_completed <= 1'b1;
+                end
+                
             end else begin
                 // Dispenser Failed (Insufficient Change)
                 // Trigger REFUND MODE automatically to return all money
@@ -295,24 +304,29 @@ always @(posedge clk or posedge rst) begin
             end
             dispensing <= 1'b0;
 
+        // Priority 1.5: Animation Completion
+        end else if (waiting_for_animation && anim_sequence_done) begin
+            waiting_for_animation <= 1'b0;
+            dispense_completed <= 1'b1; // Return to Selection now
+            
         // Priority 2: Cancel Trigger (Manual Refund)
-        end else if (cancel_trigger && !dispensing && !dispense_completed) begin
+        end else if (cancel_trigger && !dispensing && !dispense_completed && !waiting_for_animation) begin
             refund_mode <= 1'b1;
             refund_reason <= 1'b0; // Reason: Manual
             refund_msg_timer <= 28'd500_000_000; // Show "REFUND" for 5 seconds
             // Cart quantity clearing is handled in the Cart Update Logic block
             
         // Priority 2.5: Start Dispenser in Refund Mode (Delayed Start)
-        end else if (refund_mode && !dispensing && !dispense_completed && !dispenser_start) begin
+        end else if (refund_mode && !dispensing && !dispense_completed && !dispenser_start && !waiting_for_animation) begin
              dispenser_start <= 1'b1;
              dispensing <= 1'b1;
 
         // Priority 3: Start dispensing when btn3 pressed in PAYMENT with sufficient payment
-        end else if (current_state == 1'b1 && btn3_posedge && payment_sufficient && !dispensing && !dispense_completed) begin
+        end else if (current_state == 1'b1 && btn3_posedge && payment_sufficient && !dispensing && !dispense_completed && !waiting_for_animation) begin
             dispenser_start <= 1'b1;
             dispensing <= 1'b1;
         // Priority 4: Coin insertion in PAYMENT state
-        end else if (current_state == 1'b1 && btn2_posedge && !dispensing && !dispense_completed) begin
+        end else if (current_state == 1'b1 && btn2_posedge && !dispensing && !dispense_completed && !waiting_for_animation) begin
             // Insert one of the selected coin type
             coins_inserted[coin_index] <= coins_inserted[coin_index] + 8'd1;
         end
@@ -731,6 +745,7 @@ sram #(
 // Animation Controller and SRAMs
 // ------------------------------------------------------------------------
 wire animation_active;
+wire flying_active;
 wire [2:0] anim_frame_index;
 wire [3:0] anim_item_index; // Index of the item currently being animated
 wire [11:0] water_anim_data_out, juice_anim_data_out, tea_anim_data_out, cola_anim_data_out;
@@ -744,14 +759,63 @@ assign flat_cart_quantity = {
     cart_quantity[2], cart_quantity[1], cart_quantity[0]
 };
 
+// Wires for Flying Animation
+wire [9:0] target_y_pos;
+wire [9:0] anim_x_wire;
+wire [9:0] anim_y_wire;
+wire list_update_trigger;
+
+// Cart List Renderer (Bottom Right)
+wire [11:0] cart_list_rgb;
+wire is_cart_list_active;
+
+// Wires for List Renderer Memory Access
+wire [9:0] list_ram_addr;
+wire [3:0] list_item_id_out;
+wire is_list_reading_ram;
+reg [11:0] list_sram_data_mux;
+
+always @(*) begin
+    case (list_item_id_out)
+        4'd0: list_sram_data_mux = water_anim_data_out;
+        4'd3: list_sram_data_mux = juice_anim_data_out;
+        4'd4: list_sram_data_mux = tea_anim_data_out;
+        4'd8: list_sram_data_mux = cola_anim_data_out;
+        default: list_sram_data_mux = 12'h000;
+    endcase
+end
+
+cart_list_renderer cart_list_render0 (
+    .clk(clk),
+    .reset(rst),
+    .pixel_x(pixel_x_core),
+    .pixel_y(pixel_y_core),
+    .sram_data(list_sram_data_mux),
+    .update_trigger(list_update_trigger),
+    .clear_list(transition_to_selection),
+    .item_index(anim_item_index),
+    .rgb_out(cart_list_rgb),
+    .is_drawing(is_cart_list_active),
+    .target_y_pos(target_y_pos),
+    .ram_addr(list_ram_addr),
+    .item_id_out(list_item_id_out),
+    .is_reading_ram(is_list_reading_ram)
+);
+
 animation_controller anim_manager0 (
     .clk(clk),
     .reset(rst),
     .start(dispenser_success && !refund_mode),
     .flat_cart_quantity(flat_cart_quantity),
+    .target_y_pos(target_y_pos),
     .animation_active(animation_active),
+    .flying_active(flying_active),
     .frame_index(anim_frame_index),
-    .current_item_index(anim_item_index)
+    .current_item_index(anim_item_index),
+    .anim_x(anim_x_wire),
+    .anim_y(anim_y_wire),
+    .list_update_trigger(list_update_trigger),
+    .sequence_done(anim_sequence_done)
 );
 
 // SRAM for Water Drop Animation
@@ -870,18 +934,68 @@ localparam ANIM_H = 10;
 localparam ANIM_SCALE = 6;
 localparam SCALED_ANIM_W = ANIM_W * ANIM_SCALE;
 localparam SCALED_ANIM_H = ANIM_H * ANIM_SCALE;
-localparam ANIM_X_START = (VGA_W - SCALED_ANIM_W) / 2;
-localparam ANIM_Y_START = V_START + (GREEN_BG_Y_START + GREEN_BG_H) * SCALE_FACTOR - SCALED_ANIM_H;
+// Static Drop Zone Coordinates
+localparam ANIM_DROP_X = (VGA_W - SCALED_ANIM_W) / 2;
+localparam ANIM_DROP_Y = V_START + (GREEN_BG_Y_START + GREEN_BG_H) * SCALE_FACTOR - SCALED_ANIM_H;
+
+// Dynamic Coordinates MUX
+wire [9:0] current_anim_x = flying_active ? anim_x_wire : ANIM_DROP_X;
+wire [9:0] current_anim_y = flying_active ? anim_y_wire : ANIM_DROP_Y;
+
 // Use pixel_x_core
-wire is_on_animation = (pixel_x_core >= ANIM_X_START) && (pixel_x_core < ANIM_X_START + SCALED_ANIM_W) && (pixel_y_core >= ANIM_Y_START) && (pixel_y_core < ANIM_Y_START + SCALED_ANIM_H);
-wire [3:0] unscaled_x = (pixel_x_core - ANIM_X_START) / ANIM_SCALE;
-wire [3:0] unscaled_y = (pixel_y_core - ANIM_Y_START) / ANIM_SCALE;
+wire is_on_animation = (pixel_x_core >= current_anim_x) && (pixel_x_core < current_anim_x + SCALED_ANIM_W) && (pixel_y_core >= current_anim_y) && (pixel_y_core < current_anim_y + SCALED_ANIM_H);
+
+// Optimize Division by 6: x / 6 ~= (x * 43) >> 8
+wire [15:0] calc_unscaled_x_mult = (pixel_x_core - current_anim_x) * 43;
+wire [15:0] calc_unscaled_y_mult = (pixel_y_core - current_anim_y) * 43;
+wire [9:0] calc_unscaled_x = calc_unscaled_x_mult[15:8];
+wire [9:0] calc_unscaled_y = calc_unscaled_y_mult[15:8];
+wire [3:0] unscaled_x = calc_unscaled_x[3:0];
+wire [3:0] unscaled_y = calc_unscaled_y[3:0];
+
+// LUT functions to replace multipliers in critical path
+function [9:0] lut_frame_x100;
+    input [2:0] frame;
+    begin
+        case (frame)
+            3'd0: lut_frame_x100 = 10'd0;
+            3'd1: lut_frame_x100 = 10'd100;
+            3'd2: lut_frame_x100 = 10'd200;
+            3'd3: lut_frame_x100 = 10'd300;
+            3'd4: lut_frame_x100 = 10'd400;
+            3'd5: lut_frame_x100 = 10'd500;
+            default: lut_frame_x100 = 10'd0;
+        endcase
+    end
+endfunction
+
+function [9:0] lut_y_x10;
+    input [3:0] y;
+    begin
+        case (y)
+            4'd0: lut_y_x10 = 10'd0;
+            4'd1: lut_y_x10 = 10'd10;
+            4'd2: lut_y_x10 = 10'd20;
+            4'd3: lut_y_x10 = 10'd30;
+            4'd4: lut_y_x10 = 10'd40;
+            4'd5: lut_y_x10 = 10'd50;
+            4'd6: lut_y_x10 = 10'd60;
+            4'd7: lut_y_x10 = 10'd70;
+            4'd8: lut_y_x10 = 10'd80;
+            4'd9: lut_y_x10 = 10'd90;
+            default: lut_y_x10 = 10'd0;
+        endcase
+    end
+endfunction
+
 always @(posedge clk) begin
     if (rst) begin
         anim_addr <= 0;
+    end else if (is_list_reading_ram) begin
+        anim_addr <= list_ram_addr;
     end else if (is_on_animation) begin
-        // Corrected AGU for a 10x60 vertical sprite sheet
-        anim_addr <= (anim_frame_index * ANIM_H + unscaled_y) * ANIM_W + unscaled_x;
+        // Optimized AGU: Add Lookups + unscaled_x (All additions, no multipliers)
+        anim_addr <= lut_frame_x100(anim_frame_index) + lut_y_x10(unscaled_y) + unscaled_x;
     end else begin
         anim_addr <= 0;
     end
@@ -1028,6 +1142,12 @@ begin
     if (~video_on) rgb_next = 12'h000;
     // --- Highest Priority: UI Text Overlays ---
     else if (is_help_active) rgb_next = help_rgb;
+    // --- Flying Animation (Top Priority, over List) ---
+    // If not transparent, show it. If transparent, fall through to List/Background.
+    else if (flying_active && is_on_animation && (anim_pixel_data != TRANSPARENT_COLOR)) begin
+        rgb_next = anim_pixel_data;
+    end
+    else if (is_cart_list_active) rgb_next = cart_list_rgb;
     else if (is_text_area && text_pixel) rgb_next = 12'hFFF;
     else if (is_price_text_area && price_text_pixel) rgb_next = 12'h000;
     else if (is_paid_text_area && paid_text_pixel) rgb_next = 12'hFFF;
@@ -1036,9 +1156,9 @@ begin
     else if (!sw[0] && is_avail_change_active) rgb_next = avail_change_rgb;
     else if (dispense_completed && is_disp_change_active) rgb_next = disp_change_rgb;
     // --- PAYMENT STATE UI ---
-    else if (current_state == 1'b1 && !dispensing && !dispense_completed && is_coin_text_area && coin_text_pixel) rgb_next = 12'hFFF;
-    else if (current_state == 1'b1 && !dispensing && !dispense_completed && is_on_coin_selectbox_border) rgb_next = 12'hFF0;
-    else if (current_state == 1'b1 && !dispensing && !dispense_completed && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) rgb_next = coin_pixel_data;
+    else if (current_state == 1'b1 && !dispensing && !dispense_completed && !waiting_for_animation && is_coin_text_area && coin_text_pixel) rgb_next = 12'hFFF;
+    else if (current_state == 1'b1 && !dispensing && !dispense_completed && !waiting_for_animation && is_on_coin_selectbox_border) rgb_next = 12'hFF0;
+    else if (current_state == 1'b1 && !dispensing && !dispense_completed && !waiting_for_animation && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) rgb_next = coin_pixel_data;
     // --- SELECTION STATE UI ---
     // Note: selectbox_data_out comes from SRAM clocked by clk, so it is valid.
     else if (current_state == 1'b0 && is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR)) rgb_next = selectbox_data_out;
@@ -1054,8 +1174,8 @@ begin
     else if (is_dot_pixel_8) rgb_next = dot_color_8;
     // --- Vending Machine Chassis (with transparency) ---
     else if ( on_background_reg3 && (data_out != TRANSPARENT_COLOR) ) rgb_next = data_out;
-    // --- Behind the Chassis Window ---
-    else if (animation_active && is_on_animation && (anim_pixel_data != TRANSPARENT_COLOR)) rgb_next = anim_pixel_data;
+    // --- Behind the Chassis Window (Drop Animation Only) ---
+    else if (animation_active && !flying_active && is_on_animation && (anim_pixel_data != TRANSPARENT_COLOR)) rgb_next = anim_pixel_data;
     else if (is_on_green_bg_reg_s3 && (green_bg_data_out != TRANSPARENT_COLOR)) rgb_next = green_bg_data_out;
     // --- Fallback/Border Color ---
     else rgb_next = 12'h000;

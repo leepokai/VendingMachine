@@ -92,6 +92,7 @@ read_verilog -library xil_defaultlib {
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/animation_controller.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/available_change_display.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/bin2bcd.v
+  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/cart_list_renderer.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_dispenser.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/change_text_renderer.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/clk_divider.v
@@ -106,6 +107,7 @@ read_verilog -library xil_defaultlib {
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/paid_text_renderer.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/pc_vga_8x16_00_7F.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/price_calculator.v
+  C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/refund_text_renderer.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/sram.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/text_renderer.v
   C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/sources_1/vending_fsm.v

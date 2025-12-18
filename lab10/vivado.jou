@@ -3,10 +3,10 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Thu Dec 18 21:43:56 2025
-# Process ID         : 18596
+# Start of session at: Fri Dec 19 00:35:39 2025
+# Process ID         : 24004
 # Current directory  : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10
-# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent14324 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
+# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent17840 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
 # Log file           : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/vivado.log
 # Journal file       : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10\vivado.jou
 # Running On         : DESKTOP-2CVGOV3
@@ -19,7 +19,7 @@
 # Host memory        : 8273 MB
 # Swap memory        : 17446 MB
 # Total Virtual      : 25720 MB
-# Available Virtual  : 11942 MB
+# Available Virtual  : 11283 MB
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.xpr
@@ -53,26 +53,13 @@ set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
 set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
 program_hw_devices [get_hw_devices xc7a35t_0]
 refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
-set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
-set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
-set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
-program_hw_devices [get_hw_devices xc7a35t_0]
 refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
-reset_run synth_1
-launch_runs impl_1 -to_step write_bitstream -jobs 8
-wait_on_run impl_1
 close_hw_manager
 reset_run synth_1
 launch_runs impl_1 -to_step write_bitstream -jobs 8
 wait_on_run impl_1
-open_hw_manager
-connect_hw_server -allow_non_jtag
-open_hw_target
-set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
-current_hw_device [get_hw_devices xc7a35t_0]
-refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
-set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
-set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
-set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
-program_hw_devices [get_hw_devices xc7a35t_0]
-refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+open_run impl_1
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+close_design

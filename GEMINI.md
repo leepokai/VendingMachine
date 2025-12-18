@@ -34,7 +34,8 @@ The design is hierarchical with `lab10` as the top-level module, interconnecting
     *   **Display Logic:**
         *   `vga_sync`: Generates VGA HSYNC/VSYNC timing signals.
         *   `sram`: Block RAM interfaces for sprites (Background, Drinks, Coins).
-        *   `text_renderer` & `paid_text_renderer`: Generates text overlays for prices/totals.
+        *   `text_renderer`, `paid_text_renderer` & `change_text_renderer`: Generates text overlays for prices/totals.
+        *   `refund_text_renderer`: Displays "REFUND" or "FAILED" status text in the exit area.
         *   `animation_controller`: Manages dispensing animations (falling bottles).
 
 ### Memory Organization (SRAM)
@@ -43,7 +44,14 @@ The project heavily relies on `.mem` files (located in `backup_mem/`) to initial
 - `Coin*.mem`: Coin sprites.
 - `*DropSheet.mem`: Animation frames for drinks.
 
-## 4. Building and Running
+## 4. Refund System & Visual Feedback
+- **Trigger:** Long press `btn[0] + btn[1]` (Manual) or Change Dispenser Failure (Auto).
+- **Logic:** Resets cart quantity to 0, treats payment as "paid amount - 0", returning full amount.
+- **Visual Feedback:**
+    - Displays **"REFUND"** (Manual) or **"FAILED"** (Error) in yellow text at the vending machine exit.
+    - Message persists for **5 seconds**.
+
+## 5. Building and Running
 
 ### Prerequisites
 - Xilinx Vivado installed.
@@ -79,7 +87,7 @@ The project heavily relies on `.mem` files (located in `backup_mem/`) to initial
     program_hw_devices [get_hw_devices xc7a35t_0]
     ```
 
-## 5. Development Conventions
+## 6. Development Conventions
 
 - **Clocking:** 100MHz system clock (`clk`), divided to 25MHz (`vga_clk`) for VGA timing.
 - **Reset:** Active low reset (`reset_n` / `rst`).
@@ -92,3 +100,6 @@ The project heavily relies on `.mem` files (located in `backup_mem/`) to initial
     - Source code in `lab10/lab10.srcs/sources_1/`.
     - Constraints in `lab10/lab10.srcs/constrs_1/`.
     - Memory initialization files in `backup_mem/` (referenced by `sram` modules).
+
+## 7. Critical Checks
+- **WNS (Worst Negative Slack):** Always check the timing report after implementation. Negative WNS means the design fails timing constraints, which can lead to unpredictable behavior or visual glitches. Optimize logic depth or clocking if WNS is negative.
