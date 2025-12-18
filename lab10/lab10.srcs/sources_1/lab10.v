@@ -110,6 +110,9 @@ coin_selector coin_sel0 (
 // Refund & Cancellation Logic
 // ------------------------------------------------------------------------
 reg refund_mode; // 1 = Refunding (Purchase Amount = 0), 0 = Normal Purchase
+reg refund_reason; // 0 = Manual Refund, 1 = Dispenser Failed/No Change
+reg [27:0] refund_msg_timer; // Timer for displaying the refund message
+wire refund_msg_active = (refund_msg_timer > 0);
 
 // Cancel Request Logic (Long press btn0 & btn1 for ~1.5s)
 reg [27:0] cancel_counter;
@@ -124,6 +127,19 @@ always @(posedge clk or posedge rst) begin
     end
 end
 assign cancel_trigger = (cancel_counter == 28'd150_000_000);
+
+// Refund Message Timer Logic
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        refund_msg_timer <= 0;
+    end else begin
+        if (refund_msg_timer > 0)
+            refund_msg_timer <= refund_msg_timer - 1;
+        
+        // Start timer on triggers (handled in the main always block via flags, 
+        // but can also be redundant set here for robustness or handled purely in the state machine)
+    end
+end
 
 // Price Calculation
 wire [15:0] total_due;  // Total amount to pay based on cart
@@ -208,6 +224,7 @@ always @(posedge clk or posedge rst) begin
         dispensing <= 1'b0;
         dispense_completed <= 1'b0;
         refund_mode <= 1'b0;
+        refund_reason <= 1'b0;
         dispensed_coins[0] <= 8'd0;
         dispensed_coins[1] <= 8'd0;
         dispensed_coins[2] <= 8'd0;
@@ -276,16 +293,19 @@ always @(posedge clk or posedge rst) begin
                 // Dispenser Failed (Insufficient Change)
                 // Trigger REFUND MODE automatically to return all money
                 refund_mode <= 1'b1;
+                refund_reason <= 1'b1; // Reason: Failed
+                refund_msg_timer <= 28'd500_000_000; // Show "FAILED" for 5 seconds
                 dispenser_start <= 1'b1; // Restart dispenser with new mode
                 // Do NOT set dispense_completed, we are retrying
             end
             dispensing <= 1'b0;
 
-        // Priority 2: Cancel Trigger (Manual Refund) OR Auto-Retry Refund
-        end else if ((cancel_trigger || (!dispenser_success && dispensing && dispenser_done)) && !dispensing && !dispense_completed) begin
+        // Priority 2: Cancel Trigger (Manual Refund)
+        end else if (cancel_trigger && !dispensing && !dispense_completed) begin
             refund_mode <= 1'b1;
+            refund_reason <= 1'b0; // Reason: Manual
+            refund_msg_timer <= 28'd500_000_000; // Show "REFUND" for 5 seconds
             // Cart quantity clearing is handled in the Cart Update Logic block
-            // Do NOT start dispenser yet. Wait for change_amount (total_due becomes 0) to update in next cycle.
             
         // Priority 2.5: Start Dispenser in Refund Mode (Delayed Start)
         end else if (refund_mode && !dispensing && !dispense_completed && !dispenser_start) begin
@@ -584,6 +604,23 @@ item_price_display price_disp0 (
   .text_pixel(price_text_pixel),
   .is_text_area(is_price_text_area)
 );
+
+// ------------------------------------------------------------------------
+// Refund Text Renderer (displays "REFUND" or "FAILED" in exit area)
+// ------------------------------------------------------------------------
+wire refund_text_pixel;
+wire is_refund_text_area;
+refund_text_renderer refund_render0 (
+    .clk(clk),
+    .reset(rst),
+    .pixel_x(pixel_x_core),
+    .pixel_y(pixel_y_core),
+    .refund_active(refund_msg_active),
+    .refund_reason(refund_reason),
+    .text_pixel(refund_text_pixel),
+    .is_text_area(is_refund_text_area)
+);
+
 // ------------------------------------------------------------------------
 // SRAM Blocks for Background and Sprites
 // ------------------------------------------------------------------------
@@ -1000,6 +1037,7 @@ begin
     else if (is_price_text_area && price_text_pixel) rgb_next = 12'h000;
     else if (is_paid_text_area && paid_text_pixel) rgb_next = 12'hFFF;
     else if (is_change_text_area && change_text_pixel) rgb_next = 12'h0F0;
+    else if (is_refund_text_area && refund_text_pixel) rgb_next = 12'hFF0; // Yellow Refund/Failed Text
     else if (!sw[0] && is_avail_change_active) rgb_next = avail_change_rgb;
     else if (dispense_completed && is_disp_change_active) rgb_next = disp_change_rgb;
     // --- PAYMENT STATE UI ---
