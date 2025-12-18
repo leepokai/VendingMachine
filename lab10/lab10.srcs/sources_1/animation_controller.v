@@ -20,7 +20,8 @@ module animation_controller (
     output reg [9:0] anim_x,          // Current X position of the sprite
     output reg [9:0] anim_y,          // Current Y position of the sprite
     output reg list_update_trigger,   // Pulse when flight completes
-    output reg sequence_done          // Pulse when ALL animations in the cart are finished
+    output reg sequence_done,         // Pulse when ALL animations in the cart are finished
+    output wire dropping_active       // High only during the drop phase
 );
 
     // Latch the cart quantity when start is triggered
@@ -47,6 +48,8 @@ module animation_controller (
     localparam FLYING = 5;
     
     reg [2:0] state;
+    
+    assign dropping_active = (state == ANIMATING);
     reg [3:0] item_ptr;             // Pointer to current item type (0-8)
     reg [2:0] items_played_count;   // How many of the current item type have been played
 

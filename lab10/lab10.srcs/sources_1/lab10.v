@@ -764,6 +764,7 @@ wire [9:0] target_y_pos;
 wire [9:0] anim_x_wire;
 wire [9:0] anim_y_wire;
 wire list_update_trigger;
+wire dropping_active_wire; // New wire for Drop Phase
 
 // Cart List Renderer (Bottom Right)
 wire [11:0] cart_list_rgb;
@@ -815,7 +816,8 @@ animation_controller anim_manager0 (
     .anim_x(anim_x_wire),
     .anim_y(anim_y_wire),
     .list_update_trigger(list_update_trigger),
-    .sequence_done(anim_sequence_done)
+    .sequence_done(anim_sequence_done),
+    .dropping_active(dropping_active_wire)
 );
 
 // SRAM for Water Drop Animation
@@ -899,10 +901,46 @@ wire [9:0] scaled_sprite_h = BOX_H * SPRITE_SCALE_FACTOR;
 // Use pixel_x_core for calculation to match Background latency domain (100MHz)
 wire is_on_sprite = (pixel_x_core >= sprite_x_start) && (pixel_x_core < sprite_x_start + scaled_sprite_w) &&
                     (pixel_y_core >= sprite_y_start) && (pixel_y_core < sprite_y_start + scaled_sprite_h);
+
+// --- PIPELINED ADDRESS GENERATION (Fix WNS -2.6ns) ---
+reg is_on_sprite_p1, is_on_sprite_p2, is_on_sprite_p3;
+reg [9:0] rel_x_p1, rel_y_p1;
+
+// Stage 1: Calculate Relative Position & Buffer Control
 always @ (posedge clk) begin
-    if (rst) selectbox_addr <= 0;
-    else if (is_on_sprite) selectbox_addr <= ((pixel_y_core - sprite_y_start) / SPRITE_SCALE_FACTOR) * BOX_W + ((pixel_x_core - sprite_x_start) / SPRITE_SCALE_FACTOR);
-    else selectbox_addr <= 0;
+    if (rst) begin
+        is_on_sprite_p1 <= 0;
+        rel_x_p1 <= 0;
+        rel_y_p1 <= 0;
+    end else begin
+        is_on_sprite_p1 <= is_on_sprite;
+        if (is_on_sprite) begin
+            rel_x_p1 <= pixel_x_core - sprite_x_start;
+            rel_y_p1 <= pixel_y_core - sprite_y_start;
+        end
+    end
+end
+
+// Stage 2: Calculate Address (Shift instead of Division) & Buffer Control
+// Operation: (y / 2) * 25 + (x / 2) -> (y >> 1) * 25 + (x >> 1)
+always @ (posedge clk) begin
+    if (rst) begin
+        selectbox_addr <= 0;
+        is_on_sprite_p2 <= 0;
+    end else begin
+        is_on_sprite_p2 <= is_on_sprite_p1;
+        if (is_on_sprite_p1) begin
+            selectbox_addr <= ((rel_y_p1 >> 1) * 25) + (rel_x_p1 >> 1);
+        end else begin
+            selectbox_addr <= 0;
+        end
+    end
+end
+
+// Stage 3: Align Control Signal with SRAM Data Latency (1 cycle read)
+always @(posedge clk) begin
+    if (rst) is_on_sprite_p3 <= 0;
+    else is_on_sprite_p3 <= is_on_sprite_p2;
 end
 // AGU for the Green Background sprite (pipelined)
 localparam GREEN_BG_X_START = 9;
@@ -945,9 +983,57 @@ wire [9:0] current_anim_y = flying_active ? anim_y_wire : ANIM_DROP_Y;
 // Use pixel_x_core
 wire is_on_animation = (pixel_x_core >= current_anim_x) && (pixel_x_core < current_anim_x + SCALED_ANIM_W) && (pixel_y_core >= current_anim_y) && (pixel_y_core < current_anim_y + SCALED_ANIM_H);
 
+// --- PIPELINED ANIMATION AGU (Fix WNS) ---
+// Stage 1 Registers (Coordinate Transform)
+reg [9:0] anim_rel_x_p1, anim_rel_y_p1;
+reg anim_active_p1, flying_active_p1, dropping_active_p1;
+// Control Delay Chain (Align with Data Arrival: AGU P1 -> AGU P2 -> SRAM Read -> MUX)
+reg anim_active_p2, anim_active_p3, anim_active_p4;
+reg flying_active_p2, flying_active_p3, flying_active_p4;
+reg dropping_active_p2, dropping_active_p3, dropping_active_p4;
+
+always @(posedge clk) begin
+    if (rst) begin
+        anim_rel_x_p1 <= 0;
+        anim_rel_y_p1 <= 0;
+        anim_active_p1 <= 0;
+        flying_active_p1 <= 0;
+        dropping_active_p1 <= 0;
+    end else begin
+        // Stage 1: Subtraction (Breaks path from animation_controller)
+        anim_rel_x_p1 <= pixel_x_core - current_anim_x;
+        anim_rel_y_p1 <= pixel_y_core - current_anim_y;
+        anim_active_p1 <= is_on_animation;
+        flying_active_p1 <= flying_active;
+        dropping_active_p1 <= dropping_active_wire;
+    end
+end
+
+// Delay Chain
+always @(posedge clk) begin
+    if (rst) begin
+        anim_active_p2 <= 0; anim_active_p3 <= 0; anim_active_p4 <= 0;
+        flying_active_p2 <= 0; flying_active_p3 <= 0; flying_active_p4 <= 0;
+        dropping_active_p2 <= 0; dropping_active_p3 <= 0; dropping_active_p4 <= 0;
+    end else begin
+        anim_active_p2 <= anim_active_p1;
+        anim_active_p3 <= anim_active_p2;
+        anim_active_p4 <= anim_active_p3;
+        
+        flying_active_p2 <= flying_active_p1;
+        flying_active_p3 <= flying_active_p2;
+        flying_active_p4 <= flying_active_p3;
+        
+        dropping_active_p2 <= dropping_active_p1;
+        dropping_active_p3 <= dropping_active_p2;
+        dropping_active_p4 <= dropping_active_p3;
+    end
+end
+
 // Optimize Division by 6: x / 6 ~= (x * 43) >> 8
-wire [15:0] calc_unscaled_x_mult = (pixel_x_core - current_anim_x) * 43;
-wire [15:0] calc_unscaled_y_mult = (pixel_y_core - current_anim_y) * 43;
+// Now using P1 registers (Stage 2 Calculation)
+wire [15:0] calc_unscaled_x_mult = anim_rel_x_p1 * 43;
+wire [15:0] calc_unscaled_y_mult = anim_rel_y_p1 * 43;
 wire [9:0] calc_unscaled_x = calc_unscaled_x_mult[15:8];
 wire [9:0] calc_unscaled_y = calc_unscaled_y_mult[15:8];
 wire [3:0] unscaled_x = calc_unscaled_x[3:0];
@@ -992,9 +1078,11 @@ always @(posedge clk) begin
     if (rst) begin
         anim_addr <= 0;
     end else if (is_list_reading_ram) begin
+        // High priority: List Renderer (Already pipelined and aligned)
         anim_addr <= list_ram_addr;
-    end else if (is_on_animation) begin
-        // Optimized AGU: Add Lookups + unscaled_x (All additions, no multipliers)
+    end else if (anim_active_p1) begin
+        // Stage 2: Address Calculation
+        // Uses P1 registers calculated in previous cycle
         anim_addr <= lut_frame_x100(anim_frame_index) + lut_y_x10(unscaled_y) + unscaled_x;
     end else begin
         anim_addr <= 0;
@@ -1161,7 +1249,8 @@ begin
     else if (current_state == 1'b1 && !dispensing && !dispense_completed && !waiting_for_animation && is_on_any_coin && (coin_pixel_data != TRANSPARENT_COLOR)) rgb_next = coin_pixel_data;
     // --- SELECTION STATE UI ---
     // Note: selectbox_data_out comes from SRAM clocked by clk, so it is valid.
-    else if (current_state == 1'b0 && is_on_sprite && (selectbox_data_out != TRANSPARENT_COLOR)) rgb_next = selectbox_data_out;
+    // Use is_on_sprite_p3 to match the pipelined address generation delay (3 cycles total latency)
+    else if (current_state == 1'b0 && is_on_sprite_p3 && (selectbox_data_out != TRANSPARENT_COLOR)) rgb_next = selectbox_data_out;
     // --- Stock Indicators (Dots) - Prioritized over Chassis ---
     else if (is_dot_pixel_0) rgb_next = dot_color_0;
     else if (is_dot_pixel_1) rgb_next = dot_color_1;
@@ -1175,7 +1264,8 @@ begin
     // --- Vending Machine Chassis (with transparency) ---
     else if ( on_background_reg3 && (data_out != TRANSPARENT_COLOR) ) rgb_next = data_out;
     // --- Behind the Chassis Window (Drop Animation Only) ---
-    else if (animation_active && !flying_active && is_on_animation && (anim_pixel_data != TRANSPARENT_COLOR)) rgb_next = anim_pixel_data;
+    // Use dropping_active_p4 to ensure we ONLY draw when in the drop phase
+    else if (anim_active_p4 && dropping_active_p4 && (anim_pixel_data != TRANSPARENT_COLOR)) rgb_next = anim_pixel_data;
     else if (is_on_green_bg_reg_s3 && (green_bg_data_out != TRANSPARENT_COLOR)) rgb_next = green_bg_data_out;
     // --- Fallback/Border Color ---
     else rgb_next = 12'h000;

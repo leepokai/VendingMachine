@@ -103,117 +103,196 @@ module cart_list_renderer (
         end
     end
 
-    // --- Rendering AGU (Address Generation Unit) ---
-    // Determine which row we are rendering
-    wire [10:0] rel_y_from_bottom = (BOTTOM_Y + ICON_HEIGHT) - pixel_y; // Offset from bottom of list stack
-    reg [3:0] row_idx;
+    // --- Rendering AGU & Pipeline ---
+    // We use a 4-stage pipeline to break critical paths and align with SRAM latency (2 cycles in Top).
     
-    // Check bounds
-    // Y must be <= BOTTOM_Y + ICON_HEIGHT (approx 470) and >= Top of list
+    // Intermediate Wires (Combinational)
+    wire [10:0] y_diff = (BOTTOM_Y + ICON_HEIGHT - 1) - pixel_y;
+    wire [9:0] rel_x_in_list = pixel_x - START_X;
     wire in_v_range = (pixel_y <= BOTTOM_Y + ICON_HEIGHT) && (pixel_y > (BOTTOM_Y - (active_rows * ROW_HEIGHT)));
     
-    // Optimization: Avoid division by 60
-    // Use chained comparisons since active_rows is small (max 6)
-    // BOTTOM_Y + ICON_HEIGHT - 1 = 400 + 60 - 1 = 459
-    // pixel_y is subtracted from 459.
-    // Range 0..59 -> Row 0
-    // Range 60..119 -> Row 1
-    // Range 120..179 -> Row 2
-    wire [10:0] y_diff = (BOTTOM_Y + ICON_HEIGHT - 1) - pixel_y;
+    // Helper to determine row index combinationally for the first pipeline stage
+    reg [3:0] comb_row_idx;
     always @(*) begin
-        if (y_diff < 60) row_idx = 0;
-        else if (y_diff < 120) row_idx = 1;
-        else if (y_diff < 180) row_idx = 2;
-        else if (y_diff < 240) row_idx = 3;
-        else if (y_diff < 300) row_idx = 4;
-        else if (y_diff < 360) row_idx = 5;
-        else row_idx = 6; // Out of range
+        if (y_diff < 60) comb_row_idx = 0;
+        else if (y_diff < 120) comb_row_idx = 1;
+        else if (y_diff < 180) comb_row_idx = 2;
+        else if (y_diff < 240) comb_row_idx = 3;
+        else if (y_diff < 300) comb_row_idx = 4;
+        else if (y_diff < 360) comb_row_idx = 5;
+        else comb_row_idx = 6;
     end
-    
-    wire [9:0] row_top_y = BOTTOM_Y - (row_idx * ROW_HEIGHT);
-    wire [9:0] rel_y_in_row = pixel_y - row_top_y; // 0..59
-    wire [9:0] rel_x_in_list = pixel_x - START_X;
-    
-    // Zones
-    wire in_icon_zone = (rel_x_in_list < ICON_WIDTH);
-    wire in_text_zone = (rel_x_in_list >= TEXT_OFFSET_X) && (rel_x_in_list < TEXT_OFFSET_X + 60); // 60px for text
-    
-    // Valid Row means we are inside the vertical stack of items AND horizontal bounds
-    wire valid_row = (row_idx < active_rows) && in_v_range && (pixel_x >= START_X) && (pixel_x < START_X + LIST_WIDTH);
 
-    // AGU for Icon (Sprite 10x10 scaled 6x)
-    // Optimization: x / 6 ~= (x * 43) >> 8
-    wire [15:0] unscaled_x_mult = rel_x_in_list * 43;
-    wire [15:0] unscaled_y_mult = rel_y_in_row * 43;
-    wire [3:0] unscaled_x = unscaled_x_mult[11:8];
-    wire [3:0] unscaled_y = unscaled_y_mult[11:8];
+    // --- Pipeline Registers ---
+    // Stage 1
+    reg [9:0] p1_rel_x;
+    reg [3:0] p1_row_idx;
+    reg p1_valid_row, p1_in_icon_zone, p1_in_text_zone;
+    reg p1_text_row_valid; // New: Explicit valid flag for text vertical range
+    reg [3:0] p1_item_id;
+    reg [7:0] p1_count;
+    reg [3:0] p1_unscaled_x, p1_unscaled_y;
+    reg [3:0] p1_char_row_offset;
     
-    always @(*) begin
-        if (valid_row && in_icon_zone) begin
-            is_reading_ram = 1;
-            item_id_out = list_items[row_idx];
-            // Address = (Frame5 * 10 + Y) * 10 + X
-            // Use Frame 5 (last one) which is the bottle itself
-            ram_addr = (50 + unscaled_y) * 10 + unscaled_x;
+    // Stage 2
+    reg [3:0] p2_item_id;
+    reg p2_in_icon_zone, p2_in_text_zone, p2_valid_row;
+    reg [6:0] p2_char_code;
+    reg [3:0] p2_char_row;
+    reg [2:0] p2_char_col;
+    
+    // Stage 3
+    reg [3:0] p3_item_id;
+    reg p3_in_icon_zone, p3_in_text_zone, p3_valid_row;
+    reg [6:0] p3_char_code;
+    reg [3:0] p3_char_row;
+    reg [2:0] p3_char_col;
+
+    // Stage 1 Logic (Coordinate & Lookup)
+    // Helper wire for modulo 60 calculation (Timing optimized: avoid % operator)
+    // We already know comb_row_idx. y_diff % 60 == y_diff - (comb_row_idx * 60)
+    // 60 * x = (x << 6) - (x << 2) = x*64 - x*4
+    wire [10:0] row_offset_base = (comb_row_idx << 6) - (comb_row_idx << 2);
+    wire [5:0] rel_y_mod_60 = y_diff - row_offset_base; 
+    wire [5:0] rel_y_in_slot = 59 - rel_y_mod_60; // 0 (top) to 59 (bottom) of the slot
+
+    always @(posedge clk) begin
+        if (reset) begin
+            p1_rel_x <= 0; p1_row_idx <= 0;
+            p1_valid_row <= 0; p1_in_icon_zone <= 0; p1_in_text_zone <= 0;
+            p1_text_row_valid <= 0;
+            p1_item_id <= 0; p1_count <= 0;
+            p1_unscaled_x <= 0; p1_unscaled_y <= 0;
+            p1_char_row_offset <= 0;
         end else begin
-            is_reading_ram = 0;
-            item_id_out = 0;
-            ram_addr = 0;
+            // 1. Calculate Row Index 
+            p1_row_idx <= comb_row_idx;
+
+            // 2. Coordinates
+            p1_rel_x <= rel_x_in_list;
+            
+            // Use calculated rel_y_in_slot for scaling (0..59)
+            p1_unscaled_y <= (rel_y_in_slot * 43) >> 8;
+            p1_unscaled_x <= (rel_x_in_list * 43) >> 8;
+            
+            // Text Vertical Range Check: 38 to 53 (Height 16)
+            if (rel_y_in_slot >= 38 && rel_y_in_slot < 54) begin
+                p1_text_row_valid <= 1;
+                p1_char_row_offset <= rel_y_in_slot - 38;
+            end else begin
+                p1_text_row_valid <= 0;
+                p1_char_row_offset <= 0; // Don't care
+            end
+
+            // 3. Flags
+            p1_valid_row <= (comb_row_idx < active_rows) && in_v_range && (pixel_x >= START_X) && (pixel_x < START_X + LIST_WIDTH);
+            p1_in_icon_zone <= (rel_x_in_list < ICON_WIDTH);
+            p1_in_text_zone <= (rel_x_in_list >= TEXT_OFFSET_X) && (rel_x_in_list < TEXT_OFFSET_X + 60);
+            
+            // 4. Data Lookup
+            p1_item_id <= list_items[comb_row_idx];
+            p1_count <= list_counts[comb_row_idx];
         end
     end
 
-    // --- Text Rendering ---
-    reg [6:0] char_code;
-    wire [2:0] char_col = (pixel_x - (START_X + TEXT_OFFSET_X)) & 7;
-    // Move text down: was 22, now 38 (+16)
-    wire [3:0] char_row = (pixel_y - row_top_y - 38); 
-    wire [3:0] char_pos = (pixel_x - (START_X + TEXT_OFFSET_X)) >> 3;
-    
-    reg [7:0] render_count;
-    
-    always @(*) begin
-        // Move text down range: was 22..38, now 38..54
-        if (valid_row && in_text_zone && (pixel_y >= row_top_y + 38) && (pixel_y < row_top_y + 54)) begin
-            render_count = list_counts[row_idx];
-            case (char_pos)
-                0: char_code = "x";
-                1: char_code = " ";
-                2: char_code = (render_count >= 10) ? ("0" + render_count/10) : ("0" + render_count%10);
-                3: char_code = (render_count >= 10) ? ("0" + render_count%10) : 0;
-                default: char_code = 0;
-            endcase
+    // Stage 2 Logic (Address Gen & Char Code)
+    always @(posedge clk) begin
+        if (reset) begin
+            ram_addr <= 0; is_reading_ram <= 0;
+            p2_item_id <= 0; p2_valid_row <= 0;
+            p2_in_icon_zone <= 0; p2_in_text_zone <= 0;
+            p2_char_code <= 0; p2_char_row <= 0; p2_char_col <= 0;
         end else begin
-            char_code = 0;
+            // 1. Address Generation (Output to Top)
+            if (p1_valid_row && p1_in_icon_zone) begin
+                is_reading_ram <= 1;
+                ram_addr <= (50 + p1_unscaled_y) * 10 + p1_unscaled_x;
+            end else begin
+                is_reading_ram <= 0;
+                ram_addr <= 0;
+            end
+            
+            // 2. Text Logic (Generate Char Code)
+            // Use the explicit valid flag instead of checking offset range
+            if (p1_valid_row && p1_in_text_zone && p1_text_row_valid) begin
+                case ((p1_rel_x - TEXT_OFFSET_X) >> 3) // char_pos
+                    0: p2_char_code <= "x";
+                    1: p2_char_code <= " ";
+                    2: p2_char_code <= (p1_count >= 10) ? ("0" + p1_count/10) : ("0" + p1_count%10);
+                    3: p2_char_code <= (p1_count >= 10) ? ("0" + p1_count%10) : 0;
+                    default: p2_char_code <= 0;
+                endcase
+            end else begin
+                p2_char_code <= 0;
+            end
+            p2_char_row <= p1_char_row_offset;
+            p2_char_col <= (p1_rel_x - TEXT_OFFSET_X) & 7;
+
+            // 3. Pass-through
+            p2_item_id <= p1_item_id;
+            p2_valid_row <= p1_valid_row;
+            p2_in_icon_zone <= p1_in_icon_zone;
+            p2_in_text_zone <= p1_in_text_zone;
         end
     end
 
+    // Stage 3 (Delay Line - Waiting for SRAM Address Latch in Top)
+    always @(posedge clk) begin
+        if (reset) begin
+            p3_item_id <= 0; p3_valid_row <= 0;
+            p3_in_icon_zone <= 0; p3_in_text_zone <= 0;
+            p3_char_code <= 0; p3_char_row <= 0; p3_char_col <= 0;
+        end else begin
+            p3_item_id <= p2_item_id;
+            p3_valid_row <= p2_valid_row;
+            p3_in_icon_zone <= p2_in_icon_zone;
+            p3_in_text_zone <= p2_in_text_zone;
+            p3_char_code <= p2_char_code;
+            p3_char_row <= p2_char_row;
+            p3_char_col <= p2_char_col;
+        end
+    end
+
+    // Stage 4 (Final Output - Align with SRAM Data)
     wire font_bit;
+    // Instantiate Font ROM (Sync Read takes 1 cycle, so inputs at Stage 3, output valid at Stage 4)
     pc_vga_8x16_00_7F font_rom (
         .clk(clk),
-        .ascii_code(char_code),
-        .row(char_row),
-        .col(char_col),
-        .row_of_pixels(font_bit)
+        .ascii_code(p3_char_code), // Input from Stage 3
+        .row(p3_char_row),
+        .col(p3_char_col),
+        .row_of_pixels(font_bit)   // Output valid at Stage 4
     );
 
-    // --- Final Output ---
-    always @(*) begin
-        is_drawing = 0;
-        rgb_out = 12'h000;
-        
-        if (valid_row) begin
-            // Default: Black background
-            is_drawing = 1;
-            rgb_out = 12'h000; 
-            
-            if (in_icon_zone && is_reading_ram) begin
-                // Draw Icon
-                if (sram_data != TRANSPARENT_COLOR) begin // Simple transparency check
-                    rgb_out = sram_data;
+    always @(posedge clk) begin
+        if (reset) begin
+            rgb_out <= 0; is_drawing <= 0; item_id_out <= 0;
+        end else begin
+            // 1. Output Item ID for MUX (This selects the data we are about to use)
+            // Wait. Lab10 MUX uses item_id_out combinationaly to feed sram_data.
+            // If sram_data arrives at S4, we need item_id_out to be valid at S4?
+            // Yes, because "sram_data" wire in this module is driven by "list_sram_data_mux".
+            // "list_sram_data_mux" is driven by "list_item_id_out".
+            // So to read correctly at S4, list_item_id_out must be p3_item_id (registered to S4).
+            item_id_out <= p3_item_id; 
+
+            // 2. Final Draw Logic
+            is_drawing <= 0;
+            rgb_out <= 12'h000;
+
+            if (p3_valid_row) begin
+                // Background
+                is_drawing <= 1;
+                rgb_out <= 12'h000;
+
+                if (p3_in_icon_zone) begin
+                    // Sram data is valid now (latched from Top MUX)
+                    if (sram_data != TRANSPARENT_COLOR) begin
+                        rgb_out <= sram_data;
+                    end
+                end else if (p3_in_text_zone && p3_char_code != 0 && font_bit) begin
+                    rgb_out <= 12'hFFF;
                 end
-            end else if (in_text_zone && char_code != 0 && font_bit) begin
-                // Draw Text
-                rgb_out = 12'hFFF;
             end
         end
     end

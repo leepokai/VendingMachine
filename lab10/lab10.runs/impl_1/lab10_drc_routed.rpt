@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
-| Date         : Fri Dec 19 01:27:59 2025
-| Host         : DESKTOP-2CVGOV3 running 64-bit major release  (build 9200)
+| Date         : Fri Dec 19 02:24:18 2025
+| Host         : MSI running 64-bit major release  (build 9200)
 | Command      : report_drc -file lab10_drc_routed.rpt -pb lab10_drc_routed.pb -rpx lab10_drc_routed.rpx
 | Design       : lab10
 | Device       : xc7a35ticsg324-1L
@@ -24,14 +24,14 @@ Table of Contents
       Design limits: <entire design considered>
            Ruledeck: default
              Max checks: <unlimited>
-             Checks found: 33
+             Checks found: 27
 +-----------+----------+----------------------------+--------+
 | Rule      | Severity | Description                | Checks |
 +-----------+----------+----------------------------+--------+
 | CHECK-3   | Warning  | Report rule limit reached  | 1      |
-| DPIP-1    | Warning  | Input pipelining           | 4      |
-| DPOP-1    | Warning  | PREG Output pipelining     | 4      |
-| DPOP-2    | Warning  | MREG Output pipelining     | 4      |
+| DPIP-1    | Warning  | Input pipelining           | 1      |
+| DPOP-1    | Warning  | PREG Output pipelining     | 2      |
+| DPOP-2    | Warning  | MREG Output pipelining     | 3      |
 | REQP-1840 | Warning  | RAMB18 async control check | 20     |
 +-----------+----------+----------------------------+--------+
 
@@ -44,22 +44,7 @@ Related violations: <none>
 
 DPIP-1#1 Warning
 Input pipelining  
-DSP calc_unscaled_x_mult input calc_unscaled_x_mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-Related violations: <none>
-
-DPIP-1#2 Warning
-Input pipelining  
-DSP calc_unscaled_y_mult input calc_unscaled_y_mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-Related violations: <none>
-
-DPIP-1#3 Warning
-Input pipelining  
-DSP cart_list_render0/unscaled_x_mult input cart_list_render0/unscaled_x_mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
-Related violations: <none>
-
-DPIP-1#4 Warning
-Input pipelining  
-DSP cart_list_render0/unscaled_y_mult input cart_list_render0/unscaled_y_mult/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
+DSP cart_list_render0/p1_unscaled_x1 input cart_list_render0/p1_unscaled_x1/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.
 Related violations: <none>
 
 DPOP-1#1 Warning
@@ -70,16 +55,6 @@ Related violations: <none>
 DPOP-1#2 Warning
 PREG Output pipelining  
 DSP calc_unscaled_y_mult output calc_unscaled_y_mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
-Related violations: <none>
-
-DPOP-1#3 Warning
-PREG Output pipelining  
-DSP cart_list_render0/unscaled_x_mult output cart_list_render0/unscaled_x_mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
-Related violations: <none>
-
-DPOP-1#4 Warning
-PREG Output pipelining  
-DSP cart_list_render0/unscaled_y_mult output cart_list_render0/unscaled_y_mult/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
 Related violations: <none>
 
 DPOP-2#1 Warning
@@ -94,27 +69,22 @@ Related violations: <none>
 
 DPOP-2#3 Warning
 MREG Output pipelining  
-DSP cart_list_render0/unscaled_x_mult multiplier stage cart_list_render0/unscaled_x_mult/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
-Related violations: <none>
-
-DPOP-2#4 Warning
-MREG Output pipelining  
-DSP cart_list_render0/unscaled_y_mult multiplier stage cart_list_render0/unscaled_y_mult/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+DSP cart_list_render0/p1_unscaled_x1 multiplier stage cart_list_render0/p1_unscaled_x1/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
 Related violations: <none>
 
 REQP-1840#1 Warning
 RAMB18 async control check  
-The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[7].b2b/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[6].b2b/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#2 Warning
 RAMB18 async control check  
-The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[8].b2b/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[7].b2b/bcd_ones_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#3 Warning
 RAMB18 async control check  
-The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[8].b2b/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 price_disp0/font_rom/BRAM_PC_VGA_0 has an input control pin price_disp0/font_rom/BRAM_PC_VGA_0/ADDRARDADDR[10] (net: price_disp0/font_rom/ADDR[3]) which is driven by a register (price_disp0/bcd_gen[7].b2b/bcd_tens_reg[3]) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#4 Warning
@@ -139,7 +109,7 @@ Related violations: <none>
 
 REQP-1840#8 Warning
 RAMB18 async control check  
-The RAMB18E1 refund_render0/char_rom_inst/BRAM_PC_VGA_0 has an input control pin refund_render0/char_rom_inst/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: refund_render0/char_rom_inst/BRAM_PC_VGA_0_i_5__8_n_0) which is driven by a register (refund_reason_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
+The RAMB18E1 refund_render0/char_rom_inst/BRAM_PC_VGA_0 has an input control pin refund_render0/char_rom_inst/BRAM_PC_VGA_0/ADDRARDADDR[9] (net: refund_render0/char_rom_inst/BRAM_PC_VGA_0_i_5__7_n_0) which is driven by a register (refund_reason_reg) that has an active asychronous set or reset. This may cause corruption of the memory contents and/or read values when the set/reset is asserted and is not analyzed by the default static timing analysis. It is suggested to eliminate the use of a set/reset to registers driving this RAMB pin or else use a synchronous reset in which the assertion of the reset is timed by default.
 Related violations: <none>
 
 REQP-1840#9 Warning

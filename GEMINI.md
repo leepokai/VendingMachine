@@ -16,7 +16,7 @@ This project implements a fully functional Vending Machine controller on a Digil
 - **Target Hardware:** Digilent Arty A7 (Artix-7 FPGA)
 - **Project File:** `lab10/lab10.xpr`
 - **Top-Level Module:** `lab10` (in `lab10/lab10.srcs/sources_1/lab10.v`)
-- **Constraints File:** `lab10/lab10.srcs/constrs_1/lab10.xdc`
+- **Constraints File:** `lab10/lab10.srcs/constrs_1/` (Likely `lab10.xdc`, though not explicitly listed in file tree, it's standard).
 
 ## 3. Architecture
 

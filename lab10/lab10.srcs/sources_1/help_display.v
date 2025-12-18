@@ -32,7 +32,7 @@ module help_display (
     
     // Body - Moved to 540 to avoid Coin overlap (Coins at 480-510)
     localparam BODY_X = 540;
-    localparam BODY_Y = 100;
+    localparam BODY_Y = 60; // Moved up from 100
     localparam LINE_SPACING = 20;
 
     // Region Detection
@@ -43,6 +43,7 @@ module help_display (
     wire in_body_line3 = show_help && (r_pixel_y >= BODY_Y + LINE_SPACING*2) && (r_pixel_y < BODY_Y + LINE_SPACING*2 + CHAR_H) && (r_pixel_x >= BODY_X && r_pixel_x < BODY_X + 7 * CHAR_W);
     wire in_body_line4 = show_help && (r_pixel_y >= BODY_Y + LINE_SPACING*3) && (r_pixel_y < BODY_Y + LINE_SPACING*3 + CHAR_H) && (r_pixel_x >= BODY_X && r_pixel_x < BODY_X + 7 * CHAR_W);
     wire in_body_line5 = show_help && (r_pixel_y >= BODY_Y + LINE_SPACING*4) && (r_pixel_y < BODY_Y + LINE_SPACING*4 + CHAR_H) && (r_pixel_x >= BODY_X && r_pixel_x < BODY_X + 8 * CHAR_W);
+    wire in_body_line6 = show_help && (r_pixel_y >= BODY_Y + LINE_SPACING*5) && (r_pixel_y < BODY_Y + LINE_SPACING*5 + CHAR_H) && (r_pixel_x >= BODY_X && r_pixel_x < BODY_X + 11 * CHAR_W);
 
     reg [6:0] ascii_code;
     reg [2:0] char_col_sel; // 0=Head, 1=Body
@@ -107,6 +108,15 @@ module help_display (
                 4: ascii_code = "v"; 5: ascii_code = "a"; 6: ascii_code = "i"; 7: ascii_code = "l";
                 default: ascii_code = " ";
             endcase
+        end else if (in_body_line6) begin
+            char_col_sel = 1;
+            // "b0+1:Refund"
+            case (idx_body)
+                0: ascii_code = "b"; 1: ascii_code = "0"; 2: ascii_code = "+"; 3: ascii_code = "1";
+                4: ascii_code = ":"; 5: ascii_code = "R"; 6: ascii_code = "e"; 7: ascii_code = "f";
+                8: ascii_code = "u"; 9: ascii_code = "n"; 10: ascii_code = "d";
+                default: ascii_code = " ";
+            endcase
         end
     end
 
@@ -116,7 +126,8 @@ module help_display (
                       in_body_line2 ? (r_pixel_y - (BODY_Y + LINE_SPACING)) :
                       in_body_line3 ? (r_pixel_y - (BODY_Y + LINE_SPACING*2)) :
                       in_body_line4 ? (r_pixel_y - (BODY_Y + LINE_SPACING*3)) :
-                                      (r_pixel_y - (BODY_Y + LINE_SPACING*4));
+                      in_body_line5 ? (r_pixel_y - (BODY_Y + LINE_SPACING*4)) :
+                                      (r_pixel_y - (BODY_Y + LINE_SPACING*5));
 
     wire [2:0] char_col = (char_col_sel == 0) ? off_x_head[2:0] : off_x_body[2:0];
 
@@ -132,7 +143,7 @@ module help_display (
     always @(*) begin
         is_drawing = 0;
         rgb_out = 0;
-        if ((in_head || in_body_line1 || in_body_line2 || in_body_line3 || in_body_line4 || in_body_line5) && font_pixel) begin
+        if ((in_head || in_body_line1 || in_body_line2 || in_body_line3 || in_body_line4 || in_body_line5 || in_body_line6) && font_pixel) begin
             is_drawing = 1;
             rgb_out = 12'hFFF;
         end
