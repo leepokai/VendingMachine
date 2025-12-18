@@ -3,10 +3,10 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Thu Nov 27 20:55:42 2025
-# Process ID         : 7132
+# Start of session at: Wed Dec 17 14:57:14 2025
+# Process ID         : 27496
 # Current directory  : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10
-# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent25960 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
+# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent12132 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
 # Log file           : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/vivado.log
 # Journal file       : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10\vivado.jou
 # Running On         : DESKTOP-2CVGOV3
@@ -17,14 +17,13 @@
 # CPU Physical cores : 4
 # CPU Logical cores  : 8
 # Host memory        : 8273 MB
-# Swap memory        : 17661 MB
-# Total Virtual      : 25935 MB
-# Available Virtual  : 9868 MB
+# Swap memory        : 17446 MB
+# Total Virtual      : 25720 MB
+# Available Virtual  : 13611 MB
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.xpr
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.0 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\emb-plus-vpr-4616\1.0\board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
-INFO: [Project 1-313] Project file moved from 'D:/vivado/VendingMachine/lab10' since last save.
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:emb-plus-vpr-4616:part0:1.1 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\emb-plus-vpr-4616\1.1\board.xml as part xcve2302-sfva784-2mp-e-s specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.6 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\kcu105\1.6\board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:kcu105:part0:1.7 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\kcu105\1.7\board.xml as part xcku040-ffva1156-2-e specified in board_part file is either invalid or not available
@@ -132,7 +131,5 @@ INFO: [Common 17-14] Message 'Board 49-26' appears 100 times and further instanc
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/2025.1/Vivado/data/ip'.
-open_project: Time (s): cpu = 00:00:07 ; elapsed = 00:00:13 . Memory (MB): peak = 1643.852 ; gain = 281.945
+open_project: Time (s): cpu = 00:00:30 ; elapsed = 00:00:38 . Memory (MB): peak = 1643.039 ; gain = 282.227
 update_compile_order -fileset sources_1
-exit
-INFO: [Common 17-206] Exiting Vivado at Fri Nov 28 03:11:28 2025...

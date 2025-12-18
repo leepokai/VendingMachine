@@ -3,10 +3,10 @@
 # SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
 # IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
 # SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
-# Start of session at: Wed Dec 17 14:57:14 2025
-# Process ID         : 27496
+# Start of session at: Thu Dec 18 21:43:56 2025
+# Process ID         : 18596
 # Current directory  : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10
-# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent12132 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
+# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent14324 C:\Users\88696\VerilogCode\FinalProject\VendingMachine\lab10\lab10.xpr
 # Log file           : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/vivado.log
 # Journal file       : C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10\vivado.jou
 # Running On         : DESKTOP-2CVGOV3
@@ -19,7 +19,7 @@
 # Host memory        : 8273 MB
 # Swap memory        : 17446 MB
 # Total Virtual      : 25720 MB
-# Available Virtual  : 13611 MB
+# Available Virtual  : 11942 MB
 #-----------------------------------------------------------
 start_gui
 open_project C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.xpr
@@ -92,6 +92,7 @@ WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216:part0:2.0 availab
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\zcu216ld\production\2.0\board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:2.0 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\zcu670\2.0\board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
 WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670ld:part0:1.0 available at C:/Xilinx/2025.1/data/xhub/boards\XilinxBoardStore\boards\Xilinx\zcu670ld\1.0\board.xml as part xczu57dr-fsve1156-2-i specified in board_part file is either invalid or not available
+INFO: [Project 1-313] Project file moved from 'C:/Users/ThisPC/VivadoProjects/VendingMachine/lab10' since last save.
 INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.gen/sources_1'.
 WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory 'C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.ip_user_files'.
 Scanning sources...
@@ -131,5 +132,156 @@ INFO: [Common 17-14] Message 'Board 49-26' appears 100 times and further instanc
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/2025.1/Vivado/data/ip'.
-open_project: Time (s): cpu = 00:00:30 ; elapsed = 00:00:38 . Memory (MB): peak = 1643.039 ; gain = 282.227
+open_project: Time (s): cpu = 00:00:21 ; elapsed = 00:00:29 . Memory (MB): peak = 1644.148 ; gain = 241.469
 update_compile_order -fileset sources_1
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp with file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Thu Dec 18 21:47:11 2025] Launched synth_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/runme.log
+[Thu Dec 18 21:47:11 2025] Launched impl_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/runme.log
+open_hw_manager
+connect_hw_server -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2025.1
+  **** Build date : May  6 2025 at 09:15:36
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2025.1.0
+  ****** Build date   : May 14 2025-03:15:27
+    **** Build number : 2025.1.1747163727
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+connect_hw_server: Time (s): cpu = 00:00:01 ; elapsed = 00:00:11 . Memory (MB): peak = 1664.078 ; gain = 11.754
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B3E516A
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp with file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Thu Dec 18 21:59:55 2025] Launched synth_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/runme.log
+[Thu Dec 18 21:59:55 2025] Launched impl_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/runme.log
+close_hw_manager
+open_hw_manager
+connect_hw_server -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2025.1
+  **** Build date : May  6 2025 at 09:15:36
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2025.1.0
+  ****** Build date   : May 14 2025-03:15:27
+    **** Build number : 2025.1.1747163727
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+connect_hw_server: Time (s): cpu = 00:00:00 ; elapsed = 00:00:12 . Memory (MB): peak = 1746.629 ; gain = 0.000
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B3E516A
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp with file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Thu Dec 18 22:16:18 2025] Launched synth_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/runme.log
+[Thu Dec 18 22:16:19 2025] Launched impl_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/runme.log
+close_hw_manager
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.srcs/utils_1/imports/synth_1/lab10.dcp with file C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/lab10.dcp
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Thu Dec 18 22:21:26 2025] Launched synth_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/synth_1/runme.log
+[Thu Dec 18 22:21:27 2025] Launched impl_1...
+Run output will be captured here: C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/runme.log
+open_hw_manager
+connect_hw_server -allow_non_jtag
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2025.1
+  **** Build date : May  6 2025 at 09:15:36
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2025.1.0
+  ****** Build date   : May 14 2025-03:15:27
+    **** Build number : 2025.1.1747163727
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+connect_hw_server: Time (s): cpu = 00:00:00 ; elapsed = 00:00:09 . Memory (MB): peak = 1753.781 ; gain = 0.000
+open_hw_target
+INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B3E516A
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {C:/Users/88696/VerilogCode/FinalProject/VendingMachine/lab10/lab10.runs/impl_1/lab10.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+INFO: [Labtools 27-3164] End of startup status: HIGH
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+INFO: [Labtools 27-1434] Device xc7a35t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.

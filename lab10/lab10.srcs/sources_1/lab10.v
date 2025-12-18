@@ -106,6 +106,25 @@ coin_selector coin_sel0 (
     .btn_down(btn_debounced[0]),    // btn0 - move down (Next)
     .coin_index(coin_index)
 );
+// ------------------------------------------------------------------------
+// Refund & Cancellation Logic
+// ------------------------------------------------------------------------
+reg refund_mode; // 1 = Refunding (Purchase Amount = 0), 0 = Normal Purchase
+
+// Cancel Request Logic (Long press btn0 & btn1 for ~1.5s)
+reg [27:0] cancel_counter;
+wire cancel_trigger;
+always @(posedge clk or posedge rst) begin
+    if (rst) cancel_counter <= 28'd0;
+    else if (current_state == 1'b1 && btn_debounced[0] && btn_debounced[1]) begin
+        if (cancel_counter < 28'd150_000_000)
+            cancel_counter <= cancel_counter + 1;
+    end else begin
+        cancel_counter <= 28'd0;
+    end
+end
+assign cancel_trigger = (cancel_counter == 28'd150_000_000);
+
 // Price Calculation
 wire [15:0] total_due;  // Total amount to pay based on cart
 price_calculator price_calc0 (
@@ -168,10 +187,10 @@ change_dispenser change_disp0 (
     .reset(rst),
     .start(dispenser_start),
     .change_amount(change_amount),
-    .avail_coin1(avail_coins[0]),
-    .avail_coin5(avail_coins[1]),
-    .avail_coin10(avail_coins[2]),
-    .avail_coin100(avail_coins[3]),
+    .avail_coin1(avail_coins[0] + coins_inserted[0]),
+    .avail_coin5(avail_coins[1] + coins_inserted[1]),
+    .avail_coin10(avail_coins[2] + coins_inserted[2]),
+    .avail_coin100(avail_coins[3] + coins_inserted[3]),
     .dispense_coin1(dispense_coin1_wire),
     .dispense_coin5(dispense_coin5_wire),
     .dispense_coin10(dispense_coin10_wire),
@@ -188,6 +207,7 @@ always @(posedge clk or posedge rst) begin
         dispenser_start <= 1'b0;
         dispensing <= 1'b0;
         dispense_completed <= 1'b0;
+        refund_mode <= 1'b0;
         dispensed_coins[0] <= 8'd0;
         dispensed_coins[1] <= 8'd0;
         dispensed_coins[2] <= 8'd0;
@@ -211,6 +231,7 @@ always @(posedge clk or posedge rst) begin
         // Priority 0: Reset for new round when returning to SELECTION
         if (transition_to_selection) begin
             dispense_completed <= 1'b0;
+            refund_mode <= 1'b0; // Reset refund mode
             dispensed_coins[0] <= 8'd0;
             dispensed_coins[1] <= 8'd0;
             dispensed_coins[2] <= 8'd0;
@@ -227,35 +248,55 @@ always @(posedge clk or posedge rst) begin
                 avail_coins[1] <= avail_coins[1] - dispense_coin5_wire + coins_inserted[1];
                 avail_coins[2] <= avail_coins[2] - dispense_coin10_wire + coins_inserted[2];
                 avail_coins[3] <= avail_coins[3] - dispense_coin100_wire + coins_inserted[3];
-                // Update stock: decrease by cart quantities
-                stock[0] <= stock[0] - cart_quantity[0];
-                stock[1] <= stock[1] - cart_quantity[1];
-                stock[2] <= stock[2] - cart_quantity[2];
-                stock[3] <= stock[3] - cart_quantity[3];
-                stock[4] <= stock[4] - cart_quantity[4];
-                stock[5] <= stock[5] - cart_quantity[5];
-                stock[6] <= stock[6] - cart_quantity[6];
-                stock[7] <= stock[7] - cart_quantity[7];
-                stock[8] <= stock[8] - cart_quantity[8];
+                
+                // Update stock: decrease by cart quantities ONLY if NOT REFUND mode
+                if (!refund_mode) begin
+                    stock[0] <= stock[0] - cart_quantity[0];
+                    stock[1] <= stock[1] - cart_quantity[1];
+                    stock[2] <= stock[2] - cart_quantity[2];
+                    stock[3] <= stock[3] - cart_quantity[3];
+                    stock[4] <= stock[4] - cart_quantity[4];
+                    stock[5] <= stock[5] - cart_quantity[5];
+                    stock[6] <= stock[6] - cart_quantity[6];
+                    stock[7] <= stock[7] - cart_quantity[7];
+                    stock[8] <= stock[8] - cart_quantity[8];
+                end
+
                 // Store dispensed amounts for display
                 dispensed_coins[0] <= dispense_coin1_wire;
                 dispensed_coins[1] <= dispense_coin5_wire;
                 dispensed_coins[2] <= dispense_coin10_wire;
                 dispensed_coins[3] <= dispense_coin100_wire;
+                
                 // Reset inserted coins (Moved to transition_to_selection block)
-                // coins_inserted[0] <= 8'd0;
-                // coins_inserted[1] <= 8'd0;
-                // coins_inserted[2] <= 8'd0;
-                // coins_inserted[3] <= 8'd0;
+                
                 // Mark dispensing as completed
                 dispense_completed <= 1'b1;
+            end else begin
+                // Dispenser Failed (Insufficient Change)
+                // Trigger REFUND MODE automatically to return all money
+                refund_mode <= 1'b1;
+                dispenser_start <= 1'b1; // Restart dispenser with new mode
+                // Do NOT set dispense_completed, we are retrying
             end
             dispensing <= 1'b0;
-        // Priority 2: Start dispensing when btn3 pressed in PAYMENT with sufficient payment
+
+        // Priority 2: Cancel Trigger (Manual Refund) OR Auto-Retry Refund
+        end else if ((cancel_trigger || (!dispenser_success && dispensing && dispenser_done)) && !dispensing && !dispense_completed) begin
+            refund_mode <= 1'b1;
+            // Cart quantity clearing is handled in the Cart Update Logic block
+            // Do NOT start dispenser yet. Wait for change_amount (total_due becomes 0) to update in next cycle.
+            
+        // Priority 2.5: Start Dispenser in Refund Mode (Delayed Start)
+        end else if (refund_mode && !dispensing && !dispense_completed && !dispenser_start) begin
+             dispenser_start <= 1'b1;
+             dispensing <= 1'b1;
+
+        // Priority 3: Start dispensing when btn3 pressed in PAYMENT with sufficient payment
         end else if (current_state == 1'b1 && btn3_posedge && payment_sufficient && !dispensing && !dispense_completed) begin
             dispenser_start <= 1'b1;
             dispensing <= 1'b1;
-        // Priority 3: Coin insertion in PAYMENT state
+        // Priority 4: Coin insertion in PAYMENT state
         end else if (current_state == 1'b1 && btn2_posedge && !dispensing && !dispense_completed) begin
             // Insert one of the selected coin type
             coins_inserted[coin_index] <= coins_inserted[coin_index] + 8'd1;
@@ -320,11 +361,12 @@ always @(posedge clk or posedge rst) begin
             cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
             cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
             cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
-        // Also reset cart immediately upon successful purchase to update UI (Moved to transition_to_selection block)
-        // end else if (dispensing && dispenser_done && dispenser_success) begin
-        //     cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
-        //     cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
-        //     cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
+        // Reset cart immediately when Refund is triggered (Manual or Auto)
+        // This ensures total_due becomes 0, so change_amount becomes paid_amount
+        end else if (cancel_trigger || (!dispenser_success && dispensing && dispenser_done)) begin
+            cart_quantity[0] <= 0; cart_quantity[1] <= 0; cart_quantity[2] <= 0;
+            cart_quantity[3] <= 0; cart_quantity[4] <= 0; cart_quantity[5] <= 0;
+            cart_quantity[6] <= 0; cart_quantity[7] <= 0; cart_quantity[8] <= 0;
         end else if (current_state == 1'b0 && btn2_posedge) begin
             // SELECTION state: On btn2 press, cycle the cart quantity for the selected item
             if (cart_quantity[selection_index] >= stock[selection_index]) begin
@@ -673,7 +715,7 @@ assign flat_cart_quantity = {
 animation_controller anim_manager0 (
     .clk(clk),
     .reset(rst),
-    .start(dispenser_success),
+    .start(dispenser_success && !refund_mode),
     .flat_cart_quantity(flat_cart_quantity),
     .animation_active(animation_active),
     .frame_index(anim_frame_index),
