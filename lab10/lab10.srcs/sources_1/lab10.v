@@ -129,17 +129,7 @@ end
 assign cancel_trigger = (cancel_counter == 28'd150_000_000);
 
 // Refund Message Timer Logic
-always @(posedge clk or posedge rst) begin
-    if (rst) begin
-        refund_msg_timer <= 0;
-    end else begin
-        if (refund_msg_timer > 0)
-            refund_msg_timer <= refund_msg_timer - 1;
-        
-        // Start timer on triggers (handled in the main always block via flags, 
-        // but can also be redundant set here for robustness or handled purely in the state machine)
-    end
-end
+// Timer decrement is handled in the main state block to avoid multiple drivers
 
 // Price Calculation
 wire [15:0] total_due;  // Total amount to pay based on cart
@@ -225,6 +215,7 @@ always @(posedge clk or posedge rst) begin
         dispense_completed <= 1'b0;
         refund_mode <= 1'b0;
         refund_reason <= 1'b0;
+        refund_msg_timer <= 0; // Initialize timer
         dispensed_coins[0] <= 8'd0;
         dispensed_coins[1] <= 8'd0;
         dispensed_coins[2] <= 8'd0;
@@ -243,6 +234,10 @@ always @(posedge clk or posedge rst) begin
         stock[3] <= 5; stock[4] <= 5; stock[5] <= 0;
         stock[6] <= 0; stock[7] <= 0; stock[8] <= 5;
     end else begin
+        // Default timer decrement (can be overridden by assignment below)
+        if (refund_msg_timer > 0)
+            refund_msg_timer <= refund_msg_timer - 1;
+
         // Default: don't start dispenser
         dispenser_start <= 1'b0;
         // Priority 0: Reset for new round when returning to SELECTION
