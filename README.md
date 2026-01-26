@@ -4,6 +4,10 @@ A Verilog-based vending machine controller with VGA display for the Arty A7 FPGA
 
 ## 🎯 Project Overview
 
+
+Uploading IMG_1172.MOV…
+
+
 This project implements a fully functional vending machine system on an FPGA with:
 - **VGA Display**: 640×480 @ 60Hz graphical interface
 - **Drink Selection**: 3×3 grid of 9 beverage options
